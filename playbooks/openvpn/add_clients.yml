@@ -1,0 +1,8 @@
+- name: MyEnv | openvpn
+  hosts: server
+  vars_files:
+    - "vars/openvpn.yml"
+  roles:
+    - role: openvpn_add_clients
+      vars:
+      openvpn_new_clients: "{{ openvpn_clients }}"

@@ -1,0 +1,99 @@
+- name: openvpn_server | configure | read ca_password.txt
+  command: cat "{{ playbook_dir }}/files/ca_password.txt"
+  register: ca_password_data
+  no_log: True
+  changed_when: False
+  delegate_to: 127.0.0.1
+
+- name: openvpn_server | configure | read CA password
+  set_fact: ca_password="{{ ca_password_data.stdout }}"
+  no_log: True
+  changed_when: False
+
+- name: openvpn_add_clients | configure | git co easy-rsa
+  git:
+    repo: https://github.com/OpenVPN/easy-rsa.git
+    version: "{{ openvpn_easyrsa_version }}"
+    accept_hostkey: True
+    remote: github
+    dest: "{{ openvpn_path }}/easyrsa"
+  delegate_to: "{{ item }}"
+  with_items: "{{ openvpn_new_clients }}"
+
+- name: openvpn_add_clients | configure | initialize PKI
+  shell: "if [ ! -d pki/ ]; then ./easyrsa init-pki; fi"
+  args:
+    chdir: "{{ openvpn_path_easyrsa }}"
+  delegate_to: "{{ item }}"
+  with_items: "{{ openvpn_new_clients }}"
+
+- name: openvpn_add_clients | configure | build client key+request
+  expect:
+    command: ./easyrsa gen-req client nopass
+    responses:
+      'Common Name \(.*\) \[.*\]:$': "client@{{ item }}"
+    chdir: "{{ openvpn_path_easyrsa }}"
+    creates: "{{ openvpn_path_easyrsa }}/pki/private/client.key"
+  delegate_to: "{{ item }}"
+  with_items: "{{ openvpn_new_clients }}"
+
+- name: openvpn_add_clients | configure | fetch client.req
+  fetch:
+    src: "{{ openvpn_path_easyrsa }}/pki/reqs/client.req"
+    dest: "{{ playbook_dir }}/files/client@{{ item }}.req"
+    flat: yes
+  delegate_to: "{{ item }}"
+  with_items: "{{ openvpn_new_clients }}"
+
+- name: openvpn_add_clients | configure | copy client.req
+  copy:
+    src: "{{ playbook_dir }}/files/client@{{ item }}.req"
+    dest: "{{ openvpn_path_easyrsa }}/pki/reqs/"
+  with_items: "{{ openvpn_new_clients }}"
+
+- name: openvpn_add_clients | configure | sign client.req
+  expect:
+    command: ./easyrsa sign-req client "client@{{ item }}"
+    responses:
+      'Confirm request details: $': "yes"
+      'Enter pass phrase for .*:$': "{{ ca_password }}"
+    chdir: "{{ openvpn_path_easyrsa }}"
+    creates: "{{ openvpn_path_easyrsa }}/pki/issued/client@{{ item }}.crt"
+  with_items: "{{ openvpn_new_clients }}"
+
+- name: openvpn_add_clients | configure | fetch client.crt
+  fetch:
+    src: "{{ openvpn_path_easyrsa }}/pki/issued/client@{{ item }}.crt"
+    dest: "{{ playbook_dir }}/files/client@{{ item }}.crt"
+    flat: yes
+  with_items: "{{ openvpn_new_clients }}"
+
+- name: openvpn_add_clients | configure | install ca.crt
+  copy:
+    src: "{{ playbook_dir }}/files/ca@{{ inventory_hostname }}.crt"
+    dest: "{{ openvpn_path_ca }}"
+  delegate_to: "{{ item }}"
+  with_items: "{{ openvpn_new_clients }}"
+
+- name: openvpn_add_clients | configure | install ta.key
+  copy:
+    src: "{{ playbook_dir }}/files/ta@{{ inventory_hostname }}.key"
+    dest: "{{ openvpn_path_ta }}"
+  delegate_to: "{{ item }}"
+  with_items: "{{ openvpn_new_clients }}"
+
+- name: openvpn_add_clients | configure | install client.crt
+  copy:
+    src: "{{ playbook_dir }}/files/client@{{ item }}.crt"
+    dest: "{{ openvpn_path_client_crt }}"
+  delegate_to: "{{ item }}"
+  with_items: "{{ openvpn_new_clients }}"
+
+- name: openvpn_add_clients | configure | install client.key
+  file:
+    src: "{{ openvpn_path_easyrsa }}/pki/private/client.key"
+    dest: "{{ openvpn_path_client_key }}"
+    force: yes
+    state: link
+  delegate_to: "{{ item }}"
+  with_items: "{{ openvpn_new_clients }}"

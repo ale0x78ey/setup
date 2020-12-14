@@ -1,0 +1,9 @@
+.DS_Store
+.vagrant/
+.fuse_hidden*
+
+*.swp
+*.swn
+*.swo
+
+playbooks/openvpn/files/

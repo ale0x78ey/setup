@@ -1,0 +1,29 @@
+openvpn_path: "/etc/openvpn"
+openvpn_path_easyrsa: "{{ openvpn_path }}/easyrsa/easyrsa3"
+openvpn_path_pki: "{{ openvpn_path_easyrsa }}/pki"
+
+openvpn_path_server_crt: "{{ openvpn_path }}/server.crt"
+openvpn_path_server_key: "{{ openvpn_path }}/server.key"
+openvpn_path_client_crt: "{{ openvpn_path }}/client.crt"
+openvpn_path_client_key: "{{ openvpn_path }}/client.key"
+
+openvpn_path_ca: "{{ openvpn_path }}/ca.crt"
+openvpn_path_dh: "{{ openvpn_path }}/dh.pem"
+openvpn_path_ta: "{{ openvpn_path }}/ta.key"
+
+# Certificate Revocation List.
+openvpn_path_crl: "{{ openvpn_path }}/crl.pem"
+
+# 3.0.8
+openvpn_easyrsa_version: a9cecc747c419197d9540ccd46259559e271788a
+
+ansible_requirements:
+  - aptitude
+  - python3
+  - python3-pexpect
+  - python3-apt
+  - git
+
+openvpn_requirements:
+  - openvpn
+  - easy-rsa

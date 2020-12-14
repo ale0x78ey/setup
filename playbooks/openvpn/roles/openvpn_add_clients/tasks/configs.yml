@@ -1,0 +1,6 @@
+- name: openvpn_add_clients | configure | install client configs
+  template:
+    src: etc_openvpn_client.conf.j2
+    dest: "{{ openvpn_path }}/client/client-{{ item }}.conf"
+  delegate_to: "{{ item }}"
+  with_items: "{{ openvpn_new_clients }}"
