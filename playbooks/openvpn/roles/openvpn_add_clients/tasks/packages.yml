@@ -2,12 +2,12 @@
   apt: update_cache=yes
   when: ansible_os_family == "Debian"
   changed_when: False
-  delegate_to: "{{ item }}"
+  delegate_to: "{{ item.hostname }}"
   with_items: "{{ openvpn_new_clients }}"
 
 - name: openvpn_add_clients | install requirements
   package: name="{{ item[1] }}"
-  delegate_to: "{{ item[0] }}"
+  delegate_to: "{{ item[0].hostname }}"
   with_nested:
     - "{{ openvpn_new_clients }}"
     - "{{ ansible_requirements + openvpn_requirements }}"
@@ -15,5 +15,5 @@
 - name: openvpn_add_clients | upgrade any out of date packages
   apt: upgrade=safe
   when: ansible_os_family == "Debian"
-  delegate_to: "{{ item }}"
+  delegate_to: "{{ item.hostname }}"
   with_items: "{{ openvpn_new_clients }}"

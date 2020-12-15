@@ -6,12 +6,27 @@ mode server
 compress lz4
 push "compress lz4"
 
+# This mode configures the tun interface with a local IP
+# address and subnet mask. It also allocates a single
+# IP address per connecting client.
+topology subnet
+
+# It tells OpenVPN to internally route client-to-client
+# traffic rather than pushing all client-originating traffic
+# to the TUN/TAP interface. When this option is used, each
+# client will see the other clients which are currently
+# connected. Otherwise, each client will only see the server.
+client-to-client
+
+# For setting static IP.
+client-config-dir {{ openvpn_path_ccd }}
+
 dev tun-{{ item.proto }}-{{ item.port }}
 port {{ item.port }}
 proto {{ item.proto }}
-server {{ item.mask }}
+server {{ item.network }} {{ item.mask }}
 
-# SSL/TLS parms.
+# SSL/TLS settings.
 ca {{ openvpn_path_ca }}
 cert {{ openvpn_path_server_crt }}
 key {{ openvpn_path_server_key }}

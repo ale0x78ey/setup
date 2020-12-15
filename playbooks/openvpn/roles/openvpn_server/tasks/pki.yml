@@ -1,10 +1,10 @@
 - name: openvpn_server | configure | check if ca_password.txt exists
-  stat: path="{{ playbook_dir }}/files/ca_password.txt"
+  stat: path="{{ playbook_dir }}/files/ca_password@{{ inventory_hostname }}.txt"
   delegate_to: 127.0.0.1
   register: ca_password_txt
 
 - name: openvpn_server | configure | read ca_password.txt
-  command: cat "{{ playbook_dir }}/files/ca_password.txt"
+  command: cat "{{ playbook_dir }}/files/ca_password@{{ inventory_hostname }}.txt"
   register: ca_password_data
   no_log: True
   changed_when: False
@@ -53,7 +53,7 @@
 - name: openvpn_server | configure | save CA password
   copy:
     content: "{{ ca_password_data.stdout }}"
-    dest: "{{ playbook_dir }}/files/ca_password.txt"
+    dest: "{{ playbook_dir }}/files/ca_password@{{ inventory_hostname }}.txt"
   no_log: True
   become: False
   delegate_to: 127.0.0.1

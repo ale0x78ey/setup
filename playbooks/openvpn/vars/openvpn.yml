@@ -11,8 +11,11 @@ openvpn_path_ca: "{{ openvpn_path }}/ca.crt"
 openvpn_path_dh: "{{ openvpn_path }}/dh.pem"
 openvpn_path_ta: "{{ openvpn_path }}/ta.key"
 
-# Certificate Revocation List.
+# Certificate revocation list.
 openvpn_path_crl: "{{ openvpn_path }}/crl.pem"
+
+# Client config directory.
+openvpn_path_ccd: "{{ openvpn_path }}/ccd"
 
 # 3.0.8
 openvpn_easyrsa_version: a9cecc747c419197d9540ccd46259559e271788a

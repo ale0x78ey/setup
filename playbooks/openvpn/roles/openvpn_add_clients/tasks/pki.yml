@@ -1,5 +1,5 @@
 - name: openvpn_server | configure | read ca_password.txt
-  command: cat "{{ playbook_dir }}/files/ca_password.txt"
+  command: cat "{{ playbook_dir }}/files/ca_password@{{ inventory_hostname }}.txt"
   register: ca_password_data
   no_log: True
   changed_when: False
@@ -17,54 +17,54 @@
     accept_hostkey: True
     remote: github
     dest: "{{ openvpn_path }}/easyrsa"
-  delegate_to: "{{ item }}"
+  delegate_to: "{{ item.hostname }}"
   with_items: "{{ openvpn_new_clients }}"
 
 - name: openvpn_add_clients | configure | initialize PKI
   shell: "if [ ! -d pki/ ]; then ./easyrsa init-pki; fi"
   args:
     chdir: "{{ openvpn_path_easyrsa }}"
-  delegate_to: "{{ item }}"
+  delegate_to: "{{ item.hostname }}"
   with_items: "{{ openvpn_new_clients }}"
 
 - name: openvpn_add_clients | configure | build client key+request
   expect:
     command: ./easyrsa gen-req client nopass
     responses:
-      'Common Name \(.*\) \[.*\]:$': "client@{{ item }}"
+      'Common Name \(.*\) \[.*\]:$': "client@{{ item.hostname }}"
     chdir: "{{ openvpn_path_easyrsa }}"
     creates: "{{ openvpn_path_easyrsa }}/pki/private/client.key"
-  delegate_to: "{{ item }}"
+  delegate_to: "{{ item.hostname }}"
   with_items: "{{ openvpn_new_clients }}"
 
 - name: openvpn_add_clients | configure | fetch client.req
   fetch:
     src: "{{ openvpn_path_easyrsa }}/pki/reqs/client.req"
-    dest: "{{ playbook_dir }}/files/client@{{ item }}.req"
+    dest: "{{ playbook_dir }}/files/client@{{ item.hostname }}.req"
     flat: yes
-  delegate_to: "{{ item }}"
+  delegate_to: "{{ item.hostname }}"
   with_items: "{{ openvpn_new_clients }}"
 
 - name: openvpn_add_clients | configure | copy client.req
   copy:
-    src: "{{ playbook_dir }}/files/client@{{ item }}.req"
+    src: "{{ playbook_dir }}/files/client@{{ item.hostname }}.req"
     dest: "{{ openvpn_path_easyrsa }}/pki/reqs/"
   with_items: "{{ openvpn_new_clients }}"
 
 - name: openvpn_add_clients | configure | sign client.req
   expect:
-    command: ./easyrsa sign-req client "client@{{ item }}"
+    command: ./easyrsa sign-req client "client@{{ item.hostname }}"
     responses:
       'Confirm request details: $': "yes"
       'Enter pass phrase for .*:$': "{{ ca_password }}"
     chdir: "{{ openvpn_path_easyrsa }}"
-    creates: "{{ openvpn_path_easyrsa }}/pki/issued/client@{{ item }}.crt"
+    creates: "{{ openvpn_path_easyrsa }}/pki/issued/client@{{ item.hostname }}.crt"
   with_items: "{{ openvpn_new_clients }}"
 
 - name: openvpn_add_clients | configure | fetch client.crt
   fetch:
-    src: "{{ openvpn_path_easyrsa }}/pki/issued/client@{{ item }}.crt"
-    dest: "{{ playbook_dir }}/files/client@{{ item }}.crt"
+    src: "{{ openvpn_path_easyrsa }}/pki/issued/client@{{ item.hostname }}.crt"
+    dest: "{{ playbook_dir }}/files/client@{{ item.hostname }}.crt"
     flat: yes
   with_items: "{{ openvpn_new_clients }}"
 
@@ -72,21 +72,21 @@
   copy:
     src: "{{ playbook_dir }}/files/ca@{{ inventory_hostname }}.crt"
     dest: "{{ openvpn_path_ca }}"
-  delegate_to: "{{ item }}"
+  delegate_to: "{{ item.hostname }}"
   with_items: "{{ openvpn_new_clients }}"
 
 - name: openvpn_add_clients | configure | install ta.key
   copy:
     src: "{{ playbook_dir }}/files/ta@{{ inventory_hostname }}.key"
     dest: "{{ openvpn_path_ta }}"
-  delegate_to: "{{ item }}"
+  delegate_to: "{{ item.hostname }}"
   with_items: "{{ openvpn_new_clients }}"
 
 - name: openvpn_add_clients | configure | install client.crt
   copy:
-    src: "{{ playbook_dir }}/files/client@{{ item }}.crt"
+    src: "{{ playbook_dir }}/files/client@{{ item.hostname }}.crt"
     dest: "{{ openvpn_path_client_crt }}"
-  delegate_to: "{{ item }}"
+  delegate_to: "{{ item.hostname }}"
   with_items: "{{ openvpn_new_clients }}"
 
 - name: openvpn_add_clients | configure | install client.key
@@ -95,5 +95,5 @@
     dest: "{{ openvpn_path_client_key }}"
     force: yes
     state: link
-  delegate_to: "{{ item }}"
+  delegate_to: "{{ item.hostname }}"
   with_items: "{{ openvpn_new_clients }}"
