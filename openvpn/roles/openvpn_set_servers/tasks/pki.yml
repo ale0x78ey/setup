@@ -1,42 +1,41 @@
-- name: openvpn_server | configure | check if ca_password.txt exists
+- name: openvpn_set_servers | configure | check if ca_password.txt exists
   stat: path="{{ playbook_dir }}/files/ca_password@{{ inventory_hostname }}.txt"
-  delegate_to: 127.0.0.1
   register: ca_password_txt
+  connection: local
 
-- name: openvpn_server | configure | read ca_password.txt
+- name: openvpn_set_servers | configure | read ca_password.txt
   command: cat "{{ playbook_dir }}/files/ca_password@{{ inventory_hostname }}.txt"
   register: ca_password_data
   no_log: True
   changed_when: False
-  delegate_to: 127.0.0.1
+  connection: local
   when: ca_password_txt.stat.exists == True
 
-- name: openvpn_server | configure | read CA password
+- name: openvpn_set_servers | configure | read CA password
   set_fact: ca_password="{{ ca_password_data.stdout }}"
   no_log: True
   when: ca_password_txt.stat.exists == True
 
-- name: openvpn_server | configure | generate CA password
+- name: openvpn_set_servers | configure | generate CA password
   shell: echo "$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c32)"
   register: ca_password_data
   no_log: True
   when: ca_password_txt.stat.exists == False
 
-- name: openvpn_server | configure | read CA password
+- name: openvpn_set_servers | configure | read CA password
   set_fact: ca_password="{{ ca_password_data.stdout }}"
   no_log: True
   changed_when: False
   when: ca_password is not defined
 
-- name: openvpn_server | configure | create files dir
+- name: openvpn_set_servers | configure | create files dir
   file:
     path: "{{ playbook_dir }}/files"
     state: directory
-  delegate_to: 127.0.0.1
-  become: False
+  connection: local
   when: ca_password_txt.stat.exists == False
 
-- name: openvpn_server | configure | git co easy-rsa
+- name: openvpn_set_servers | configure | git co easy-rsa
   git:
     repo: https://github.com/OpenVPN/easy-rsa.git
     version: "{{ openvpn_easyrsa_version }}"
@@ -44,22 +43,21 @@
     remote: github
     dest: "{{ openvpn_path }}/easyrsa"
 
-- name: openvpn_server | configure | initialize PKI
+- name: openvpn_set_servers | configure | initialize PKI
   shell: echo "yes" | ./easyrsa init-pki
   args:
     chdir: "{{ openvpn_path_easyrsa }}"
   when: ca_password_txt.stat.exists == False
 
-- name: openvpn_server | configure | save CA password
+- name: openvpn_set_servers | configure | save CA password
   copy:
     content: "{{ ca_password_data.stdout }}"
     dest: "{{ playbook_dir }}/files/ca_password@{{ inventory_hostname }}.txt"
   no_log: True
-  become: False
-  delegate_to: 127.0.0.1
+  connection: local
   when: ca_password_txt.stat.exists == False
 
-- name: openvpn_server | configure | build CA
+- name: openvpn_set_servers | configure | build CA
   expect:
     command: ./easyrsa build-ca
     responses:
@@ -69,7 +67,7 @@
     chdir: "{{ openvpn_path_easyrsa }}"
     creates: "{{ openvpn_path_easyrsa }}/pki/private/ca.key"
 
-- name: openvpn_server | configure | build CRL
+- name: openvpn_set_servers | configure | build CRL
   expect:
     command: ./easyrsa gen-crl
     responses:
@@ -77,19 +75,19 @@
     chdir: "{{ openvpn_path_easyrsa }}"
     creates: "{{ openvpn_path_easyrsa }}/pki/crl.pem"
 
-- name: openvpn_server | configure | build ta.key
+- name: openvpn_set_servers | configure | build ta.key
   shell: openvpn --genkey --secret ta.key
   args:
     chdir: "{{ openvpn_path_easyrsa }}/pki"
     creates: "{{ openvpn_path_easyrsa }}/pki/ta.key"
 
-- name: openvpn_server | configure | build dh.pem
+- name: openvpn_set_servers | configure | build dh.pem
   shell: ./easyrsa gen-dh
   args:
     chdir: "{{ openvpn_path_easyrsa }}"
     creates: "{{ openvpn_path_easyrsa }}/pki/dh.pem"
 
-- name: openvpn_server | configure | build server key+cert
+- name: openvpn_set_servers | configure | build server key+cert
   expect:
     command: ./easyrsa build-server-full server nopass
     responses:
@@ -97,54 +95,54 @@
     chdir: "{{ openvpn_path_easyrsa }}"
     creates: "{{ openvpn_path_easyrsa }}/pki/private/server.key"
 
-- name: openvpn_server | configure | fetch ca.crt
+- name: openvpn_set_servers | configure | fetch ca.crt
   fetch:
     src: "{{ openvpn_path_easyrsa }}/pki/ca.crt"
     dest: "{{ playbook_dir }}/files/ca@{{ inventory_hostname }}.crt"
     flat: yes
 
-- name: openvpn_server | configure | fetch ta.key
+- name: openvpn_set_servers | configure | fetch ta.key
   fetch:
     src: "{{ openvpn_path_easyrsa }}/pki/ta.key"
     dest: "{{ playbook_dir }}/files/ta@{{ inventory_hostname }}.key"
     flat: yes
 
-- name: openvpn_server | configure | install ca.crt
+- name: openvpn_set_servers | configure | install ca.crt
   file:
     src: "{{ openvpn_path_easyrsa }}/pki/ca.crt"
     dest: "{{ openvpn_path_ca }}"
     force: yes
     state: link
 
-- name: openvpn_server | configure | install ta.key
+- name: openvpn_set_servers | configure | install ta.key
   file:
     src: "{{ openvpn_path_easyrsa }}/pki/ta.key"
     dest: "{{ openvpn_path_ta }}"
     force: yes
     state: link
 
-- name: openvpn_server | configure | install dh.pem
+- name: openvpn_set_servers | configure | install dh.pem
   file:
     src: "{{ openvpn_path_easyrsa }}/pki/dh.pem"
     dest: "{{ openvpn_path_dh }}"
     force: yes
     state: link
 
-- name: openvpn_server | configure | install crl.pem
+- name: openvpn_set_servers | configure | install crl.pem
   file:
     src: "{{ openvpn_path_easyrsa }}/pki/crl.pem"
     dest: "{{ openvpn_path_crl }}"
     force: yes
     state: link
 
-- name: openvpn_server | configure | install server.key
+- name: openvpn_set_servers | configure | install server.key
   file:
     src: "{{ openvpn_path_easyrsa }}/pki/private/server.key"
     dest: "{{ openvpn_path_server_key }}"
     force: yes
     state: link
 
-- name: openvpn_server | configure | install server.crt
+- name: openvpn_set_servers | configure | install server.crt
   file:
     src: "{{ openvpn_path_easyrsa }}/pki/issued/server.crt"
     dest: "{{ openvpn_path_server_crt }}"

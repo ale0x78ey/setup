@@ -1,0 +1,17 @@
+- name: openvpn_add_clients | configure | install client/router configs
+  template:
+    src: etc_openvpn_client_router.conf.j2
+    dest: "{{ openvpn_path }}/client/client-{{ item.dev }}.conf"
+  delegate_to: "{{ item.hostname }}"
+  with_items: "{{ openvpn_new_clients['routers'] }}"
+
+- name: openvpn_set_servers | configure | create ccd dir
+  file:
+    path: "{{ openvpn_path_ccd }}"
+    state: directory
+
+- name: openvpn_add_clients | configure | install ccd configs
+  copy:
+    content: "ifconfig-push {{ item.vpn_ipv4 }} {{ item.vpn_mask }}"
+    dest: "{{ openvpn_path_ccd }}/client@{{ item.hostname }}"
+  with_items: "{{ openvpn_new_clients['routers'] }}"

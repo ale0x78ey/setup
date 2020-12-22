@@ -1,0 +1,14 @@
+all:
+  hosts:
+    server1:
+      ansible_host: "{{ server1_ip }}"
+    dell:
+      ansible_host: "{{ dell_ip }}"
+  children:
+    vpn-servers:
+      hosts:
+        server1:
+    vpn-clients:
+      hosts:
+        dell:
+        desktop1:

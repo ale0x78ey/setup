@@ -1,8 +1,0 @@
-- name: openvpn_server | configure | enable IPv4 forwarding
-  sysctl: name=net.ipv4.ip_forward value=1
-
-- name: openvpn_server | configure | install server configs
-  template:
-    src: etc_openvpn_server.conf.j2
-    dest: "{{ openvpn_path }}/server/server-{{ item.proto }}-{{ item.port }}.conf"
-  with_items: "{{ openvpn_servers }}"

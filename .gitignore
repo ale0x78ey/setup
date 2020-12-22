@@ -6,4 +6,4 @@
 *.swn
 *.swo
 
-playbooks/openvpn/files/
+openvpn/files/
