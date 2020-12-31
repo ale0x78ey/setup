@@ -1,0 +1,335 @@
+set nocompatible
+set exrc
+set secure
+
+filetype on
+filetype indent on
+filetype plugin on
+filetype plugin indent on
+
+call plug#begin('~/.vim/plugged')
+    " It is a file system explorer for the Vim editor.
+    Plug 'scrooloose/nerdtree'
+
+    Plug 'xuyuanp/nerdtree-git-plugin'
+
+    " Fuzzy search through the files.
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
+
+    " An easy way to browse the tags of the current file and
+    " get an overview of its structure.
+    Plug 'preservim/tagbar'
+
+    " Comment stuff out.
+    Plug 'tpope/vim-commentary'
+
+    Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-pathogen'
+
+    " A collection of language packs for Vim.
+    Plug 'sheerun/vim-polyglot'
+
+    " ALE (Asynchronous Lint Engine) is a plugin
+    " providing linting (syntax checking and semantic errors)
+    " in NeoVim 0.2.0+ and Vim 8 while you edit your text files,
+    " and acts as a Vim Language Server Protocol client.
+    Plug 'dense-analysis/ale'
+
+    " For subversion (svn), GIT, HG and BZR repositories.
+    Plug 'juneedahamed/vc.vim'
+
+    " Use (neo)vim terminal in the floating/popup window.
+    Plug 'voldikss/vim-floaterm'
+
+    Plug 'google/vim-colorscheme-primary'
+call plug#end()
+
+" https://github.com/scrooloose/nerdtree
+fun! OpenNERDTree()
+    try
+        if argc() == 0 && !exists("s:std_in")
+            NERDTree
+        endif
+        if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in")
+            ene
+            exe 'NERDTree' argv()[0]
+        endif
+    catch
+    endtry
+endfun
+
+nmap <leader><TAB> :NERDTreeToggle<CR>
+nmap ё<TAB> :NERDTreeToggle<CR>
+
+augroup nerdtree
+    autocmd!
+    autocmd StdinReadPre * let s:std_in = 1
+    autocmd VimEnter * :call OpenNERDTree()
+augroup END
+
+" https://github.com/xuyuanp/nerdtree-git-plugin
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ "Unknown"   : "?"
+    \ }
+
+" https://github.com/junegunn/fzf.vim
+" Preview window on the right with 50% width.
+let g:fzf_preview_window = ['right:50%']
+
+" [Buffers] Jump to the existing window if possible.
+let g:fzf_buffers_jump = 1
+
+" down / up / left / right.
+let g:fzf_layout = { 'down': '100%' }
+
+" Normal mode mappings.
+nmap <leader>m <plug>(fzf-maps-n)
+nmap <leader>ь <plug>(fzf-maps-n)
+
+" Visual mode mappings.
+xmap <leader>m <plug>(fzf-maps-x)
+xmap <leader>ь <plug>(fzf-maps-x)
+
+" Operator-pending mappings.
+omap <leader>m <plug>(fzf-maps-o)
+omap <leader>ь <plug>(fzf-maps-o)
+
+" Search.
+nmap <leader>fag :Ag<CR>
+nmap <leader>афп :Ag<CR>
+
+" https://github.com/preservim/tagbar
+" Toggle tagbar window.
+nmap <leader>v :TagbarToggle<CR>
+nmap ём :TagbarToggle<CR>
+
+nmap t :TagbarShowTag<CR>
+nmap е :TagbarShowTag<CR>
+
+" https://github.com/tpope/vim-pathogen
+try
+    execute pathogen#infect()
+catch
+endtry
+
+" https://github.com/dense-analysis/ale
+let g:ale_linters = {
+    \ 'python': ['flake8', 'pylint'],
+    \}
+
+" Only run linters named in ale_linters settings.
+let g:ale_linters_explicit = 1
+nmap <leader>lint :ALELint<CR>
+nmap ёдште :ALELint<CR>
+
+let g:ale_lint_on_save = 0
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+" To run on opening a file (1).
+let g:ale_lint_on_enter = 0
+
+let g:ale_fixers = {
+    \ 'python': ['autopep8', 'yapf'],
+    \}
+
+nmap <leader>fix :ALEFix<CR>
+nmap ёашч :ALEFix<CR>
+
+let g:ale_fix_on_save = 0
+
+" Options to specify what text should be used for signs.
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
+
+" Set this in your vimrc file to mange highlighting.
+let g:ale_set_highlights = 1
+
+" Use the quickfix list.
+let g:ale_set_quickfix = 1
+
+" vim-airline integrates with ALE for displaying
+" error information in the status bar.
+let g:airline#extensions#ale#enabled = 1
+
+" Moving between errors.
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
+" https://github.com/voldikss/vim-floaterm
+" 'floating'(neovim) or 'popup'(vim) by default.
+" Set it to 'normal' if your vim/nvim doesn't support
+" floatwin or popup.
+let g:floaterm_wintype = 'normal'
+
+" The position of the floating window.
+" If wintype is normal:
+"   'top', 'right', 'bottom'(default), 'left'.
+" If wintype is floating or popup:
+"   'top', 'right', 'bottom', 'left', 'center'(default), 'topleft',
+"   'topright', 'bottomleft', 'bottomright', 'auto'(at the cursor place).
+let g:floaterm_position = 'bottom'
+
+" Type Number (number of lines) or Float (between 0 and 1).
+" If Float, the height is relative to &lines. Default: 0.6.
+let g:floaterm_height = 0.4
+
+" When a file has been detected to have been changed
+" outside of Vim and it has not been changed inside
+" of Vim, automatically read it again.
+set autoread
+
+augroup CheckTime
+    au!
+    if !has("gui_running")
+        au FocusGained  * silent! checktime
+        au FocusLost    * silent! checktime
+        au WinEnter     * silent! checktime
+        au WinLeave     * silent! checktime
+        au CursorHold   * silent! checktime
+        au CursorHoldI  * silent! checktime
+        au CursorMoved  * silent! checktime
+        au CursorMovedI * silent! checktime
+    endif
+augroup END
+
+" Indentation.
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set smartindent
+set smarttab
+
+" The 'smartcase' option only applies to search patterns
+" that you type; it does not apply to * or # or gd.
+" If you press * to search for a word, you can
+" make 'smartcase' apply by pressing / then up
+" arrow then Enter (to repeat the search from history).
+set smartcase
+
+set backspace=2
+set paste
+set wildmode=longest:list,full
+set wildchar=<TAB>
+set wildignore=*.o,*.class,*.pyc
+set showmode
+set number
+set encoding=utf-8
+set wrap linebreak nolist
+
+function! s:ToggleWhitespaceMatch(mode)
+    let pattern = (a:mode == 'i') ? '\s\+\%#\@<!$' : '\s\+$'
+    if exists('w:whitespace_match_number')
+        call matchdelete(w:whitespace_match_number)
+        call matchadd('ExtraWhitespace', pattern, 10, w:whitespace_match_number)
+    else
+        let w:whitespace_match_number = matchadd('ExtraWhitespace', pattern)
+    endif
+endfunction
+
+augroup WhitespaceMatch
+    " Remove all autocommands for the WhitespaceMatch group.
+    au!
+
+    " Be aware that future colorscheme commands may clear all
+    " user-defined highlight groups. Using, before the first
+    " colorscheme command will ensure that the highlight group
+    " gets created and is not cleared by future colorscheme commands.
+    au ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+
+    au BufWinEnter * let w:whitespace_match_number =
+        \ matchadd('ExtraWhitespace', '\s\+$')
+    au InsertEnter * call s:ToggleWhitespaceMatch('i')
+    au InsertLeave * call s:ToggleWhitespaceMatch('n')
+
+    " It seems that vim does not handle sucessive calls of
+    " the match command gracefully. Since BufWinEnter commands
+    " are executed every time a buffer is displayed (i.e.,
+    " switching to another file), the match command is executed
+    " many times during a vim session. This seems to lead to a
+    " memory leak which slowly impacts performance (for example
+    " scrolling and writing become unbearably slow).
+    if version >= 702
+        autocmd BufWinLeave * call clearmatches()
+    endif
+
+    " Automauically delete trailing DOS-returns and
+    " whitespace on file writing.
+    au BufWritePre,FileWritePre * silent! %s/[\r \t]\+$//
+augroup END
+
+function! SetPythonOptions()
+    set expandtab
+    set tabstop=4
+    set softtabstop=4
+    set shiftwidth=4
+endfun
+
+augroup Programming
+    au!
+    au BufNewFile,BufRead *.hpp,*.cpp,*.mm set syntax=cpp
+    au BufNewFile,BufRead *.h              set syntax=objcpp
+    au BufNewFile,BufRead *.hs             set syntax=haskell
+    au BufNewFile,BufRead *.scm,*.ss       set syntax=lisp
+    au BufNewFile,BufRead *.sh             let g:is_bash=1
+    au BufNewFile,BufRead *.py             call SetPythonOptions()
+    au FileType Makefile                   set noexpandtab
+    au FileType cpp                        set keywordprg=cppman
+augroup END
+
+" Supports russian.
+set langmap=йqцwуeкrеtнyгuшiщoзpх[ъ]фaыsвdаfпgрhоjлkдlж\\;э'яzчxсcмvиbтnьmб\\,ю.ё\\\\ЙQЦWУEКRЕTНYГUШIЩOЗPХ{Ъ}ФAЫSВDАFПGРHОJЛKДLЖ:Э\"ЯZЧXСCМVИBТNЬMБ<Ю>Ё\|
+
+" Alias for :w.
+nmap <leader>s :w<CR>
+nmap ёы :w<CR>
+
+" Open terminal window.
+nmap <leader>t :terminal<CR>
+nmap <leader>е :terminal<CR>
+
+" QuickFix window.
+nmap <leader>e :copen<cr>
+nmap ёу :cope<cr>
+nmap <leader>eo :copen<cr>
+nmap ёущ :cope<cr>
+nmap <leader>ec :cclose<cr>
+nmap ёус :cclose<cr>
+
+" Go to Terminal-Normal mode.
+" When an arrow key sends an Escape keycode,
+" it can't be immediately expanded into C-\ C-n,
+" because there's an ambiguity between the 2 mappings.
+" So, Vim must wait for possible other keycodes.
+tnoremap <ESC>  <C-\><C-N>
+tnoremap <ESC>: <C-\><C-N>:
+
+if has("clipboard")
+    set clipboard=unnamed,unnamedplus
+endif
+
+" Allows using the mouse for visual selection.
+set mouse=a
+
+" Disables cursor blinking.
+:set guicursor+=a:blinkon0
+
+syntax on
+set t_Co=256
+try
+    colorscheme primary
+catch
+endtry
+
+set background=light
+
+hi MatchParen term=reverse ctermfg=black ctermbg=white

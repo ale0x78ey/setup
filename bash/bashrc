@@ -1,0 +1,48 @@
+[ -e ~/.bashrc_old ] && source ~/.bashrc_old
+
+export PATH="/usr/local/bin:$HOME/.local/bin:$PATH"
+
+if [[ "$(which brew)" ]]; then
+    if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion
+    fi
+fi
+
+# Terminal preferences.
+## Bind inputrc on Ubuntu 18.04.
+if [[ "$(which bind)" ]]; then bind -f ~/.inputrc; fi
+
+alias emacs='emacs -nw'
+alias vim='vim -p'
+alias gti='git'
+
+export LANG="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
+
+## Terminal Prompt.
+if [[ "`uname -s`" == "Darwin" ]]; then
+    LOCAL_IP=`ifconfig -l | xargs -n1 ipconfig getifaddr | head -n1`
+else
+    LOCAL_IP=`hostname -I | tr " " "\n"  | head -n1`
+fi
+export PS1="\[\033[01;32m\]\u@$LOCAL_IP\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
+
+# Vim.
+export FZF_DEFAULT_OPTS='--bind "ctrl-j:preview-page-down,ctrl-k:preview-page-up"'
+
+# Ruby
+if [[ "$(which rbenv)" ]]; then
+    eval "$(rbenv init -)"
+fi
+
+# Python
+## Don't use .pyc и .pyo.
+export PYTHONDONTWRITEBYTECODE=1
+
+# Pyenv options
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+
+if [[ "$(which pyenv)" ]]; then
+    eval "$(pyenv init -)"
+fi

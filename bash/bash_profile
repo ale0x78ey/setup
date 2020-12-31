@@ -1,0 +1,2 @@
+[ -e ~/.bash_profile_old ] && source ~/.bash_profile_old
+[ -e ~/.bashrc ] && source ~/.bashrc

@@ -1,0 +1,17 @@
+<network>
+  <name>vagrant-libvirt</name>
+  <uuid>1e16a89a-ee09-48d5-bb90-15f454dd261a</uuid>
+  <forward mode='nat'/>
+  <bridge name='virbr1' stp='on' delay='0'/>
+  <mac address='52:54:00:1c:c5:9c'/>
+  <ip address='192.168.121.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.121.2' end='192.168.121.254'/>
+    </dhcp>
+  </ip>
+  <ip family='ipv6' address='fd9b:91bb:fd26:e188::1' prefix='64'>
+    <dhcp>
+      <range start='fd9b:91bb:fd26:e188::100' end='fd9b:91bb:fd26:e188::1ff'/>
+    </dhcp>
+  </ip>
+</network>
