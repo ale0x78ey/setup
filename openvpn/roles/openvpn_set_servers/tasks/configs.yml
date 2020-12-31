@@ -7,6 +7,12 @@
     dest: "{{ openvpn_path }}/server/server-{{ item.dev }}.conf"
   with_items: "{{ openvpn_servers['routers'] }}"
 
+- name: openvpn_set_servers | configure | install server/bridge configs
+  template:
+    src: etc_openvpn_server_bridge.conf.j2
+    dest: "{{ openvpn_path }}/server/server-{{ item.dev }}.conf"
+  with_items: "{{ openvpn_servers['bridges'] }}"
+
 - name: openvpn_set_servers | configure | create ccd dir
   file:
     path: "{{ openvpn_path_ccd }}"

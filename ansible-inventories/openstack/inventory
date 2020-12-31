@@ -6,7 +6,7 @@ vpn-server1
 vpn-dell
 
 [control]
-server1
+vpn-server1
 
 # The above can also be specified as follows:
 #control[01:03]     ansible_user=kolla
@@ -14,13 +14,13 @@ server1
 # The network nodes are where your l3-agent and loadbalancers will run
 # This can be the same as a host in the control group
 [network]
-server1
+vpn-server1
 
 [compute]
-dell
+vpn-dell
 
 [monitoring]
-server1
+vpn-server1
 
 # When compute nodes and control nodes use different interfaces,
 # you need to comment out "api_interface" and other interfaces from the globals.yml
@@ -29,7 +29,7 @@ server1
 
 [storage]
 # storage01
-dell
+vpn-dell
 
 [deployment]
 localhost       ansible_connection=ssh

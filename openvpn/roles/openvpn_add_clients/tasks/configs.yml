@@ -5,6 +5,13 @@
   delegate_to: "{{ item.hostname }}"
   with_items: "{{ openvpn_new_clients['routers'] }}"
 
+- name: openvpn_add_clients | configure | install client/bridge configs
+  template:
+    src: etc_openvpn_client_bridge.conf.j2
+    dest: "{{ openvpn_path }}/client/client-{{ item.dev }}.conf"
+  delegate_to: "{{ item.hostname }}"
+  with_items: "{{ openvpn_new_clients['bridges'] }}"
+
 - name: openvpn_set_servers | configure | create ccd dir
   file:
     path: "{{ openvpn_path_ccd }}"

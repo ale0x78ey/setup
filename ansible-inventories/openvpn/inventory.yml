@@ -11,4 +11,3 @@ all:
     vpn-clients:
       hosts:
         dell:
-        desktop1:
