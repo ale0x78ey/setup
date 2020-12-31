@@ -7,5 +7,7 @@ apt_get_upgrade() {
 }
 
 apt_get_install() {
-  sudo apt-get install -y $@
+  if [[ ! `which $1` ]]; then
+    sudo apt-get install -y $1
+  fi
 }

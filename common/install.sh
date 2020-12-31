@@ -16,11 +16,11 @@ if [[ "`uname -s`" == "Linux" ]]; then
     source common/apt-get.sh
 
     install_setup() {
-        apt_get_update
+      apt_get_update
     }
 
     install() {
-      apt_get_install $@
+      for n in $@; do apt_get_install $n; done
     }
   fi
 fi
