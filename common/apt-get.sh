@@ -8,6 +8,6 @@ apt_get_upgrade() {
 
 apt_get_install() {
   if [[ ! `which $1` ]]; then
-    sudo apt-get install -y $1
+    sudo apt-get install -y $@
   fi
 }

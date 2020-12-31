@@ -4,6 +4,7 @@ if [[ "`uname -s`" == "Darwin" ]]; then
   install_setup() {
     darwin_install_brew
     brew_update
+    brew_install gnu-tar
   }
 
   install() {
