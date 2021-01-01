@@ -1,8 +1,14 @@
 install_setup() {
+  source common/package.sh
+
   if [[ "`uname -s`" == "Linux" ]]; then
     if [[ `which apt-get` ]]; then
       source common/apt-get.sh
       apt_get_setup
+    fi
+
+    if [[ `which dpkg` ]]; then
+      source common/dpkg.sh
     fi
   fi
 
@@ -65,29 +71,18 @@ build() {
 
 install_git_repo_setup() {
   install git
-
-  if [[ `which dpkg` ]]; then
-    source common/dpkg.sh
-  fi
 }
 
 install_git_repo() {
   TEMP_DIR=`mktemp -d -t $(date +%Y-%m-%d-%H-%M-%S)-XXXXXXXX`
-  mkdir -v ${TEMP_DIR}
   pushd ${TEMP_DIR}
-
   git clone $1
   PROJECT_NAME=`ls`
   cd ${PROJECT_NAME}
   PACKAGE_ROOT_DIR=`pwd`/${PROJECT_NAME}_$(date +%Y-%m-%d-%H-%M-%S)
-
   build `pwd` ${PACKAGE_ROOT_DIR}
-
-  if [[ `which dpkg` ]]; then
-    build_dpkg "${PACKAGE_ROOT_DIR}" ${PROJECT_NAME} $1
-    sudo dpkg -i ${PROJECT_NAME}.deb
-  fi
-
+  package_build ${PACKAGE_ROOT_DIR} ${PROJECT_NAME} $1
+  package_install ${PROJECT_NAME}
   popd
   rm -rf $TEMP_DIR
 }

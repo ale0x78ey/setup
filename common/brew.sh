@@ -10,10 +10,6 @@ brew_setup() {
   install gnu-tar
 }
 
-brew_update() {
-  brew update
-}
-
 brew_install() {
   if [[ ! "`brew list --formula | grep $1`" ]]; then
     brew install $@
