@@ -4,23 +4,20 @@ set -x
 source common/install.sh
 install_setup
 
-install flake8 pylint vim
+install curl   \
+        flake8 \
+        pylint \
+        vim
 
 if [[ "`uname -s`" == "Darwin" ]]; then
   brew tap universal-ctags/universal-ctags
   brew_install universal-ctags --with-jansson --HEAD
-  install the_silver_searche \
-          yapf
+  install the_silver_searche yapf
 fi
 
 if [[ "`uname -s`" == "Linux" ]]; then
-  install autoconf          \
-          autotools-dev     \
-          checkinstall      \
-          curl              \
-          git               \
-          pkg-config        \
-          silversearcher-ag \
+  install_git_repo https://github.com/universal-ctags/ctags.git
+  install silversearcher-ag \
           yapf3
 
   BUILD_DIR=`mktemp -d -t $(date +%Y-%m-%d-%H-%M-%S)-XXXXXXXXX`
