@@ -28,43 +28,57 @@ if [[ "`uname -s`" == "Linux" ]]; then
       for n in $@; do apt_get_install $n; done
     }
 
-    install_from_git() {
-      TEMP_DIR=`mktemp -d -t $(date +%Y-%m-%d-%H-%M-%S)-XXXXXXXX`
-      mkdir -pv $TEMP_DIR
-      pushd $TEMP_DIR
-
-      git clone $1
-      PROJECT_NAME=`ls`
-      cd $PROJECT_NAME
-
-      if [[ -f ./autogen.sh ]] && [[ -f ./configure ]]; then
-        ./autogen.sh
-        ./configure
-      fi
+    # $1 - src dir
+    # $2 - install dir
+    build() {
+      pushd $1
+      for s in ./autogen.sh ./configure
+      do
+        if [[ -f $s ]]; then $s; fi
+      done
 
       if [[ -f ./Makefile ]]; then
         make
-        fakeroot
-        make install DESTDIR="`pwd`/fakeroot_dir"
+        fakeroot make install DESTDIR=$2
       fi
-
-      mkdir -pv fakeroot_dir/DEBIAN
-      cd fakeroot_dir
-
-      find etc | sed "s/^/\//" > DEBIAN/conffiles
-
-      echo "\
-Package: ${PROJECT_NAME}
-Version: 0.0.1
-Architecture: `uname -m`
-Maintainer: ${PROJECT_NAME}
-Description: ${1}
-" > DEBIAN/control
-
-      # sudo checkinstall -y
-      dpkg -b fakeroot_dir
       popd
-      # sudo rm -rf $TEMP_DIR
+    }
+
+    # $1 - src directory
+    # $2 - pkg name
+    # $3 - pkg description
+    build_dpkg() {
+      pushd $1
+      mkdir -v DEBIAN
+      find etc 2>/dev/null | sed "s/^/\//" > DEBIAN/conffiles
+      ARCH=`dpkg --print-architecture`
+      echo "\
+Package: $2
+Version: 0.0.1
+Architecture: ${ARCH}
+Maintainer: smb
+Description: $3
+" > DEBIAN/control
+      popd
+      dpkg -b $1 $2.deb
+    }
+
+    install_git_repo() {
+      TEMP_DIR=`mktemp -d -t $(date +%Y-%m-%d-%H-%M-%S)-XXXXXXXX`
+      mkdir -v ${TEMP_DIR}
+      pushd ${TEMP_DIR}
+
+      git clone $1
+      PROJECT_NAME=`ls`
+      cd ${PROJECT_NAME}
+      PACKAGE_ROOT_DIR=`pwd`/${PROJECT_NAME}_$(date +%Y-%m-%d-%H-%M-%S)
+
+      build `pwd` ${PACKAGE_ROOT_DIR}
+      build_dpkg "${PACKAGE_ROOT_DIR}" ${PROJECT_NAME} $1
+      sudo dpkg -i ${PROJECT_NAME}.deb
+
+      popd
+      rm -rf $TEMP_DIR
     }
   fi
 fi

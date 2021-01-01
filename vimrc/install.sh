@@ -19,18 +19,6 @@ if [[ "`uname -s`" == "Linux" ]]; then
   install_git_repo https://github.com/universal-ctags/ctags.git
   install silversearcher-ag \
           yapf3
-
-  BUILD_DIR=`mktemp -d -t $(date +%Y-%m-%d-%H-%M-%S)-XXXXXXXXX`
-  mkdir -p ${BUILD_DIR}
-  pushd ${BUILD_DIR}
-  git clone https://github.com/universal-ctags/ctags.git && cd ctags
-  ./autogen.sh
-  ./configure
-  make
-  sudo checkinstall -y
-  # To remove it: sudo dpkg --purge ctags
-  popd
-  sudo rm -rf $TEMP_DIR
 fi
 
 rm -rf ~/.vim && curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
