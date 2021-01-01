@@ -12,7 +12,8 @@ install curl   \
 if [[ "`uname -s`" == "Darwin" ]]; then
   brew tap universal-ctags/universal-ctags
   brew_install universal-ctags --with-jansson --HEAD
-  install the_silver_searche yapf
+  install the_silver_searche \
+          yapf
 fi
 
 if [[ "`uname -s`" == "Linux" ]]; then
