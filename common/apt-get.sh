@@ -1,4 +1,4 @@
-apt_get_update() {
+apt_get_setup() {
   sudo apt-get update
 }
 
