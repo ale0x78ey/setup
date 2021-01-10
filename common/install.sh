@@ -6,10 +6,6 @@ install_setup() {
       source common/apt-get.sh
       apt_get_setup
     fi
-
-    if [[ `which dpkg` ]]; then
-      source common/dpkg.sh
-    fi
   fi
 
   if [[ "`uname -s`" == "Darwin" ]]; then
