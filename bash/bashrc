@@ -1,42 +1,104 @@
-[ -e ~/.bashrc_old ] && source ~/.bashrc_old
-
 export PATH="/usr/local/bin:$HOME/.local/bin:$PATH"
-
-if [[ "$(which brew)" ]]; then
-    if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    . $(brew --prefix)/etc/bash_completion
-    fi
-fi
-
-# Terminal preferences.
-## Bind inputrc on Ubuntu 18.04.
-if [[ "$(which bind)" ]]; then bind -f ~/.inputrc; fi
-
-alias emacs='emacs -nw'
-alias vim='vim -p'
-alias gti='git'
 
 export LANG="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8"
 
-## Terminal Prompt.
-if [[ "`uname -s`" == "Darwin" ]]; then
-    LOCAL_IP=`ifconfig -l | xargs -n1 ipconfig getifaddr | head -n1`
-else
-    LOCAL_IP=`hostname -I | tr " " "\n"  | head -n1`
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
 fi
-export PS1="\[\033[01;32m\]\u@$LOCAL_IP\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
 
-# Vim.
+# Bind inputrc.
+if [[ "$(which bind)" ]]; then bind -f ~/.inputrc; fi
+
+# Make less more friendly for non-text files.
+if [ -x /usr/bin/lesspipe ]; then eval "$(SHELL=/bin/sh lesspipe)"; fi
+
+# Check the window size after each command and,
+# if necessary, update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+if [[ "`uname -s`" == "Darwin" ]]; then
+    IP=`ifconfig -l | xargs -n1 ipconfig getifaddr | head -n1`
+else
+    IP=`hostname -I | tr " " "\n"  | head -n1`
+fi
+
+if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+  # We have color support.
+  # Assume it's compliant with Ecma-48 (ISO/IEC-6429).
+  # Lack of such support is extremely rare, and such
+  # a case would tend to support setf rather than setaf.
+  export PS1="\[\033[01;32m\]\u@$IP\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
+else
+  export PS1="\u@$IP:\w\$ "
+fi
+
+unset IP
+
+# Enable color support of ls
+# and also add handy aliases.
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && \
+    eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+#
+# Bash history.
+#
+
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# Don't put duplicate lines or
+# lines starting with space in the history.
+HISTCONTROL=ignoreboth
+
+# Append to the history file, don't overwrite it.
+shopt -s histappend
+
+#
+# Bash completion.
+#
+
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+if [[ "$(which brew)" ]]; then
+  if [ -f $(brew --prefix)/etc/bash_completion ]; then
+  . $(brew --prefix)/etc/bash_completion
+  fi
+fi
+
+#
+# Vim
+#
+
 export FZF_DEFAULT_OPTS='--bind "ctrl-j:preview-page-down,ctrl-k:preview-page-up"'
 
+#
 # Ruby
+#
+
 if [[ "$(which rbenv)" ]]; then
     eval "$(rbenv init -)"
 fi
 
+#
 # Python
-## Don't use .pyc и .pyo.
+#
+
+# Don't use .pyc и .pyo.
 export PYTHONDONTWRITEBYTECODE=1
 
 # Pyenv options

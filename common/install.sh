@@ -86,3 +86,12 @@ install_git_repo() {
   popd
   rm -rf $TEMP_DIR
 }
+
+# $1 - src
+# $2 - dst
+install_ln() {
+  if [ -e "$2" -a ! -L "$2" ]; then
+    mv -v "$2" "$2_$(date +%Y-%m-%d-%H-%M-%S)"
+  fi
+  ln -snfv "$1" "$2"
+}
