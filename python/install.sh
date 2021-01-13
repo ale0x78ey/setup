@@ -4,6 +4,9 @@ set -x
 source common/install.sh
 install_setup
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null && pwd)"
+install_ln ${SCRIPT_DIR}/python.conf ~/.python.conf
+
 install curl \
         python3
 

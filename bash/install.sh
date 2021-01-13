@@ -11,7 +11,6 @@ bash_aliases
 bash_profile
 bashrc
 inputrc
-tmux.conf
 "
 
 for i in $TARGETS

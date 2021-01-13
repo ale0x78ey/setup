@@ -26,6 +26,15 @@ rm -rf ~/.vim && curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null && pwd)"
-install_ln ${SCRIPT_DIR}/vimrc ~/.vimrc
+
+TARGETS="\
+vimrc
+vim.conf
+"
+
+for i in $TARGETS
+do
+  install_ln ${SCRIPT_DIR}/$i ~/.$i
+done
 
 vim +PlugInstall +quitall
