@@ -6,6 +6,11 @@ install_setup
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null && pwd)"
 
+if [[ "`uname -s`" == "Linux" ]]; then
+  install locales
+  sudo localedef -i en_US -f UTF-8 en_US.UTF-8
+fi
+
 TARGETS="\
 bash_aliases
 bash_profile
