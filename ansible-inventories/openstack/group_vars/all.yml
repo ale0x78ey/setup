@@ -1,2 +1,0 @@
-network_interface: "tun_openstack"
-neutron_external_interface: "tap_openstack"

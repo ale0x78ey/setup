@@ -43,7 +43,7 @@ tls-auth {{ openvpn_path_ta }} 0
 # TLS 1.2 encryption settings.
 tls-cipher TLS-DHE-RSA-WITH-AES-256-CBC-SHA
 # TLS 1.3 encryption settings.
-# tls-ciphersuites TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256
+tls-ciphersuites TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256
 
 # Use it for datas encryption.
 cipher AES-256-CBC
