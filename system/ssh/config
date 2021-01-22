@@ -1,13 +1,13 @@
 Host github.com
-	IdentityFile ~/.ssh/id_rsa_github
+  IdentityFile ~/.ssh/id_rsa_github
 
 Host 192.168.1.*
-	IdentityFile ~/.ssh/id_rsa
+  IdentityFile ~/.ssh/id_rsa
 
 Host 10.9.0.*
-	IdentityFile ~/.ssh/id_rsa
+  IdentityFile ~/.ssh/id_rsa
 
 Host 10.100.183.*
-	IdentityFile ~/.ssh/id_rsa_2
-	User root
-	Port 2200
+  IdentityFile ~/.ssh/id_rsa_2
+  User root
+  Port 2200
