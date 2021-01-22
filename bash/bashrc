@@ -84,12 +84,12 @@ fi
 # Other configs.
 #
 
-TARGETS="\
-python
-vim
+CONF_FILES="\
+python.conf
+vim.conf
 "
 
-for i in $TARGETS
+for i in $CONF_FILES
 do
-  [ -e ~/.$i.conf ] && source ~/.$i.conf
+  [ -e ~/.$i ] && source ~/.$i
 done

@@ -11,6 +11,7 @@ install curl \
         python3
 
 if [[ "`uname -s`" == "Linux" ]]; then
+  # Build dependencies.
   install build-essential \
           libffi-dev      \
           libssl-dev      \
@@ -41,6 +42,7 @@ install rlwrap telnet
 #
 # MySQL support
 #
+
 if [[ "`uname -s`" == "Linux" ]]; then
   install libmysqlclient-dev
 fi
