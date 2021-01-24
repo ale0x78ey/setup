@@ -274,7 +274,14 @@ function! SetPythonOptions()
     set shiftwidth=4
 endfun
 
-augroup Programming
+function! SetMarkdownOptions()
+    " Inc header level.
+    nmap <TAB> :s/^\(#*\) \?\(.*\)/#\1 \2/g<CR>
+    " Dec header level.
+    nmap <S-TAB> :s/^#\( *\)\(.*\)/\2/g<CR>
+endfun
+
+augroup FileTypeOptions
     au!
     au BufNewFile,BufRead *.hpp,*.cpp,*.mm set syntax=cpp
     au BufNewFile,BufRead *.h              set syntax=objcpp
@@ -282,6 +289,7 @@ augroup Programming
     au BufNewFile,BufRead *.scm,*.ss       set syntax=lisp
     au BufNewFile,BufRead *.sh             let g:is_bash=1
     au BufNewFile,BufRead *.py             call SetPythonOptions()
+    au BufNewFile,BufRead *.md             call SetMarkdownOptions()
     au FileType Makefile                   set noexpandtab
     au FileType cpp                        set keywordprg=cppman
 augroup END
