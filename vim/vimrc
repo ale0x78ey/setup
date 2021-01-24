@@ -268,30 +268,30 @@ augroup WhitespaceMatch
 augroup END
 
 function! SetPythonOptions()
-    set expandtab
-    set tabstop=4
-    set softtabstop=4
-    set shiftwidth=4
+    setlocal expandtab
+    setlocal tabstop=4
+    setlocal softtabstop=4
+    setlocal shiftwidth=4
 endfun
 
 function! SetMarkdownOptions()
     " Inc header level.
-    nmap <TAB> :s/^\(#*\) \?\(.*\)/#\1 \2/g<CR>
+    nnoremap <buffer> <TAB> :s/^\(#*\) \?\(.*\)/#\1 \2/g<CR>
     " Dec header level.
-    nmap <S-TAB> :s/^#\( *\)\(.*\)/\2/g<CR>
+    nnoremap <buffer> <S-TAB> :s/^#\( *\)\(.*\)/\2/g<CR>
 endfun
 
 augroup FileTypeOptions
     au!
-    au BufNewFile,BufRead *.hpp,*.cpp,*.mm set syntax=cpp
-    au BufNewFile,BufRead *.h              set syntax=objcpp
-    au BufNewFile,BufRead *.hs             set syntax=haskell
-    au BufNewFile,BufRead *.scm,*.ss       set syntax=lisp
+    au BufNewFile,BufRead *.hpp,*.cpp,*.mm setlocal syntax=cpp
+    au BufNewFile,BufRead *.h              setlocal syntax=objcpp
+    au BufNewFile,BufRead *.hs             setlocal syntax=haskell
+    au BufNewFile,BufRead *.scm,*.ss       setlocal syntax=lisp
     au BufNewFile,BufRead *.sh             let g:is_bash=1
-    au BufNewFile,BufRead *.py             call SetPythonOptions()
-    au BufNewFile,BufRead *.md             call SetMarkdownOptions()
-    au FileType Makefile                   set noexpandtab
-    au FileType cpp                        set keywordprg=cppman
+    au FileType python                     call SetPythonOptions()
+    au FileType markdown                   call SetMarkdownOptions()
+    au FileType Makefile                   setlocal noexpandtab
+    au FileType cpp                        setlocal keywordprg=cppman
 augroup END
 
 " Supports russian.
