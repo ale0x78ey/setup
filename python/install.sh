@@ -30,6 +30,12 @@ python3 -m pip install --user \
   wheel
 
 #
+# Testing tools.
+#
+
+install tox
+
+#
 # Remote debugging based on pdb.
 #
 
