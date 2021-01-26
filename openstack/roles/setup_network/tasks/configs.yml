@@ -1,0 +1,18 @@
+- name: setup_network | configure | enable IPv4 forwarding
+  sysctl: name=net.ipv4.ip_forward value=1
+
+- name: setup_network | configure | install if-{up,down}.d/openstack_interfaces
+  template:
+    src: etc/network/{{ item }}/openstack_interfaces.j2
+    dest: "/etc/network/{{ item }}/openstack_interfaces"
+  with_items:
+    - "if-up.d"
+    - "if-down.d"
+
+- name: setup_network | configure | chmod +x if-{up,down}.d/openstack_interfaces
+  file:
+    mode: a+x
+    dest: "/etc/network/{{ item }}/openstack_interfaces"
+  with_items:
+    - "if-up.d"
+    - "if-down.d"

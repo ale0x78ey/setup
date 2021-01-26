@@ -1,0 +1,24 @@
+network_interface: "veth_1"
+neutron_external_interface: "tap_1"
+bridge_name: "br_openstack"
+
+network_interfaces:
+  desktop1:
+    br_openstack:
+      cidr: "10.1.0.1/24"
+    veth_1:
+      cidr: "10.1.0.2/24"
+
+    gateway: "enp7s0"
+
+  dell1:
+    br_openstack:
+      cidr: "10.1.0.3/24"
+    veth_1:
+      cidr: "10.1.0.4/24"
+
+    gateway: "enp7s0"
+
+network_requirements:
+  - iptables
+  - iproute2
