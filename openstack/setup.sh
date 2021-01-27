@@ -33,3 +33,6 @@ if [[ `which ansible` ]]; then
                    -u root --private-key ~/.ssh/id_rsa \
                    ${SCRIPT_DIR}/setup_network.yml
 fi
+
+# Edit /etc/kolla/globals.yml and don't forget to restart
+# hosts to apply network settings.
