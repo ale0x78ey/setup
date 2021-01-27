@@ -1,23 +1,9 @@
 #!/bin/bash
 
-ip link add dev {{ network_interface }}_br type veth peer name {{ network_interface }}
-ip link set dev {{ network_interface }}_br up
+ip link add link {{ network_interfaces[inventory_hostname].gateway.name }} \
+            name {{ network_interface }} type macvlan mode bridge
 
-ip tuntap add {{ neutron_external_interface }} mode tap
-ip link set dev {{ neutron_external_interface }} up
+ip link add link {{ network_interfaces[inventory_hostname].gateway.name }} \
+            name {{ neutron_external_interface }} type macvtap
 
-ip link add {{ bridge_name }} type bridge
-ip link set {{ network_interface }}_br master {{ bridge_name }}
-ip link set {{ neutron_external_interface }} master {{ bridge_name }}
-
-ip addr add {{ network_interfaces[inventory_hostname][bridge_name].cidr }} \
-        dev {{ bridge_name }}
-
-ip addr add {{ network_interfaces[inventory_hostname][network_interface].cidr }} \
-        dev {{ network_interface }}
-
-ip link set {{ bridge_name }} up
-ip link set {{ network_interface }} up
-
-iptables -t nat -A POSTROUTING -j MASQUERADE \
-         -o {{ network_interfaces[inventory_hostname].gateway }}
+dhclient {{ network_interface }}

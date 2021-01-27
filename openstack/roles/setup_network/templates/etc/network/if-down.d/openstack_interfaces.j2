@@ -1,8 +1,4 @@
 #!/bin/bash
 
-ip link delete {{ bridge_name }} type bridge
 ip link delete dev {{ network_interface }}
 ip link delete dev {{ neutron_external_interface }}
-
-iptables -t nat -D POSTROUTING -j MASQUERADE \
-         -o {{ network_interfaces[inventory_hostname].gateway }}
