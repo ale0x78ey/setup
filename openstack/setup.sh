@@ -29,7 +29,7 @@ if [[ `which ansible` ]]; then
   sudo chown $USER:$USER /etc/ansible
   install_ln ${SCRIPT_DIR}/ansible/ansible.cfg /etc/ansible/ansible.cfg
 
-  ansible-playbook -i ansible-inventories/openstack/ \
+  ansible-playbook -i ansible-inventories.d/ \
                    -u root --private-key ~/.ssh/id_rsa \
                    ${SCRIPT_DIR}/setup_network.yml
 fi

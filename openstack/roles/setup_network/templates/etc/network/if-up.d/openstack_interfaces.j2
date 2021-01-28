@@ -8,3 +8,6 @@ ip link add link {{ network_interfaces[inventory_hostname].gateway.name }} \
 
 ip addr add {{ network_interfaces[inventory_hostname][network_interface].cidr }} \
         dev {{ network_interface }}
+
+ip link set {{ network_interface }} up
+ip link set {{ neutron_external_interface }} up
