@@ -6,8 +6,3 @@ Host 192.168.1.*
 
 Host 10.9.0.*
   IdentityFile ~/.ssh/id_rsa
-
-Host 10.100.183.*
-  IdentityFile ~/.ssh/id_rsa_2
-  User root
-  Port 2200

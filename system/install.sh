@@ -10,4 +10,6 @@ if [[ "`uname -s`" == "Linux" ]]; then
   install openssh-server
 fi
 
-install_ln ${SCRIPT_DIR}/ssh/config ~/.ssh/config
+if [ ! -e ~/.ssh/config ]; then
+  cp ${SCRIPT_DIR}/ssh/config ~/.ssh/config
+fi
