@@ -3,17 +3,16 @@ neutron_external_interface: "macvtap0"
 
 network_interfaces:
   desktop1:
-    veth_1:
-      cidr: "10.1.0.2/24"
+    macvlan0:
+      cidr: "192.168.1.20/24"
     gateway:
       name: "enp7s0"
 
   dell1:
-    veth_1:
-      cidr: "10.1.0.4/24"
+    macvlan0:
+      cidr: "192.168.1.21/24"
     gateway:
       name: "enp1s0"
 
 network_requirements:
   - iproute2
-  - isc-dhcp-client
