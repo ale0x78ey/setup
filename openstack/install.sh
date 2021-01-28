@@ -6,3 +6,4 @@ export EXTRA_OPTS="--private-key ~/.ssh/id_rsa -u root"
 # kolla-ansible -i ansible-inventories.d/ prechecks
 # kolla-ansible -i ansible-inventories.d/ deploy
 # kolla-ansible -i ansible-inventories.d/ post-deploy
+# kolla-ansible -i ansible-inventories.d/ stop --yes-i-really-really-mean-it
