@@ -14,7 +14,7 @@ desktop1
 dell1
 
 [deployment]
-localhost ansible_connection=local
+localhost ansible_connection=local become=true
 
 [baremetal:children]
 control
