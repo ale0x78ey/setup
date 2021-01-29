@@ -1,15 +1,15 @@
 install_setup() {
-  source common/package.sh
+  source common/package
 
   if [[ "`uname -s`" == "Linux" ]]; then
     if [[ `which apt-get` ]]; then
-      source common/apt-get.sh
+      source common/apt-get
       apt_get_setup
     fi
   fi
 
   if [[ "`uname -s`" == "Darwin" ]]; then
-    source common/brew.sh
+    source common/brew
     brew_setup
   fi
 
