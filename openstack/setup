@@ -3,36 +3,44 @@ set -x
 
 . python/setup
 
-python3 -m pip install --user 'ansible<2.10'
-python3 -m pip install --user kolla-ansible
+python3 -m pip install 'ansible==2.9.17'
+python3 -m pip install 'kolla-ansible==11.0.0'
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null && pwd)"
 
-if [[ `which kolla-ansible` ]]; then
-  KOLLA_ETC_EXAMPLES="$(dirname $(dirname `which kolla-ansible`))"
-  KOLLA_ETC_EXAMPLES=${KOLLA_ETC_EXAMPLES}/share/kolla-ansible/etc_examples/kolla
-  sudo mkdir -p /etc/kolla
-  sudo chown $USER:$USER /etc/kolla
 
-  for i in globals.yml passwords.yml
-  do
-    if [ -e /etc/kolla/$i ]; then continue; fi
-    cp ${KOLLA_ETC_EXAMPLES}/$i /etc/kolla/
-  done
+#
+# kolla-ansible
+#
+KOLLA_ETC_EXAMPLES="$(dirname $(dirname `which kolla-ansible`))"
+KOLLA_ETC_EXAMPLES=${KOLLA_ETC_EXAMPLES}/share/kolla-ansible/etc_examples/kolla
+sudo mkdir -p /etc/kolla
+sudo chown $USER:$USER /etc/kolla
 
-  # Fill blank passwords.
-  kolla-genpwd
-fi
+install_ln ${SCRIPT_DIR}/etc/kolla_globals.yml /etc/kolla/globals.yml
+install_ln ${SCRIPT_DIR}/etc/kolla_globals.d /etc/kolla/globals.d
 
-if [[ `which ansible` ]]; then
-  sudo mkdir -p /etc/ansible
-  sudo chown $USER:$USER /etc/ansible
-  install_ln ${SCRIPT_DIR}/ansible/ansible.cfg /etc/ansible/ansible.cfg
+for i in globals.yml passwords.yml
+do
+  if [ -e /etc/kolla/$i ]; then continue; fi
+  cp ${KOLLA_ETC_EXAMPLES}/$i /etc/kolla/
+done
 
-  ansible-playbook -i ansible-inventories.d/ \
-                   -u root --private-key ~/.ssh/id_rsa \
-                   ${SCRIPT_DIR}/setup_network.yml
-fi
+# Fill blank passwords.
+kolla-genpwd
+
+
+#
+# ansible
+#
+sudo mkdir -p /etc/ansible
+sudo chown $USER:$USER /etc/ansible
+install_ln ${SCRIPT_DIR}/ansible/ansible.cfg /etc/ansible/ansible.cfg
+
+ansible-playbook -i ansible-inventories.d/ \
+                 -u root --private-key ~/.ssh/id_rsa \
+                 ${SCRIPT_DIR}/setup_network.yml
+
 
 # Edit /etc/kolla/globals.yml and don't forget to restart
 # hosts to apply network settings.

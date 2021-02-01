@@ -23,9 +23,9 @@ if ! `python3 -m pip &>/dev/null`; then
   curl https://bootstrap.pypa.io/get-pip.py | python3 -
 fi
 
-python3 -m pip install --user -U pip
+python3 -m pip install -U pip
 
-python3 -m pip install --user \
+python3 -m pip install \
   setuptools \
   wheel
 
@@ -40,7 +40,7 @@ install tox
 #
 
 # https://github.com/tamentis/rpdb
-python3 -m pip install --user rpdb
+python3 -m pip install rpdb
 
 install rlwrap telnet
 # Ex: $ rlwrap telnet localhost 4444
