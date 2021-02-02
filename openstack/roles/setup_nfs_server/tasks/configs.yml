@@ -1,4 +1,4 @@
-- name: setup_nfs_server | configure | create nfs_path/* directories
+- name: setup_nfs_server | configure | create nfs directories
   file:
     path: "{{ item }}"
     mode: 0777
