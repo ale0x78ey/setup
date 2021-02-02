@@ -46,3 +46,6 @@ ansible-playbook -i ansible-inventories.d/ \
                  ${SCRIPT_DIR}/setup_nfs.yml
 
 # Don't forget to restart hosts to apply network settings.
+
+# To mount cinder-backup.
+# sudo mount /var/nfs/cinder-backup --fstab /etc/fstab.d/nfs-cinder-backup.fstab
