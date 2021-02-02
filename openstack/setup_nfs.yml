@@ -1,0 +1,9 @@
+- name: MyEnv | openstack | setup_nfs_server
+  hosts: dell1
+  roles:
+    - setup_nfs_server
+
+- name: MyEnv | openstack | setup_nfs_client
+  hosts: desktop1
+  roles:
+    - setup_nfs_client

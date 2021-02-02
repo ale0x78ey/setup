@@ -1,4 +1,4 @@
-- name: MyEnv | openstack
+- name: MyEnv | openstack | setup_network
   hosts: desktop1:dell1
   roles:
     - setup_network
