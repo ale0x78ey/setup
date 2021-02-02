@@ -12,6 +12,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null && pwd)"
 #
 # kolla-ansible
 #
+
 KOLLA_ETC_EXAMPLES="$(dirname $(dirname `which kolla-ansible`))"
 KOLLA_ETC_EXAMPLES=${KOLLA_ETC_EXAMPLES}/share/kolla-ansible/etc_examples/kolla
 sudo mkdir -p /etc/kolla
@@ -33,6 +34,7 @@ kolla-genpwd
 #
 # ansible
 #
+
 sudo mkdir -p /etc/ansible
 sudo chown $USER:$USER /etc/ansible
 install_ln ${SCRIPT_DIR}/ansible/ansible.cfg /etc/ansible/ansible.cfg
