@@ -2,4 +2,3 @@
 
 export EXTRA_OPTS="--private-key ~/.ssh/id_rsa -u root"
 kolla-ansible -i ansible-inventories.d/ $@
-sudo chown -R $USER:$USER /etc/kolla
