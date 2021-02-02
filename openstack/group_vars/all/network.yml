@@ -7,12 +7,14 @@ network_interfaces:
       cidr: "192.168.1.20/24"
     gateway:
       name: "enp7s0"
+      cidr: "192.168.1.70/24"
 
   dell1:
     macvlan0:
       cidr: "192.168.1.21/24"
     gateway:
       name: "enp1s0"
+      cidr: "192.168.1.75/24"
 
 network_requirements:
   - iproute2
