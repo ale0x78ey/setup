@@ -1,4 +1,8 @@
 #!/bin/bash
 
+if [ "$IFACE" != {{ network_interfaces[inventory_hostname].gateway.name }} ]; then
+	exit 0
+fi
+
 ip link delete dev {{ network_interface }}
 ip link delete dev {{ neutron_external_interface }}

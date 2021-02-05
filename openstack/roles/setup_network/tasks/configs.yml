@@ -24,3 +24,8 @@
   with_items:
     - "if-up.d"
     - "if-down.d"
+
+- name: setup_network | configure | install etc/netplan/99-openstack-config.yml
+  template:
+    src: etc/netplan/99-openstack-config.yaml.j2
+    dest: "/etc/netplan/99-openstack-config.yaml"

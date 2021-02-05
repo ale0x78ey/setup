@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ "$IFACE" != {{ network_interfaces[inventory_hostname].gateway.name }} ]; then
+	exit 0
+fi
+
 ip link add link {{ network_interfaces[inventory_hostname].gateway.name }} \
             name {{ network_interface }} type macvlan mode bridge
 
