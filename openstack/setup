@@ -15,6 +15,13 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null && pwd)"
 
 KOLLA_ETC_EXAMPLES="$(dirname $(dirname `which kolla-ansible`))"
 KOLLA_ETC_EXAMPLES=${KOLLA_ETC_EXAMPLES}/share/kolla-ansible/etc_examples/kolla
+
+for i in globals.yml passwords.yml
+do
+  if [ -e ${SCRIPT_DIR}/etc/kolla/$i ]; then continue; fi
+  cp ${KOLLA_ETC_EXAMPLES}/$i ${SCRIPT_DIR}/etc/kolla/
+done
+
 sudo mkdir -p /etc/kolla
 sudo chown $USER:$USER /etc/kolla
 
@@ -28,12 +35,6 @@ passwords.yml
 for i in $CONFIGS
 do
   install_ln ${SCRIPT_DIR}/etc/kolla/$i /etc/kolla/$i
-done
-
-for i in globals.yml passwords.yml
-do
-  if [ -e /etc/kolla/$i ]; then continue; fi
-  cp ${KOLLA_ETC_EXAMPLES}/$i /etc/kolla/
 done
 
 # Fill blank passwords.
