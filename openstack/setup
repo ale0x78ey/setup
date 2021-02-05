@@ -18,8 +18,17 @@ KOLLA_ETC_EXAMPLES=${KOLLA_ETC_EXAMPLES}/share/kolla-ansible/etc_examples/kolla
 sudo mkdir -p /etc/kolla
 sudo chown $USER:$USER /etc/kolla
 
-install_ln ${SCRIPT_DIR}/etc/kolla/globals.yml /etc/kolla/globals.yml
-install_ln ${SCRIPT_DIR}/etc/kolla/globals.d /etc/kolla/globals.d
+CONFIGS="
+config
+globals.d
+globals.yml
+passwords.yml
+"
+
+for i in $CONFIGS
+do
+  install_ln ${SCRIPT_DIR}/etc/kolla/$i /etc/kolla/$i
+done
 
 for i in globals.yml passwords.yml
 do
