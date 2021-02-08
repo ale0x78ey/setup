@@ -2,5 +2,5 @@ network:
   ethernets:
     {{ network_interfaces[inventory_hostname].gateway.name }}:
       dhcp4: true
-      renderer: NetworkManager
+  renderer: NetworkManager
   version: 2
