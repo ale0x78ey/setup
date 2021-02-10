@@ -3,61 +3,175 @@ set -x
 
 . python/setup
 
-python3 -m pip install 'ansible==2.9.17'
-python3 -m pip install 'kolla-ansible==11.0.0'
+
+SHORT_OPTIONS="hdi:"
+LONG_OPTIONS="help,development,inventory:"
+
+function usage() {
+cat<< EOF
+Usage: $0 COMMANDS [options]
+
+Options:
+  --help, -h              Show help text.
+  --development, -d       Install from sources.
+  --inventory, -i <path>  Specify path to ansible inventory file or directory.
+
+Commands:
+  kolla                   Install kolla.
+  kolla-ansible           Install kolla-ansible.
+  configure               Configure all hosts.
+  all                     Setup all.
+
+Environment variables:
+
+  KOLLA_SOURCES
+  KOLLA_ANSIBLE_SOURCES
+
+EOF
+}
+
+ARGS=$(getopt -o "${SHORT_OPTIONS}" -l "${LONG_OPTIONS}" --name "$0" -- "$@") || \
+  { usage >&2; exit -1; }
+
+eval set -- ${ARGS}
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null && pwd)"
 
+DEVELOPMENT=
+INVENTORY="${SCRIPT_DIR}/../ansible_inventories.d/"
 
-#
-# kolla-ansible
-#
+KOLLA_SOURCES="${KOLLA_SOURCES:-${SCRIPT_DIR}/../../kolla}"
+KOLLA_ANSIBLE_SOURCES="${KOLLA_ANSIBLE_SOURCES:-${SCRIPT_DIR}/../../kolla-ansible}"
 
-KOLLA_ETC_EXAMPLES="$(dirname $(dirname `which kolla-ansible`))"
-KOLLA_ETC_EXAMPLES=${KOLLA_ETC_EXAMPLES}/share/kolla-ansible/etc_examples/kolla
-
-for i in globals.yml passwords.yml
-do
-  if [ -e ${SCRIPT_DIR}/etc/kolla/$i ]; then continue; fi
-  cp ${KOLLA_ETC_EXAMPLES}/$i ${SCRIPT_DIR}/etc/kolla/
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    (--help|-h)
+      usage
+      exit 0
+      ;;
+    (--development|-d)
+      DEVELOPMENT=1
+      shift
+      ;;
+    (--inventory|-i)
+      INVENTORY="$2"
+      shift 2
+      ;;
+    (--)
+      shift
+      break
+      ;;
+    (*)
+      usage >&2
+      exit -2
+      ;;
+  esac
 done
 
-sudo mkdir -p /etc/kolla
-sudo chown $USER:$USER /etc/kolla
+KOLLA=
+KOLLA_ANSIBLE=
+CONFIGURE=
 
-CONFIGS="
-config
-globals.d
-globals.yml
-passwords.yml
-"
-
-for i in $CONFIGS
-do
-  install_ln ${SCRIPT_DIR}/etc/kolla/$i /etc/kolla/$i
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    (kolla)
+      KOLLA=1
+      shift
+      ;;
+    (kolla-ansible)
+      KOLLA_ANSIBLE=1
+      shift
+      ;;
+    (configure)
+      CONFIGURE=1
+      shift
+      ;;
+    (all)
+      KOLLA_ANSIBLE=1
+      CONFIGURE=1
+      shift
+      ;;
+    (*)
+      usage >&2
+      exit -3
+      ;;
+  esac
 done
 
-# Fill blank passwords.
-kolla-genpwd
+if [ "$KOLLA" -o "$KOLLA_ANSIBLE" ]; then
+  for i in ansible kolla
+  do
+    sudo mkdir -p /etc/$i
+    sudo chown ${USER}:${USER} /etc/$i
+  done
+fi
 
+if [ "$KOLLA" ]; then
+  if [ "$DEVELOPMENT" ]; then
+    if [ ! -d "$KOLLA_SOURCES" ]; then
+      git clone https://github.com/openstack/kolla ${KOLLA_SOURCES}
+    fi
+  else
+    :
+  fi
 
-#
-# ansible
-#
+  install_ln ${SCRIPT_DIR}/etc/kolla/kolla-build.conf \
+                          /etc/kolla/kolla-build.conf
+fi
 
-sudo mkdir -p /etc/ansible
-sudo chown $USER:$USER /etc/ansible
-install_ln ${SCRIPT_DIR}/ansible/ansible.cfg /etc/ansible/ansible.cfg
+if [ "$KOLLA_ANSIBLE" ]; then
+  python3 -m pip install 'ansible==2.9.17'
+  install_ln ${SCRIPT_DIR}/etc/ansible/ansible.cfg \
+                          /etc/ansible/ansible.cfg
 
-ansible-playbook -i ansible_inventories.d/ \
-                 -u root --private-key ~/.ssh/id_rsa \
-                 ${SCRIPT_DIR}/setup_network.yml
+  if [ "$DEVELOPMENT" ]; then
+    if [ ! -d "$KOLLA_ANSIBLE_SOURCES" ]; then
+      git clone https://github.com/openstack/kolla-ansible ${KOLLA_ANSIBLE_SOURCES}
+    fi
+  else
+    python3 -m pip install 'kolla-ansible==11.0.0'
 
-ansible-playbook -i ansible_inventories.d/ \
-                 -u root --private-key ~/.ssh/id_rsa \
-                 ${SCRIPT_DIR}/setup_nfs.yml
+    KOLLA_ETC_EXAMPLES="$(dirname $(dirname `which kolla-ansible`))"
+    KOLLA_ETC_EXAMPLES=${KOLLA_ETC_EXAMPLES}/share/kolla-ansible/etc_examples/kolla
+  fi
 
-# Don't forget to restart hosts to apply network settings.
+  for i in globals.yml passwords.yml
+  do
+    if [ -e ${SCRIPT_DIR}/etc/kolla/$i ]; then continue; fi
+    cp ${KOLLA_ETC_EXAMPLES}/$i ${SCRIPT_DIR}/etc/kolla/
+  done
 
-# To mount cinder-backup.
-# sudo mount /var/nfs/cinder-backup --fstab /etc/fstab.d/nfs-cinder-backup.fstab
+  CONFIGS="
+  config
+  globals.d
+  globals.yml
+  passwords.yml
+  "
+
+  for i in $CONFIGS
+  do
+    install_ln ${SCRIPT_DIR}/etc/kolla/$i /etc/kolla/$i
+  done
+
+  # Fill blank passwords.
+  kolla-genpwd
+fi
+
+if [ "$CONFIGURE" ]; then
+  ansible-playbook -i ${INVENTORY} \
+                   -u root --private-key ~/.ssh/id_rsa \
+                   ${SCRIPT_DIR}/setup_network.yml
+
+  ansible-playbook -i ${INVENTORY} \
+                   -u root --private-key ~/.ssh/id_rsa \
+                   ${SCRIPT_DIR}/setup_nfs.yml
+
+cat<< EOF
+Don't forget to restart hosts to apply network settings.
+
+To mount cinder-backup:
+sudo mount /var/nfs/cinder-backup --fstab /etc/fstab.d/nfs-cinder-backup.fstab
+
+EOF
+fi
+
