@@ -1,0 +1,4 @@
+- name: MyEnv | openstack | setup_system
+  hosts: all
+  roles:
+    - setup_system

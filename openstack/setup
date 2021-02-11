@@ -160,6 +160,10 @@ fi
 if [ "$CONFIGURE" ]; then
   ansible-playbook -i ${INVENTORY} \
                    -u root --private-key ~/.ssh/id_rsa \
+                   ${SCRIPT_DIR}/setup_system.yml
+
+  ansible-playbook -i ${INVENTORY} \
+                   -u root --private-key ~/.ssh/id_rsa \
                    ${SCRIPT_DIR}/setup_network.yml
 
   ansible-playbook -i ${INVENTORY} \
