@@ -126,5 +126,5 @@ python3 -m pip install \
 python3 -m pip install 'ansible==2.9.17'
 
 if [ "$SYSTEM" ]; then
-  ansible-playbook -i ${INVENTORY} ${SCRIPT_DIR}/setup_system.yml
+  ansible-playbook -i ${INVENTORY} ${SCRIPT_DIR}/playbooks/setup_system.yml
 fi
