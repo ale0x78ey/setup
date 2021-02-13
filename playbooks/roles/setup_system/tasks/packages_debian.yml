@@ -1,0 +1,18 @@
+- name: setup_system [debian] | update repositories cache
+  apt: update_cache=yes
+  changed_when: False
+
+- name: setup_system [debian] | upgrade out of date packages
+  apt: upgrade=safe
+
+- name: setup_system [debian] | install ansible requirements
+  package: name="{{ item }}"
+  with_items: "{{ ansible_requirements_debian }}"
+
+- name: setup_system [debian] | install system requirements
+  package: name="{{ item }}"
+  with_items: "{{ system_requirements + system_requirements_debian }}"
+
+- name: setup_system [debian] | install python requirements
+  package: name="{{ item }}"
+  with_items: "{{ python_requirements + python_requirements_debian }}"

@@ -1,3 +1,19 @@
 python_requirements:
+  # To support remote debugging:
   - rlwrap
+  - telnet
+
+  # Testing tools:
   - tox
+
+python_requirements_debian:
+  # To support MySQL:
+  - libmysqlclient-dev
+
+  # Build dependencies:
+  - build-essential
+  - gcc
+  - libffi-dev
+  - libssl-dev
+  - python3-dev
+  - python3-venv
