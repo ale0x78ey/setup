@@ -29,6 +29,7 @@ call plug#begin('~/.vim/plugged')
 
     " A collection of language packs for Vim.
     Plug 'sheerun/vim-polyglot'
+    Plug 'pearofducks/ansible-vim'
 
     " ALE (Asynchronous Lint Engine) is a plugin
     " providing linting (syntax checking and semantic errors)

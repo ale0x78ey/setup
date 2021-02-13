@@ -1,0 +1,22 @@
+- name: setup_system | update repositories cache
+  apt: update_cache=yes
+  changed_when: False
+  when: ansible_os_family == "Debian"
+
+- name: setup_system | upgrade out of date packages
+  apt: upgrade=safe
+  when: ansible_os_family == "Debian"
+
+- name: setup_system | install ansible requirements
+  package: name="{{ item }}"
+  with_items: "{{ ansible_requirements_debian }}"
+  when: ansible_os_family == "Debian"
+
+- name: setup_system | install system requirements
+  package: name="{{ item }}"
+  with_items: "{{ system_requirements_debian }}"
+  when: ansible_os_family == "Debian"
+
+- name: setup_system | install python requirements
+  package: name="{{ item }}"
+  with_items: "{{ python_requirements }}"
