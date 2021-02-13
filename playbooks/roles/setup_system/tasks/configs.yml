@@ -1,6 +1,6 @@
 - name: setup_system | install configs
   template:
-    src: python.conf
+    src: "{{ item }}"
     dest: "{{ ansible_env.HOME }}/.{{ item }}"
     mode: "644"
   with_items:
@@ -15,7 +15,7 @@
 
 - name: setup_system | install ssh config
   template:
-    src: ssh/config
+    src: "ssh/config"
     dest: "{{ ansible_env.HOME }}/.ssh/config"
     mode: "644"
     force: no
