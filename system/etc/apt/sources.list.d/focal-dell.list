@@ -1,8 +1,0 @@
-deb http://dell.archive.canonical.com/updates/ focal-dell public
-# deb-src http://dell.archive.canonical.com/updates/ focal-dell public
-
-deb http://dell.archive.canonical.com/updates/ focal-dell-fossa-caterpie public
-# deb-src http://dell.archive.canonical.com/updates/ focal-dell-fossa-caterpie public
-
-deb http://dell.archive.canonical.com/updates/ focal-oem public
-# deb-src http://dell.archive.canonical.com/updates/ focal-oem public
