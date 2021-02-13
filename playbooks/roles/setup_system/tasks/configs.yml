@@ -1,4 +1,21 @@
-- name: setup_system | configure | install .tmux.conf
+- name: setup_system | install configs
   template:
-    src: tmux.conf
-    dest: "{{ ansible_env.HOME }}/.tmux.conf"
+    src: python.conf
+    dest: "{{ ansible_env.HOME }}/.{{ item }}"
+    mode: "644"
+  with_items:
+    - bash_aliases
+    - bash_profile
+    - bashrc
+    - inputrc
+    - python.conf
+    - tmux.conf
+    - vim.conf
+    - vimrc
+
+- name: setup_system | install ssh config
+  template:
+    src: ssh/config
+    dest: "{{ ansible_env.HOME }}/.ssh/config"
+    mode: "644"
+    force: no
