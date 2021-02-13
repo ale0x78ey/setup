@@ -12,10 +12,14 @@
   with_items: "{{ ansible_requirements_debian }}"
   when: ansible_os_family == "Debian"
 
-- name: setup_system | install system requirements
+- name: setup_system | install system requirements [debian]
   package: name="{{ item }}"
   with_items: "{{ system_requirements_debian }}"
   when: ansible_os_family == "Debian"
+
+- name: setup_system | install system requirements
+  package: name="{{ item }}"
+  with_items: "{{ system_requirements }}"
 
 - name: setup_system | install python requirements
   package: name="{{ item }}"

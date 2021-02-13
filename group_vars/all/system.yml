@@ -1,2 +1,5 @@
 system_requirements_debian:
   - ca-certificates
+
+system_requirements:
+  - tmux

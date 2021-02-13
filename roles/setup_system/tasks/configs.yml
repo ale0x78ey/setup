@@ -1,0 +1,4 @@
+- name: setup_system | configure | install .tmux.conf
+  template:
+    src: tmux.conf
+    dest: "{{ ansible_env.HOME }}/.tmux.conf"

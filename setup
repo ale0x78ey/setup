@@ -125,8 +125,6 @@ python3 -m pip install \
 
 python3 -m pip install 'ansible==2.9.17'
 
-ANSIBLE_OPTS="-i ${INVENTORY} -u root --private-key ~/.ssh/id_rsa"
-
 if [ "$SYSTEM" ]; then
-  ansible-playbook ${ANSIBLE_OPTS} ${SCRIPT_DIR}/setup_system.yml
+  ansible-playbook -i ${INVENTORY} ${SCRIPT_DIR}/setup_system.yml
 fi
