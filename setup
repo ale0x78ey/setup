@@ -17,6 +17,7 @@ Options:
 
 Commands:
   system                 Setup system.
+  python                 Setup python.
 
 EOF
 }
@@ -94,6 +95,10 @@ while [ "$#" -gt 0 ]; do
       SYSTEM=1
       shift
       ;;
+    (python)
+      PYTHON=1
+      shift
+      ;;
     (*)
       usage >&2
       exit -3
@@ -140,4 +145,9 @@ fi
 if [ "$SYSTEM" ]; then
   ansible-playbook ${ANSIBLE_OPTIONS} \
                    ${SCRIPT_DIR}/playbooks/setup_system.yml
+fi
+
+if [ "$PYTHON" ]; then
+  ansible-playbook ${ANSIBLE_OPTIONS} \
+                   ${SCRIPT_DIR}/playbooks/setup_python.yml
 fi

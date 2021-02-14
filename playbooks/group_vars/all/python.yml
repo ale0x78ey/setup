@@ -7,13 +7,21 @@ python_requirements:
   - tox
 
 python_requirements_debian:
-  # To support MySQL:
-  - libmysqlclient-dev
-
-  # Build dependencies:
+  # Build dependencies.
   - build-essential
   - gcc
   - libffi-dev
   - libssl-dev
   - python3-dev
   - python3-venv
+
+  # To support MySQL.
+  - libmysqlclient-dev
+
+pip_packages:
+  - setuptools
+  - virtualenv
+  - wheel
+
+  # Remote debugging based on pdb.
+  - rpdb

@@ -12,7 +12,3 @@
 - name: setup_system [debian] | install system requirements
   package: name="{{ item }}"
   with_items: "{{ system_requirements + system_requirements_debian }}"
-
-- name: setup_system [debian] | install python requirements
-  package: name="{{ item }}"
-  with_items: "{{ python_requirements + python_requirements_debian }}"
