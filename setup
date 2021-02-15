@@ -1,8 +1,8 @@
 #!/bin/bash
 set -x
 
-SHORT_OPTIONS="hi:e:f"
-LONG_OPTIONS="help,inventory:,extra-variables:,force"
+SHORT_OPTIONS="hi:e:"
+LONG_OPTIONS="help,inventory:,extra-variables:"
 
 function usage() {
 cat<< EOF
@@ -15,14 +15,17 @@ Options:
   --extra-variables, -e [key=value {key=value} | JSON]
                          Pass variables to the command line for ansible-playbook.
 
-  --force, -f            Rewrite configs where this script was run.
+Commands [Deploy]:
+  configs                Install configs for all deploy tools.
+  configs-ansible        Install ansible configs.
+  configs-kolla          Install kolla configs.
 
 Commands [System]:
   system                 Setup system.
   python                 Setup python.
 
 Commands [OpenStack]:
-  openstack_network      Setup OpenStack network.
+  openstack-network      Setup OpenStack network.
   openstack              Setup OpenStack.
 
 EOF
@@ -76,22 +79,22 @@ while [ "$#" -gt 0 ]; do
       usage >&2
       exit 0
       ;;
+
     (--inventory|-i)
       INVENTORY="$2"
       shift 2
       ;;
+
     (--extra-variables|-e)
       ANSIBLE_EXTRA_VARIABLES="$2"
       shift 2
       ;;
-    (--force|-f)
-      FORCE=1
-      shift
-      ;;
+
     (--)
       shift
       break
       ;;
+
     (*)
       usage >&2
       exit -2
@@ -101,22 +104,42 @@ done
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
+    (configs)
+      CONFIGS_ANSIBLE=1
+      CONFIGS_KOLLA=1
+      shift
+      ;;
+
+    (configs-ansible)
+      CONFIGS_ANSIBLE=1
+      shift
+      ;;
+
+    (configs-kolla)
+      CONFIGS_KOLLA=1
+      shift
+      ;;
+
     (system)
       SYSTEM=1
       shift
       ;;
+
     (python)
       PYTHON=1
       shift
       ;;
+
     (openstack_network)
       OPENSTACK_NETWORK=1
       shift
       ;;
+
     (openstack)
       OPENSTACK=1
       shift
       ;;
+
     (*)
       usage >&2
       exit -3
@@ -163,7 +186,7 @@ python3 -m pip install 'ansible==2.9.17'
 # without issuing a warning.
 export ANSIBLE_TRANSFORM_INVALID_GROUP_CHARS='ignore'
 
-if [ ! -d /etc/ansible -o "$FORCE" ]; then
+if [ "$CONFIGS_ANSIBLE" ]; then
   USER_GROUP=`groups | cut -d" " -f1`
   sudo mkdir -p /etc/ansible
   sudo chown ${USER}:${USER_GROUP} /etc/ansible
@@ -171,6 +194,13 @@ if [ ! -d /etc/ansible -o "$FORCE" ]; then
                      /etc/ansible/ansible.cfg
 fi
 
+if [ "$CONFIGS_KOLLA" ]; then
+  USER_GROUP=`groups | cut -d" " -f1`
+  sudo mkdir -p /etc/kolla
+  sudo chown ${USER}:${USER_GROUP} /etc/kolla
+  rm -rf /etc/kolla/config
+  cp -rf ${SCRIPT_DIR}/etc/kolla/* /etc/kolla/
+fi
 
 if [ "$SYSTEM" ]; then
   ansible-playbook -i "${INVENTORY}" \
