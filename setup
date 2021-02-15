@@ -146,6 +146,13 @@ python3 -m pip install 'ansible==2.9.17'
 # without issuing a warning.
 export ANSIBLE_TRANSFORM_INVALID_GROUP_CHARS='ignore'
 
+USER_GROUP=$(groups | cut -d" " -f1)
+sudo mkdir -p /etc/ansible
+sudo chown ${USER}:${USER_GROUP} /etc/ansible
+cp -f ${SCRIPT_DIR}/etc/ansible/ansible.cfg \
+                   /etc/ansible/ansible.cfg
+
+
 if [ "$SYSTEM" ]; then
   ansible-playbook -i "${INVENTORY}" \
                    -e "${ANSIBLE_EXTRA_VARIABLES}" \
