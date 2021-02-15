@@ -1,8 +1,8 @@
 #!/bin/bash
 set -x
 
-SHORT_OPTIONS="hi:e:"
-LONG_OPTIONS="help,inventory:,extra-variables:"
+SHORT_OPTIONS="hi:e:f"
+LONG_OPTIONS="help,inventory:,extra-variables:,force"
 
 function usage() {
 cat<< EOF
@@ -15,9 +15,12 @@ Options:
   --extra-variables, -e [key=value {key=value} | JSON]
                          Pass variables to the command line for ansible-playbook.
 
+  --force, -f            Rewrite configs where this script was run.
+
 Commands:
   system                 Setup system.
   python                 Setup python.
+  openstack              Setup openstack.
 
 EOF
 }
@@ -78,6 +81,10 @@ while [ "$#" -gt 0 ]; do
       ANSIBLE_EXTRA_VARIABLES="$2"
       shift 2
       ;;
+    (--force|-f)
+      FORCE=1
+      shift
+      ;;
     (--)
       shift
       break
@@ -97,6 +104,10 @@ while [ "$#" -gt 0 ]; do
       ;;
     (python)
       PYTHON=1
+      shift
+      ;;
+    (openstack)
+      OPENSTACK=1
       shift
       ;;
     (*)
@@ -122,7 +133,6 @@ if ! `python3 -m pip &>/dev/null`; then
 fi
 
 VENV_DIR=${SCRIPT_DIR}/.venv
-
 if [[ ! -d ${VENV_DIR} ]]; then
   python3 -m venv ${VENV_DIR}
 fi
@@ -142,15 +152,17 @@ python3 -m pip install 'ansible==2.9.17'
 # issue. When 'ignore', it does the same as 'never',
 # without issuing a warning. When 'always' it will
 # replace any invalid characters with '_' and warn
-# the userWhen 'silently', it does the same as 'always',
+# the user. When 'silently', it does the same as 'always',
 # without issuing a warning.
 export ANSIBLE_TRANSFORM_INVALID_GROUP_CHARS='ignore'
 
-USER_GROUP=$(groups | cut -d" " -f1)
-sudo mkdir -p /etc/ansible
-sudo chown ${USER}:${USER_GROUP} /etc/ansible
-cp -f ${SCRIPT_DIR}/etc/ansible/ansible.cfg \
-                   /etc/ansible/ansible.cfg
+if [ ! -d /etc/ansible -o "$FORCE" ]; then
+  USER_GROUP=`groups | cut -d" " -f1`
+  sudo mkdir -p /etc/ansible
+  sudo chown ${USER}:${USER_GROUP} /etc/ansible
+  cp -f ${SCRIPT_DIR}/etc/ansible/ansible.cfg \
+                     /etc/ansible/ansible.cfg
+fi
 
 
 if [ "$SYSTEM" ]; then
@@ -163,4 +175,10 @@ if [ "$PYTHON" ]; then
   ansible-playbook -i "${INVENTORY}" \
                    -e "${ANSIBLE_EXTRA_VARIABLES}" \
                    ${SCRIPT_DIR}/playbooks/setup_python.yml
+fi
+
+if [ "$OPENSTACK" ]; then
+  ansible-playbook -i "${INVENTORY}" \
+                   -e "${ANSIBLE_EXTRA_VARIABLES}" \
+                   ${SCRIPT_DIR}/playbooks/setup_openstack.yml
 fi
