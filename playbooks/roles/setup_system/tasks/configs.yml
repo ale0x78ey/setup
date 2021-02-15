@@ -1,5 +1,5 @@
 - name: setup_system | install configs
-  template:
+  copy:
     src: "{{ item }}"
     dest: "{{ ansible_env.HOME }}/.{{ item }}"
     mode: "644"
@@ -13,7 +13,7 @@
     - vimrc
 
 - name: setup_system | install ssh config
-  template:
+  copy:
     src: "ssh/config"
     dest: "{{ ansible_env.HOME }}/.ssh/config"
     mode: "644"

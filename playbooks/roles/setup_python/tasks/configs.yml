@@ -1,5 +1,5 @@
 - name: setup_python | install python.conf
-  template:
+  copy:
     src: "python.conf"
     dest: "{{ ansible_env.HOME }}/.python.conf"
     mode: "644"
