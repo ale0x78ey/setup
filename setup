@@ -136,18 +136,24 @@ python3 -m pip install \
 
 python3 -m pip install 'ansible==2.9.17'
 
-ANSIBLE_OPTIONS="-i ${INVENTORY}"
-
-if [ "${ANSIBLE_EXTRA_VARIABLES}" ]; then
-  ANSIBLE_OPTIONS="-e \"${ANSIBLE_EXTRA_VARIABLES}\" ${ANSIBLE_OPTIONS}"
-fi
+# Make ansible transform invalid characters in group
+# names supplied by inventory sources. If 'never' it
+# will allow for the group name but warn about the
+# issue. When 'ignore', it does the same as 'never',
+# without issuing a warning. When 'always' it will
+# replace any invalid characters with '_' and warn
+# the userWhen 'silently', it does the same as 'always',
+# without issuing a warning.
+export ANSIBLE_TRANSFORM_INVALID_GROUP_CHARS='ignore'
 
 if [ "$SYSTEM" ]; then
-  ansible-playbook ${ANSIBLE_OPTIONS} \
+  ansible-playbook -i "${INVENTORY}" \
+                   -e "${ANSIBLE_EXTRA_VARIABLES}" \
                    ${SCRIPT_DIR}/playbooks/setup_system.yml
 fi
 
 if [ "$PYTHON" ]; then
-  ansible-playbook ${ANSIBLE_OPTIONS} \
+  ansible-playbook -i "${INVENTORY}" \
+                   -e "${ANSIBLE_EXTRA_VARIABLES}" \
                    ${SCRIPT_DIR}/playbooks/setup_python.yml
 fi

@@ -1,0 +1,8 @@
+- name: setup_python | install -U pip
+  pip:
+    name: pip
+    extra_args: "-U"
+
+- name: setup_python | install pip packages
+  pip:
+    name: "{{ pip_packages }}"

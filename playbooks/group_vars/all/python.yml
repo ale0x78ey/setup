@@ -1,4 +1,6 @@
 python_requirements:
+  - python3
+
   # To support remote debugging:
   - rlwrap
   - telnet
@@ -7,13 +9,15 @@ python_requirements:
   - tox
 
 python_requirements_debian:
+  - python3-pip
+  - python3-venv
+
   # Build dependencies.
   - build-essential
   - gcc
   - libffi-dev
   - libssl-dev
   - python3-dev
-  - python3-venv
 
   # To support MySQL.
   - libmysqlclient-dev
@@ -25,3 +29,5 @@ pip_packages:
 
   # Remote debugging based on pdb.
   - rpdb
+
+install_pip_packages: "{{ myenv_install_pip_packages | default(false) | bool }}"
