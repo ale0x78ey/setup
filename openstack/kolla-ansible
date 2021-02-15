@@ -1,4 +1,0 @@
-#!/bin/bash
-
-export EXTRA_OPTS="--private-key ~/.ssh/id_rsa -u root"
-kolla-ansible -i ansible_inventories.d/ $@
