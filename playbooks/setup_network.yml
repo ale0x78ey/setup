@@ -1,0 +1,4 @@
+- name: MyEnv | setup_network
+  hosts: '{{ myenv_hosts | default("home_servers") }}'
+  roles:
+    - setup_network

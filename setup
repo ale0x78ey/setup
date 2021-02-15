@@ -17,10 +17,13 @@ Options:
 
   --force, -f            Rewrite configs where this script was run.
 
-Commands:
+Commands [System]:
   system                 Setup system.
   python                 Setup python.
-  openstack              Setup openstack.
+
+Commands [OpenStack]:
+  openstack_network      Setup OpenStack network.
+  openstack              Setup OpenStack.
 
 EOF
 }
@@ -106,6 +109,10 @@ while [ "$#" -gt 0 ]; do
       PYTHON=1
       shift
       ;;
+    (openstack_network)
+      OPENSTACK_NETWORK=1
+      shift
+      ;;
     (openstack)
       OPENSTACK=1
       shift
@@ -175,6 +182,16 @@ if [ "$PYTHON" ]; then
   ansible-playbook -i "${INVENTORY}" \
                    -e "${ANSIBLE_EXTRA_VARIABLES}" \
                    ${SCRIPT_DIR}/playbooks/setup_python.yml
+fi
+
+if [ "$OPENSTACK_NETWORK" ]; then
+  ansible-playbook -i "${INVENTORY}" \
+                   -e "${ANSIBLE_EXTRA_VARIABLES}" \
+                   ${SCRIPT_DIR}/playbooks/setup_network.yml
+
+cat<< EOF
+Don't forget to reload configured hosts to apply network settings.
+EOF
 fi
 
 if [ "$OPENSTACK" ]; then

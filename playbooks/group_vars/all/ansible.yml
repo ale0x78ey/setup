@@ -1,5 +1,3 @@
-ansible_python_interpreter: /usr/bin/python3
-
 ansible_requirements_debian:
   - aptitude
   - git
@@ -7,3 +5,5 @@ ansible_requirements_debian:
   - python3-apt
   - python3-pexpect
   - python3-pip
+
+ansible_python_interpreter: /usr/bin/python3

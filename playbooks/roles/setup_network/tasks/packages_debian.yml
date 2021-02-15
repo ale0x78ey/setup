@@ -1,0 +1,19 @@
+- name: setup_network [debian] | update repositories cache
+  apt: update_cache=yes
+  changed_when: False
+
+- name: setup_network [debian] | upgrade out of date packages
+  apt: upgrade=safe
+
+- name: setup_network [debian] | install ansible requirements
+  package: name="{{ item }}"
+  with_items: "{{ ansible_requirements_debian }}"
+
+- name: setup_network [debian] | install network requirements
+  package: name="{{ item }}"
+  with_items: "{{ network_requirements_debian }}"
+
+- name: setup_network [debian] | install network requirements [nm]
+  package: name="{{ item }}"
+  with_items: "{{ network_requirements_debian_nm }}"
+  when: network_manager == "nm"

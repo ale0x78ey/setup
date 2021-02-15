@@ -1,2 +1,6 @@
-desktop1 ansible_host=192.168.1.70
 dell1 ansible_host=192.168.1.75
+desktop1 ansible_host=192.168.1.70
+
+[home_servers]
+dell1
+desktop1
