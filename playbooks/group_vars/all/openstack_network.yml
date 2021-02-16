@@ -20,8 +20,6 @@ network_interfaces:
       cidr: "192.168.1.70/24"
       addr: "192.168.1.70"
 
-  # This host name is explicitly used in
-  # setup_nfs_client/templates/ets/fstab.d/...
   dell1:
     macvlan0:
       cidr: "192.168.1.21/24"

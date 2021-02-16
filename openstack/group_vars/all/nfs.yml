@@ -1,8 +1,0 @@
-nfs_path: "/var/nfs"
-cinder_backup_nfs_path: "{{ nfs_path }}/cinder-backup"
-
-nfs_client_requirements:
-  - nfs-common
-
-nfs_server_requirements:
-  - nfs-kernel-server

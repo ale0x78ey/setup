@@ -1,0 +1,4 @@
+- name: MyEnv | setup_nfs_clients
+  hosts: nfs_clients
+  roles:
+    - setup_nfs_clients

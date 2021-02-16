@@ -1,0 +1,5 @@
+[nfs_servers]
+dell1
+
+[nfs_clients]
+desktop1

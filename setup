@@ -26,6 +26,9 @@ Commands [System]:
 
 Commands [OpenStack]:
   openstack-network      Setup OpenStack network.
+  openstack-nfs-servers  Setup OpenStack nfs servers.
+  openstack-nfs-clients  Setup OpenStack nfs clients.
+  openstack-nfs          Setup OpenStack nfs servers and clients.
   openstack              Setup OpenStack.
 
 EOF
@@ -130,13 +133,31 @@ while [ "$#" -gt 0 ]; do
       shift
       ;;
 
-    (openstack_network)
+    (openstack-network)
       OPENSTACK_NETWORK=1
       shift
       ;;
 
+    (openstack-nfs-servers)
+      OPENSTACK_NFS_SERVERS=1
+      shift
+      ;;
+
+    (openstack-nfs-clients)
+      OPENSTACK_NFS_CLIENTS=1
+      shift
+      ;;
+
+    (openstack-nfs)
+      OPENSTACK_NFS_SERVERS=1
+      OPENSTACK_NFS_CLIENTS=1
+      shift
+      ;;
+
     (openstack)
-      OPENSTACK=1
+      OPENSTACK_NETWORK=1
+      OPENSTACK_NFS_SERVERS=1
+      OPENSTACK_NFS_CLIENTS=1
       shift
       ;;
 
@@ -224,8 +245,18 @@ Don't forget to reload configured hosts to apply network settings.
 EOF
 fi
 
-if [ "$OPENSTACK" ]; then
+if [ "$OPENSTACK_NFS_SERVERS" ]; then
   ansible-playbook -i "${INVENTORY}" \
                    -e "${ANSIBLE_EXTRA_VARIABLES}" \
-                   ${SCRIPT_DIR}/playbooks/setup_openstack.yml
+                   ${SCRIPT_DIR}/playbooks/setup_nfs_servers.yml
+fi
+
+if [ "$OPENSTACK_NFS_CLIENTS" ]; then
+  ansible-playbook -i "${INVENTORY}" \
+                   -e "${ANSIBLE_EXTRA_VARIABLES}" \
+                   ${SCRIPT_DIR}/playbooks/setup_nfs_clients.yml
+cat<< EOF
+To mount cinder-backup:
+sudo mount /var/nfs/cinder-backup --fstab /etc/fstab.d/nfs-cinder-backup.fstab
+EOF
 fi

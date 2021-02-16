@@ -1,0 +1,19 @@
+- name: setup_nfs_clients [debian] | create nfs directory
+  file:
+    path: "{{ nfs_path }}"
+    mode: "0777"
+    owner: nobody
+    group: nogroup
+    state: directory
+    recurse: yes
+
+- name: setup_nfs_clients [debian] | create /etc/fstab.d directory
+  file:
+    path: "/etc/fstab.d"
+    mode: "644"
+    state: directory
+
+- name: setup_nfs_clients [debian] | install /etc/fstab.d/nfs.fstab
+  template:
+    src: etc/fstab.d/nfs.fstab.j2
+    dest: "/etc/fstab.d/nfs.fstab"
