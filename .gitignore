@@ -7,4 +7,4 @@
 *.swn
 *.swo
 
-openvpn/files/
+etc/kolla/passwords.yml

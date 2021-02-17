@@ -19,6 +19,7 @@ Commands [Deploy]:
   configs                Install configs for all deploy tools.
   configs-ansible        Install ansible configs.
   configs-kolla          Install kolla configs.
+  kolla-ansible          Install kolla-ansible.
 
 Commands [System]:
   system                 Setup system.
@@ -123,6 +124,11 @@ while [ "$#" -gt 0 ]; do
       shift
       ;;
 
+    (kolla-ansible)
+      KOLLA_ANSIBLE=1
+      shift
+      ;;
+
     (system)
       SYSTEM=1
       shift
@@ -223,6 +229,25 @@ if [ "$CONFIGS_KOLLA" ]; then
   cp -rf ${SCRIPT_DIR}/etc/kolla/* /etc/kolla/
 fi
 
+if [ "$KOLLA_ANSIBLE" ]; then
+  python3 -m pip install 'kolla-ansible==11.0.0'
+
+  KOLLA_ETC_EXAMPLES="$(dirname $(dirname `which kolla-ansible`))"
+  KOLLA_ETC_EXAMPLES=${KOLLA_ETC_EXAMPLES}/share/kolla-ansible/etc_examples/kolla
+
+  for i in globals.yml passwords.yml
+  do
+    if [ -e ${SCRIPT_DIR}/etc/kolla/$i ]; then continue; fi
+    cp ${KOLLA_ETC_EXAMPLES}/$i ${SCRIPT_DIR}/etc/kolla/
+  done
+
+  ln -fns ${SCRIPT_DIR}/etc/kolla/passwords.yml \
+                       /etc/kolla/passwords.yml
+
+  # Fill blank passwords.
+  kolla-genpwd
+fi
+
 if [ "$SYSTEM" ]; then
   ansible-playbook -i "${INVENTORY}" \
                    -e "${ANSIBLE_EXTRA_VARIABLES}" \
@@ -257,6 +282,6 @@ if [ "$OPENSTACK_NFS_CLIENTS" ]; then
                    ${SCRIPT_DIR}/playbooks/setup_nfs_clients.yml
 cat<< EOF
 To mount cinder-backup:
-sudo mount /var/nfs/cinder-backup --fstab /etc/fstab.d/nfs-cinder-backup.fstab
+sudo mount /var/nfs/cinder-backup --fstab /etc/fstab.d/nfs.fstab
 EOF
 fi
