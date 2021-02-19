@@ -61,7 +61,7 @@ kolla_external_vip_address: "192.168.1.11"
 ################
 
 # Custom docker registry settings:
-#docker_registry:
+docker_registry: "192.168.1.70:4000"
 #docker_registry_insecure: "{{ 'yes' if docker_registry else 'no' }}"
 #docker_registry_username:
 # docker_registry_password is set in the passwords.yml file.
