@@ -66,7 +66,12 @@ fi
 
 if [[ "`uname -s`" == "Linux" ]]; then
   install() {
-    :
+    if [[ "`which apt-get`" ]]; then
+      sudo apt-get install -y $@
+    else
+      echo "Unsupported system!"
+      exit -4
+    fi
   }
 fi
 
@@ -264,10 +269,14 @@ if [ "$KOLLA_BUILD" ]; then
       pushd ${KOLLA_SOURCES}
       # tag stable/victoria.
       git checkout ff3192af9e3e54d528235c616d393fc88aaef0db
-      if [ ! -e "${SCRIPT_DIR}/etc/kolla/kolla-build.conf" ]; then
-        install tox && tox -e genconfig
-        cp etc/kolla/kolla-build.conf "${SCRIPT_DIR}/etc/kolla/kolla-build.conf"
-      fi
+      popd
+    fi
+  fi
+  if [ ! -e "${SCRIPT_DIR}/etc/kolla/kolla-build.conf" ]; then
+    if [ -d "$KOLLA_SOURCES" ]; then
+      pushd ${KOLLA_SOURCES}
+      install tox && tox -e genconfig
+      cp etc/kolla/kolla-build.conf "${SCRIPT_DIR}/etc/kolla/kolla-build.conf"
       popd
     fi
   fi
