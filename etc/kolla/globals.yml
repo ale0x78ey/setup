@@ -17,17 +17,13 @@ kolla_base_distro: "ubuntu"
 # Valid options are [ binary, source ]
 kolla_install_type: "source"
 
-# Do not override this unless you know what you are doing.
 openstack_release: "victoria"
 
 # Docker image tag used by default.
-#openstack_tag: "{{ openstack_release ~ openstack_tag_suffix }}"
+openstack_tag: "{{ openstack_release }}"
 
-# Suffix applied to openstack_release to generate openstack_tag.
-#openstack_tag_suffix: ""
-
-# Location of configuration overrides
-#node_custom_config: "/etc/kolla/config"
+# Location of configuration overrides.
+node_custom_config: "/etc/kolla/config"
 
 # This should be a VIP, an unused IP on your network that will float between
 # the hosts running keepalived for high-availability. If you want to run an
@@ -62,6 +58,7 @@ kolla_external_vip_address: "192.168.1.11"
 
 # Custom docker registry settings:
 docker_registry: "192.168.1.70:4000"
+docker_registry_insecure: "yes"
 #docker_registry_insecure: "{{ 'yes' if docker_registry else 'no' }}"
 #docker_registry_username:
 # docker_registry_password is set in the passwords.yml file.
