@@ -19,6 +19,7 @@ Commands [Deploy]:
   configs                Install configs for all deploy tools.
   configs-ansible        Install ansible configs.
   configs-kolla          Install kolla configs.
+  configs-kolla-build    Install kolla-build configs.
   kolla-ansible          Install kolla-ansible.
   kolla-build            Install kolla-build.
 
@@ -121,6 +122,7 @@ while [ "$#" -gt 0 ]; do
     (configs)
       CONFIGS_ANSIBLE=1
       CONFIGS_KOLLA=1
+      CONFIGS_KOLLA_BUILD=1
       shift
       ;;
 
@@ -131,6 +133,11 @@ while [ "$#" -gt 0 ]; do
 
     (configs-kolla)
       CONFIGS_KOLLA=1
+      shift
+      ;;
+
+    (configs-kolla-build)
+      CONFIGS_KOLLA_BUILD=1
       shift
       ;;
 
@@ -238,12 +245,19 @@ if [ "$CONFIGS_ANSIBLE" ]; then
   USER_GROUP=`groups | cut -d" " -f1`
   sudo mkdir -p /etc/ansible
   sudo chown ${USER}:${USER_GROUP} /etc/ansible
-  cp -f ${SCRIPT_DIR}/etc/ansible/ansible.cfg \
-                     /etc/ansible/ansible.cfg
+  ln -fns ${SCRIPT_DIR}/etc/ansible/ansible.cfg \
+                       /etc/ansible/ansible.cfg
 fi
+
+function make_etc_kolla() {
+  USER_GROUP=`groups | cut -d" " -f1`
+  sudo mkdir -p /etc/kolla
+  sudo chown ${USER}:${USER_GROUP} /etc/kolla
+}
 
 if [ "$KOLLA_ANSIBLE" ]; then
   python3 -m pip install 'kolla-ansible==11.0.0'
+  make_etc_kolla
 
   KOLLA_ETC_EXAMPLES="$(dirname $(dirname `which kolla-ansible`))"
   KOLLA_ETC_EXAMPLES=${KOLLA_ETC_EXAMPLES}/share/kolla-ansible/etc_examples/kolla
@@ -254,11 +268,8 @@ if [ "$KOLLA_ANSIBLE" ]; then
     cp ${KOLLA_ETC_EXAMPLES}/$i ${SCRIPT_DIR}/etc/kolla/
   done
 
-  ln -fns ${SCRIPT_DIR}/etc/kolla/passwords.yml \
-                       /etc/kolla/passwords.yml
-
   # Fill blank passwords.
-  kolla-genpwd
+  kolla-genpwd -p ${SCRIPT_DIR}/etc/kolla/passwords.yml
 fi
 
 if [ "$KOLLA_BUILD" ]; then
@@ -267,13 +278,17 @@ if [ "$KOLLA_BUILD" ]; then
     git clone https://github.com/openstack/kolla ${KOLLA_SOURCES}
     if [ -d "$KOLLA_SOURCES" ]; then
       pushd ${KOLLA_SOURCES}
-      # tag stable/victoria.
+      # Tag stable/victoria.
       git checkout ff3192af9e3e54d528235c616d393fc88aaef0db
       popd
     fi
   fi
-  if [ ! -e "${SCRIPT_DIR}/etc/kolla/kolla-build.conf" ]; then
-    if [ -d "$KOLLA_SOURCES" ]; then
+
+  if [ -d "$KOLLA_SOURCES" ]; then
+    python3 -m pip install -r \
+      ${KOLLA_SOURCES}/requirements.txt
+
+    if [ ! -e "${SCRIPT_DIR}/etc/kolla/kolla-build.conf" ]; then
       pushd ${KOLLA_SOURCES}
       install tox && tox -e genconfig
       cp etc/kolla/kolla-build.conf "${SCRIPT_DIR}/etc/kolla/kolla-build.conf"
@@ -282,12 +297,16 @@ if [ "$KOLLA_BUILD" ]; then
   fi
 fi
 
+if [ "$CONFIGS_KOLLA_BUILD" ]; then
+  make_etc_kolla
+  ln -fns ${SCRIPT_DIR}/etc/kolla/kolla-build.conf \
+                       /etc/kolla/kolla-build.conf
+fi
+
 if [ "$CONFIGS_KOLLA" ]; then
-  USER_GROUP=`groups | cut -d" " -f1`
-  sudo mkdir -p /etc/kolla
-  sudo chown ${USER}:${USER_GROUP} /etc/kolla
-  rm -rf /etc/kolla/config
-  cp -rf ${SCRIPT_DIR}/etc/kolla/* /etc/kolla/
+  make_etc_kolla
+  ln -fns ${SCRIPT_DIR}/etc/kolla/{config,globals.yml,passwords.yml} \
+                       /etc/kolla/
 fi
 
 if [ "$SYSTEM" ]; then
@@ -308,6 +327,11 @@ if [ "$DOCKER_REGISTRY" ]; then
              -p 4000:5000 \
              -v registry:/var/lib/registry \
              registry:2
+
+  sudo cp -rf ${SCRIPT_DIR}/etc/docker/* /etc/docker/
+  if [[ "`uname -s`" == "Linux" ]]; then
+    sudo systemctl restart docker
+  fi
 fi
 
 if [ "$OPENSTACK_NETWORK" ]; then
