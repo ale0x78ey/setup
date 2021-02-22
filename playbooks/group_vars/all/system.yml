@@ -3,3 +3,38 @@ system_requirements:
 
 system_requirements_debian:
   - ca-certificates
+
+python_requirements:
+  - python3
+
+  # To support remote debugging:
+  - rlwrap
+  - telnet
+
+  # Testing tools:
+  - tox
+
+python_requirements_debian:
+  - python3-pip
+  - python3-venv
+
+  # Build dependencies.
+  - build-essential
+  - gcc
+  - libffi-dev
+  - libssl-dev
+  - python3-dev
+
+  # To support MySQL.
+  - libmysqlclient-dev
+
+python_requirements_pip:
+  - setuptools
+  - virtualenv
+  - wheel
+
+  # Remote debugging based on pdb.
+  - rpdb
+
+ruby_requirements_darwin:
+  - rbenv

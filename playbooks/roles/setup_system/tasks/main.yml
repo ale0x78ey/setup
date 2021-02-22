@@ -5,4 +5,6 @@
 - import_tasks: packages_darwin.yml
   when: ansible_os_family == "Darwin"
 
+- import_tasks: packages_pip.yml
+
 - import_tasks: configs.yml

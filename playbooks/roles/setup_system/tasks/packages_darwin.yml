@@ -1,3 +1,11 @@
 - name: setup_system [darwin] | install system requirements
   package: name="{{ item }}"
   with_items: "{{ system_requirements }}"
+
+- name: setup_system [darwin] | install requirements [python]
+  package: name="{{ item }}"
+  with_items: "{{ python_requirements }}"
+
+- name: setup_system [darwin] | install requirements [ruby]
+  package: name="{{ item }}"
+  with_items: "{{ ruby_requirements_darwin }}"
