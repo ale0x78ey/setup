@@ -2,3 +2,5 @@
   hosts: '{{ myenv_hosts | default("localhost") }}'
   roles:
     - setup_system
+    - setup_python
+    - setup_ruby

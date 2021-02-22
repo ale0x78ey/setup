@@ -1,4 +1,0 @@
-- name: MyEnv | setup_ruby
-  hosts: '{{ myenv_hosts | default("localhost") }}'
-  roles:
-    - setup_ruby

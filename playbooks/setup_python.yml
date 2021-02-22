@@ -1,4 +1,0 @@
-- name: MyEnv | setup_python
-  hosts: '{{ myenv_hosts | default("localhost") }}'
-  roles:
-    - setup_python
