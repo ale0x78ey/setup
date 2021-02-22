@@ -22,12 +22,10 @@ python_requirements_debian:
   # To support MySQL.
   - libmysqlclient-dev
 
-pip_packages:
+python_requirements_pip:
   - setuptools
   - virtualenv
   - wheel
 
   # Remote debugging based on pdb.
   - rpdb
-
-install_pip_packages: "{{ myenv_install_pip_packages | default(false) | bool }}"

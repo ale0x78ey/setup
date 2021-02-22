@@ -3,6 +3,6 @@
     name: pip
     extra_args: "-U"
 
-- name: setup_python | install pip packages
+- name: setup_python | install python requirements [pip]
   pip:
-    name: "{{ pip_packages }}"
+    name: "{{ python_requirements_pip }}"

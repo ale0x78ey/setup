@@ -1,0 +1,8 @@
+ruby_requirements_darwin:
+  - ruby
+  - rbenv
+
+ruby_requirements_debian:
+  - build-essential
+  - ruby-full
+  - zlib1g-dev

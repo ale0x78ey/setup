@@ -1,0 +1,3 @@
+- name: setup_ruby [darwin] | install ruby requirements
+  package: name="{{ item }}"
+  with_items: "{{ ruby_requirements_darwin }}"

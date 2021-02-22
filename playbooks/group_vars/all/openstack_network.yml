@@ -7,8 +7,7 @@ network_requirements_debian_nm:
 network_interface: "macvlan0"
 neutron_external_interface: "macvtap0"
 
-# nm (NetworkManager)
-# systemd-networkd
+# nm == NetworkManager or systemd-networkd
 network_manager: '{{ myenv_network_manager | default("nm") }}'
 
 network_interfaces:

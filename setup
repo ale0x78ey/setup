@@ -26,7 +26,9 @@ Commands [Deploy]:
 Commands [System]:
   system                 Setup system.
   python                 Setup python.
+  ruby                   Setup ruby.
   docker-registry        Setup Docker registry.
+  jekyll                 Setup Jekyll.
 
 Commands [OpenStack]:
   openstack-network      Setup OpenStack network.
@@ -163,6 +165,16 @@ while [ "$#" -gt 0 ]; do
 
     (docker-registry)
       DOCKER_REGISTRY=1
+      shift
+      ;;
+
+    (ruby)
+      RUBY=1
+      shift
+      ;;
+
+    (jekyll)
+      JEKYLL=1
       shift
       ;;
 
@@ -319,6 +331,18 @@ if [ "$PYTHON" ]; then
   ansible-playbook -i "${INVENTORY}" \
                    -e "${ANSIBLE_EXTRA_VARIABLES}" \
                    ${SCRIPT_DIR}/playbooks/setup_python.yml
+fi
+
+if [ "$RUBY" ]; then
+  ansible-playbook -i "${INVENTORY}" \
+                   -e "${ANSIBLE_EXTRA_VARIABLES}" \
+                   ${SCRIPT_DIR}/playbooks/setup_ruby.yml
+fi
+
+if [ "$JEKYLL" ]; then
+  ansible-playbook -i "${INVENTORY}" \
+                   -e "${ANSIBLE_EXTRA_VARIABLES}" \
+                   ${SCRIPT_DIR}/playbooks/setup_jekyll.yml
 fi
 
 if [ "$DOCKER_REGISTRY" ]; then

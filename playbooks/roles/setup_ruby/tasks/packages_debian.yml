@@ -1,0 +1,10 @@
+- name: setup_ruby [debian] | update repositories cache
+  apt: update_cache=yes
+  changed_when: False
+
+- name: setup_ruby [debian] | upgrade out of date packages
+  apt: upgrade=safe
+
+- name: setup_ruby [debian] | install ruby requirements
+  package: name="{{ item }}"
+  with_items: "{{ ruby_requirements_debian }}"

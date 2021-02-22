@@ -1,0 +1,5 @@
+- name: setup_ruby | install ruby.conf
+  copy:
+    src: "ruby.conf"
+    dest: "{{ ansible_env.HOME }}/.ruby.conf"
+    mode: "644"
