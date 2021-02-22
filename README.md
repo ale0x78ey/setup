@@ -11,3 +11,19 @@ sudo xcode-select --install
 pyenv install 3.9.0
 pyenv global 3.9.0
 ```
+
+## Jekyll
+
+```bash
+mkdir -p ~/Projects/myblogs
+cd ~/Projects/myblogs
+rbenv install 2.7.2
+rbenv local 2.7.2
+exec su - ${USER}
+./setup jekyll
+hash jekyll
+
+jekyll new myblog_1
+cd myblog_1
+bundle exec jekyll serve
+```

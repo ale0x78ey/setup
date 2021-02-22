@@ -3,4 +3,3 @@
     name: "{{ item }}"
     state: latest
   with_items: "{{ jekyll_requirements_gem }}"
-
