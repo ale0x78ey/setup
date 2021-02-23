@@ -85,17 +85,4 @@ if [[ "$(which brew)" ]]; then
   fi
 fi
 
-#
-# Other configs.
-#
-
-CONF_FILES="\
-python.conf
-ruby.conf
-vim.conf
-"
-
-for i in $CONF_FILES
-do
-  [ -e ~/.$i ] && source ~/.$i
-done
+source $HOME/.bash_configs.d/*.sh

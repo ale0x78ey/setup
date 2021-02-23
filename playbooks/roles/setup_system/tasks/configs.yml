@@ -4,13 +4,11 @@
     dest: "{{ ansible_env.HOME }}/.{{ item }}"
     mode: "644"
   with_items:
+    - bash_configs.d/
     - bash_aliases
     - bash_profile
     - bashrc
     - inputrc
-    - python.conf
-    - ruby.conf
-    - vim.conf
     - vimrc
 
 - name: setup_system | install ssh config
