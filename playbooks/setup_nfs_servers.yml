@@ -1,4 +1,0 @@
-- name: MyEnv | setup_nfs_servers
-  hosts: nfs_servers
-  roles:
-    - setup_nfs_servers

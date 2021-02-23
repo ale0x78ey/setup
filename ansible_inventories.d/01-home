@@ -1,0 +1,21 @@
+localhost ansible_connection=local
+
+dell1 ansible_host=192.168.1.75
+desktop1 ansible_host=192.168.1.70
+
+[openstack_hosts]
+dell1
+desktop1
+
+[nfs_servers]
+dell1
+
+[nfs_clients]
+desktop1
+
+[vpn_servers]
+desktop1
+
+[vpn_clients]
+desktop1
+dell1

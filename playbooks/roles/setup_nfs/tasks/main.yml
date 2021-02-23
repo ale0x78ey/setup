@@ -1,0 +1,11 @@
+- import_tasks: packages_debian.yml
+  become: yes
+  when: ansible_os_family == "Debian"
+
+- import_tasks: configs_server.yml
+  become: yes
+  when: host_type == "server"
+
+- import_tasks: configs_client.yml
+  become: yes
+  when: host_type == "client"

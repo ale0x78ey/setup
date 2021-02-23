@@ -1,0 +1,9 @@
+- name: setup_nfs [debian] | install requirements [server]
+  package: name="{{ item }}"
+  with_items: "{{ nfs_server_requirements_debian }}"
+  when: host_type == "server"
+
+- name: setup_nfs [debian] | install requirements [client]
+  package: name="{{ item }}"
+  with_items: "{{ nfs_client_requirements_debian }}"
+  when: host_type == "client"

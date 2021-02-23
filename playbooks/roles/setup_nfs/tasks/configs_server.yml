@@ -1,4 +1,4 @@
-- name: setup_nfs_servers [debian] | create nfs directory
+- name: setup_nfs | create nfs directory [server]
   file:
     path: "{{ nfs_path }}"
     mode: "0777"
@@ -7,18 +7,18 @@
     state: directory
     recurse: yes
 
-- name: setup_nfs_servers [debian] | create /etc/exports.d directory
+- name: setup_nfs | create /etc/exports.d directory [server]
   file:
     path: "/etc/exports.d"
     mode: "644"
     state: directory
 
-- name: setup_nfs_servers [debian] | install /etc/exports.d/nfs.exports
+- name: setup_nfs | install /etc/exports.d/nfs.exports [server]
   template:
     src: etc/exports.d/nfs.exports.j2
     dest: "/etc/exports.d/nfs.exports"
 
-- name: setup_nfs_servers [debian] | restart nfs-kernel-server
+- name: setup_nfs | restart nfs-kernel-server [server]
   systemd:
     name: nfs-kernel-server
     state: restarted

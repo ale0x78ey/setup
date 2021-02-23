@@ -10,7 +10,6 @@
     - inputrc
     - python.conf
     - ruby.conf
-    - tmux.conf
     - vim.conf
     - vimrc
 
