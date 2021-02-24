@@ -16,19 +16,12 @@ Options:
                          Pass variables to the command line for ansible-playbook.
 
 Commands [Deploy]:
-  configs                Install configs for all deploy tools.
-  configs-ansible        Install ansible configs.
-  configs-kolla          Install kolla configs.
-  configs-kolla-build    Install kolla-build configs.
   kolla-ansible          Install kolla-ansible.
   kolla-build            Install kolla-build.
 
-Commands [System]:
+Commands:
   system                 Setup system.
-  docker-registry        Setup Docker registry.
   jekyll                 Setup Jekyll.
-
-Commands [OpenStack]:
   openstack              Setup OpenStack.
 
 Environment variables:
@@ -115,28 +108,6 @@ done
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
-    (configs)
-      CONFIGS_ANSIBLE=1
-      CONFIGS_KOLLA=1
-      CONFIGS_KOLLA_BUILD=1
-      shift
-      ;;
-
-    (configs-ansible)
-      CONFIGS_ANSIBLE=1
-      shift
-      ;;
-
-    (configs-kolla)
-      CONFIGS_KOLLA=1
-      shift
-      ;;
-
-    (configs-kolla-build)
-      CONFIGS_KOLLA_BUILD=1
-      shift
-      ;;
-
     (kolla-ansible)
       KOLLA_ANSIBLE=1
       shift
@@ -149,11 +120,6 @@ while [ "$#" -gt 0 ]; do
 
     (system)
       SYSTEM=1
-      shift
-      ;;
-
-    (docker-registry)
-      DOCKER_REGISTRY=1
       shift
       ;;
 
@@ -214,14 +180,6 @@ python3 -m pip install 'ansible==2.9.17'
 # without issuing a warning.
 export ANSIBLE_TRANSFORM_INVALID_GROUP_CHARS='ignore'
 
-if [ "$CONFIGS_ANSIBLE" ]; then
-  USER_GROUP=`groups | cut -d" " -f1`
-  sudo mkdir -p /etc/ansible
-  sudo chown ${USER}:${USER_GROUP} /etc/ansible
-  ln -fns ${SCRIPT_DIR}/etc/ansible/ansible.cfg \
-                       /etc/ansible/ansible.cfg
-fi
-
 function make_etc_kolla() {
   USER_GROUP=`groups | cut -d" " -f1`
   sudo mkdir -p /etc/kolla
@@ -270,18 +228,6 @@ if [ "$KOLLA_BUILD" ]; then
   fi
 fi
 
-if [ "$CONFIGS_KOLLA_BUILD" ]; then
-  make_etc_kolla
-  ln -fns ${SCRIPT_DIR}/etc/kolla/kolla-build.conf \
-                       /etc/kolla/kolla-build.conf
-fi
-
-if [ "$CONFIGS_KOLLA" ]; then
-  make_etc_kolla
-  ln -fns ${SCRIPT_DIR}/etc/kolla/{config,globals.yml,passwords.yml} \
-                       /etc/kolla/
-fi
-
 if [ "$SYSTEM" ]; then
   ansible-playbook -i "${INVENTORY}" \
                    -e "${ANSIBLE_EXTRA_VARIABLES}" \
@@ -292,19 +238,6 @@ if [ "$JEKYLL" ]; then
   ansible-playbook -i "${INVENTORY}" \
                    -e "${ANSIBLE_EXTRA_VARIABLES}" \
                    ${SCRIPT_DIR}/playbooks/setup_jekyll.yml
-fi
-
-if [ "$DOCKER_REGISTRY" ]; then
-  docker run -d --name registry \
-             --restart=always \
-             -p 4000:5000 \
-             -v registry:/var/lib/registry \
-             registry:2
-
-  sudo cp -rf ${SCRIPT_DIR}/etc/docker/* /etc/docker/
-  if [[ "`uname -s`" == "Linux" ]]; then
-    sudo systemctl restart docker
-  fi
 fi
 
 if [ "$OPENSTACK" ]; then

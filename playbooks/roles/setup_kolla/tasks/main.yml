@@ -1,0 +1,4 @@
+- import_tasks: sources.yml
+
+- import_tasks: configs.yml
+  become: yes

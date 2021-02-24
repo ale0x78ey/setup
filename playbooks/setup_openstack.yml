@@ -15,3 +15,9 @@
   roles:
     - role: setup_nfs
       host_type: "client"
+
+- name: MyEnv | setup_openstack | setup_kolla
+  hosts: '{{ myenv_hosts | default("localhost") }}'
+  roles:
+    - setup_docker_registry
+    - setup_kolla

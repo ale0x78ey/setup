@@ -1,4 +1,4 @@
-- name: setup_system | install configs
+- name: setup_system | install $HOME/.*
   copy:
     src: "{{ item }}"
     dest: "{{ ansible_env.HOME }}/.{{ item }}"
@@ -9,9 +9,17 @@
     - bash_profile
     - bashrc
     - inputrc
+    - tmux.conf
     - vimrc
 
-- name: setup_system | install ssh config
+- name: setup_system | install etc/ansible/*
+  copy:
+    src: etc/ansible
+    dest: /etc/
+    mode: "644"
+  become: yes
+
+- name: setup_system | install ssh/config
   copy:
     src: "ssh/config"
     dest: "{{ ansible_env.HOME }}/.ssh/config"

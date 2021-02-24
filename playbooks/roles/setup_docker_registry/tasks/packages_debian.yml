@@ -1,0 +1,17 @@
+- name: setup_docker_registry [debian] | add Docker GPG apt key
+  apt_key:
+    url: "{{ docker_gpg_apt_key_url_debian }}"
+    state: present
+
+- name: setup_docker_registry [debian] | add Docker repository
+  apt_repository:
+    repo: "{{ docker_repo_debian }}"
+    state: present
+
+- name: setup_docker_registry [debian] | update repositories cache
+  apt: update_cache=yes
+  changed_when: False
+
+- name: setup_docker_registry [debian] | install requirements
+  package: name="{{ item }}"
+  with_items: "{{ docker_requirements_debian }}"

@@ -4,9 +4,6 @@ network_requirements_debian:
 network_requirements_debian_nm:
   - network-manager
 
-network_interface: "macvlan0"
-neutron_external_interface: "macvtap0"
-
 network_interfaces:
   desktop1:
     macvlan0:

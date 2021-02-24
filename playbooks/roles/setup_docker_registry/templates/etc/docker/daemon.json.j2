@@ -1,0 +1,10 @@
+{
+  "log-opts": {
+    "max-file": "5",
+    "max-size": "50m"
+  },
+
+  "insecure-registries": [
+    {{ docker_insecure_registries|map('regex_replace','(.+)','\"\\1\"')|join(',\n    ') }}
+  ]
+}

@@ -43,6 +43,8 @@ openstack_release = victoria
 
 default = chrony,cinder,cron,kolla-toolbox,fluentd,glance,haproxy,heat,horizon,iscsi,keepalived,keystone,mariadb,memcached,neutron,nova-,placement,openvswitch,rabbitmq,tgtd,karbor
 
-[karbor-base]
+{% for s in openstack_services %}
+[{{s.name}}]
 type = local
-location = /home/alexey/Projects/karbor
+location = {{ s.location }}
+{% endfor %}

@@ -1,0 +1,25 @@
+- name: setup_docker_registry [debian] | install etc/docker/daemon.json
+  template:
+    src: etc/docker/daemon.json.j2
+    dest: "/etc/docker/daemon.json"
+
+- name: setup_docker_registry [debian] | restart docker
+  systemd:
+    name: docker
+    state: restarted
+
+- name: setup_docker_registry [debian] | pull registry image
+  docker_image:
+    name: "registry:2"
+    source: pull
+
+- name: setup_docker_registry [debian] | create and run registry container
+  docker_container:
+    name: registry
+    image: registry:2
+    state: started
+    restart_policy: always
+    ports:
+      - "4000:5000"
+    volumes:
+      - registry:/var/lib/registry

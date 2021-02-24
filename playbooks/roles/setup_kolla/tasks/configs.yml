@@ -1,0 +1,15 @@
+- name: setup_kolla | create openstack_sources_path
+  file:
+    path: "{{ openstack_sources_path }}"
+    state: directory
+
+- name: setup_kolla | install etc/kolla/*
+  copy:
+    src: "etc/kolla"
+    dest: "/etc/"
+    mode: "644"
+
+- name: setup_kolla | install etc/kolla/kolla-build.conf
+  template:
+    src: etc/kolla/kolla-build.conf.j2
+    dest: "/etc/kolla/kolla-build.conf.j2"

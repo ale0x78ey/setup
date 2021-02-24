@@ -2,7 +2,11 @@ system_requirements:
   - tmux
 
 system_requirements_debian:
+  - apt-transport-https
   - ca-certificates
+  - curl
+  - gnupg-agent
+  - software-properties-common
 
 python_requirements:
   - python3

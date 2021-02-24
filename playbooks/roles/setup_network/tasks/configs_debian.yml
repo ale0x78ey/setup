@@ -1,7 +1,7 @@
-- name: setup_network | enable IPv4 forwarding
+- name: setup_network [debian] | enable IPv4 forwarding
   sysctl: name=net.ipv4.ip_forward value=1
 
-- name: setup_network | create if-{up,down}.d directories
+- name: setup_network [debian] | create if-{up,down}.d directories
   file:
     path: "/etc/network/{{ item }}"
     state: directory
@@ -9,7 +9,7 @@
     - "if-up.d"
     - "if-down.d"
 
-- name: setup_network | install if-{up,down}.d/openstack_interfaces
+- name: setup_network [debian] | install if-{up,down}.d/openstack_interfaces
   template:
     src: etc/network/{{ item }}/openstack_interfaces.j2
     dest: "/etc/network/{{ item }}/openstack_interfaces"
@@ -18,7 +18,7 @@
     - "if-up.d"
     - "if-down.d"
 
-- name: setup_network | install /etc/netplan/99-openstack-config.yml
+- name: setup_network [debian] | install /etc/netplan/99-openstack-config.yml
   template:
     src: etc/netplan/99-openstack-config.yaml.j2
     dest: "/etc/netplan/99-openstack-config.yaml"
