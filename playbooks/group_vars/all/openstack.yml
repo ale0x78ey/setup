@@ -1,16 +1,16 @@
-network_interface: "macvlan0"
-neutron_external_interface: "macvtap0"
+openstack_versions:
+  victoria:
+    kolla: ff3192af9e3e54d528235c616d393fc88aaef0db
+    karbor-base: fcca3935af26a8b1b78eabfdd345840a3a2dd8c0
 
 openstack_sources_path: "{{ ansible_env.HOME }}/Projects"
 
 openstack_kolla:
   - name: kolla
     repo: https://github.com/openstack/kolla
-    version: ff3192af9e3e54d528235c616d393fc88aaef0db
     location: "{{ openstack_sources_path }}/kolla"
 
 openstack_services:
   - name: karbor-base
     repo: https://opendev.org/openstack/karbor.git
-    version: fcca3935af26a8b1b78eabfdd345840a3a2dd8c0
     location: "{{ openstack_sources_path }}/karbor"

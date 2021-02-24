@@ -1,7 +1,7 @@
 - name: setup_kolla | git co sources
   git:
     repo: "{{ item.repo }}"
-    version: "{{ item.version }}"
+    version: "{{ openstack_versions[openstack_release][item.name] }}"
     accept_hostkey: True
     dest: "{{ item.location }}"
   with_items:

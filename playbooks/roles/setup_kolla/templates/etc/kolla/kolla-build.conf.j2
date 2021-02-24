@@ -5,7 +5,7 @@ debug = false
 
 # The distro type of the base image.
 # Possible values: centos, rhel, ubuntu, debian.
-base = ubuntu
+base = {{ kolla_base_distro }}
 
 # The base distro image tag.
 base_tag = latest
@@ -15,29 +15,29 @@ base_tag = latest
 base_arch = x86_64
 
 # The Docker tag.
-tag = $openstack_release
+tag = {{ openstack_tag }}
 
 # The Docker namespace name.
-namespace = kolla
+namespace = {{ docker_namespace }}
 
 # Build a pre-defined set of images, see [profiles] section in config.
 profile = default
 
 # The docker registry host.
-registry = "192.168.1.70:4000"
+registry = {{ docker_registry }}
 
 # Base url to OpenStack tarballs.
 tarballs_base = https://tarballs.opendev.org
 
 # The method of the OpenStack install.
 # Possible values: binary, source, rdo, rhos.
-install_type = source
+install_type = {{ kolla_install_type }}
 
 # Attempt to pull a newer version of the base image.
 pull = true
 
 # OpenStack release for building kolla-toolbox.
-openstack_release = victoria
+openstack_release = {{ openstack_release }}
 
 [profiles]
 
