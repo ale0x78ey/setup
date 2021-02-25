@@ -5,12 +5,14 @@ openstack_versions:
 
 openstack_sources_path: "{{ ansible_env.HOME }}/Projects"
 
-openstack_kolla:
+openstack_requirements_sources: "{{ openstack_kolla_source + openstack_base_sources }}"
+
+openstack_kolla_source:
   - name: kolla
     repo: https://github.com/openstack/kolla
     location: "{{ openstack_sources_path }}/kolla"
 
-openstack_services:
+openstack_base_sources:
   - name: karbor-base
     repo: https://opendev.org/openstack/karbor.git
     location: "{{ openstack_sources_path }}/karbor"

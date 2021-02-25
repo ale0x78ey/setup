@@ -29,6 +29,11 @@ python_requirements_debian:
   - libssl-dev
   - python3-dev
 
+  # To build python from pyevn.
+  - libbz2-dev
+  - libreadline-dev
+  - libsqlite3-dev
+
   # To support MySQL.
   - libmysqlclient-dev
 
@@ -39,6 +44,11 @@ python_requirements_pip:
 
   # Remote debugging based on pdb.
   - rpdb
+
+python_requirements_sources:
+  - name: pyenv
+    repo: https://github.com/pyenv/pyenv.git
+    location: "{{ ansible_env.HOME }}/.pyenv"
 
 ruby_requirements_darwin:
   - rbenv

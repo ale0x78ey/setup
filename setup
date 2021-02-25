@@ -11,21 +11,12 @@ Usage: $0 COMMANDS [options]
 Options:
   --help, -h             Display help text.
   --inventory, -i <path> Specify path to ansible inventory file or directory.
-
   --extra-variables, -e [key=value {key=value} | JSON]
                          Pass variables to the command line for ansible-playbook.
 
-Commands [Deploy]:
-  kolla-ansible          Install kolla-ansible.
-  kolla-build            Install kolla-build.
-
 Commands:
   system                 Setup system.
-  jekyll                 Setup Jekyll.
   openstack              Setup OpenStack.
-
-Environment variables:
-  KOLLA_SOURCES
 
 EOF
 }
@@ -108,23 +99,8 @@ done
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
-    (kolla-ansible)
-      KOLLA_ANSIBLE=1
-      shift
-      ;;
-
-    (kolla-build)
-      KOLLA_BUILD=1
-      shift
-      ;;
-
     (system)
       SYSTEM=1
-      shift
-      ;;
-
-    (jekyll)
-      JEKYLL=1
       shift
       ;;
 
@@ -156,12 +132,11 @@ if ! `python3 -m pip &>/dev/null`; then
   curl https://bootstrap.pypa.io/get-pip.py | python3 -
 fi
 
-VENV_DIR=${SCRIPT_DIR}/.venv
-if [[ ! -d ${VENV_DIR} ]]; then
-  python3 -m venv ${VENV_DIR}
+if [[ ! -e ${SCRIPT_DIR}/.venv ]]; then
+  python3 -m venv ${SCRIPT_DIR}/.venv
 fi
 
-. ${VENV_DIR}/bin/activate && trap deactivate EXIT
+. ${SCRIPT_DIR}/.venv/bin/activate && trap deactivate EXIT
 
 python3 -m pip install -U pip
 python3 -m pip install \
@@ -169,6 +144,7 @@ python3 -m pip install \
   wheel
 
 python3 -m pip install 'ansible==2.9.17'
+python3 -m pip install 'kolla-ansible==11.0.0'
 
 # Make ansible transform invalid characters in group
 # names supplied by inventory sources. If 'never' it
@@ -180,64 +156,10 @@ python3 -m pip install 'ansible==2.9.17'
 # without issuing a warning.
 export ANSIBLE_TRANSFORM_INVALID_GROUP_CHARS='ignore'
 
-function make_etc_kolla() {
-  USER_GROUP=`groups | cut -d" " -f1`
-  sudo mkdir -p /etc/kolla
-  sudo chown ${USER}:${USER_GROUP} /etc/kolla
-}
-
-if [ "$KOLLA_ANSIBLE" ]; then
-  python3 -m pip install 'kolla-ansible==11.0.0'
-  make_etc_kolla
-
-  KOLLA_ETC_EXAMPLES="$(dirname $(dirname `which kolla-ansible`))"
-  KOLLA_ETC_EXAMPLES=${KOLLA_ETC_EXAMPLES}/share/kolla-ansible/etc_examples/kolla
-
-  for i in globals.yml passwords.yml
-  do
-    if [ -e ${SCRIPT_DIR}/etc/kolla/$i ]; then continue; fi
-    cp ${KOLLA_ETC_EXAMPLES}/$i ${SCRIPT_DIR}/etc/kolla/
-  done
-
-  # Fill blank passwords.
-  kolla-genpwd -p ${SCRIPT_DIR}/etc/kolla/passwords.yml
-fi
-
-if [ "$KOLLA_BUILD" ]; then
-  KOLLA_SOURCES="${KOLLA_SOURCES:-${SCRIPT_DIR}/../kolla}"
-  if [ ! -d "$KOLLA_SOURCES" ]; then
-    git clone https://github.com/openstack/kolla ${KOLLA_SOURCES}
-    if [ -d "$KOLLA_SOURCES" ]; then
-      pushd ${KOLLA_SOURCES}
-      # Tag stable/victoria.
-      git checkout ff3192af9e3e54d528235c616d393fc88aaef0db
-      popd
-    fi
-  fi
-
-  if [ -d "$KOLLA_SOURCES" ]; then
-    python3 -m pip install -r \
-      ${KOLLA_SOURCES}/requirements.txt
-
-    if [ ! -e "${SCRIPT_DIR}/etc/kolla/kolla-build.conf" ]; then
-      pushd ${KOLLA_SOURCES}
-      install tox && tox -e genconfig
-      cp etc/kolla/kolla-build.conf "${SCRIPT_DIR}/etc/kolla/kolla-build.conf"
-      popd
-    fi
-  fi
-fi
-
 if [ "$SYSTEM" ]; then
   ansible-playbook -i "${INVENTORY}" \
                    -e "${ANSIBLE_EXTRA_VARIABLES}" \
                    ${SCRIPT_DIR}/playbooks/setup_system.yml
-fi
-
-if [ "$JEKYLL" ]; then
-  ansible-playbook -i "${INVENTORY}" \
-                   -e "${ANSIBLE_EXTRA_VARIABLES}" \
-                   ${SCRIPT_DIR}/playbooks/setup_jekyll.yml
 fi
 
 if [ "$OPENSTACK" ]; then

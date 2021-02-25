@@ -1,4 +1,0 @@
-- name: MyEnv | setup_jekyll
-  hosts: '{{ myenv_hosts | default("localhost") }}'
-  roles:
-    - setup_jekyll

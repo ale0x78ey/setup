@@ -7,4 +7,6 @@
 
 - import_tasks: packages_pip.yml
 
+- import_tasks: sources.yml
+
 - import_tasks: configs.yml

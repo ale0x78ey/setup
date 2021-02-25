@@ -1,3 +1,8 @@
+- name: setup_kolla | create openstack_sources_path
+  file:
+    path: "{{ openstack_sources_path }}"
+    state: directory
+
 - name: setup_kolla | git co sources
   git:
     repo: "{{ item.repo }}"
@@ -5,5 +10,4 @@
     accept_hostkey: True
     dest: "{{ item.location }}"
   with_items:
-    - "{{ openstack_kolla }}"
-    - "{{ openstack_services }}"
+    - "{{ openstack_requirements_sources }}"

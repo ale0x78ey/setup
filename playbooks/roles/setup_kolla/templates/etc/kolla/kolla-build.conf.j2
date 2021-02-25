@@ -43,7 +43,7 @@ openstack_release = {{ openstack_release }}
 
 default = chrony,cinder,cron,kolla-toolbox,fluentd,glance,haproxy,heat,horizon,iscsi,keepalived,keystone,mariadb,memcached,neutron,nova-,placement,openvswitch,rabbitmq,tgtd,karbor
 
-{% for s in openstack_services %}
+{% for s in openstack_base_sources %}
 [{{s.name}}]
 type = local
 location = {{ s.location }}
