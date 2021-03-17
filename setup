@@ -133,6 +133,7 @@ if [[ ! "`which pip3`" ]]; then
   curl https://bootstrap.pypa.io/get-pip.py | python3 -
 fi
 
+pip3 install -U certifi
 pip3 install setuptools wheel
 pip3 install ansible==2.9.17
 pip3 install kolla-ansible==11.0.0
