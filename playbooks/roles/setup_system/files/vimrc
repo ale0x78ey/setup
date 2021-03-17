@@ -276,6 +276,8 @@ function! SetPythonOptions()
 endfun
 
 function! SetMarkdownOptions()
+    setlocal nowrap
+
     " Inc header level.
     nnoremap <buffer> <TAB> :s/^\(#*\) \?\(.*\)/#\1 \2/g<CR>
     " Dec header level.

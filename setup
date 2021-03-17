@@ -129,23 +129,13 @@ if [[ "`uname -s`" == "Linux" ]]; then
           python3-venv
 fi
 
-if ! `python3 -m pip &>/dev/null`; then
+if [[ ! "`which pip3`" ]]; then
   curl https://bootstrap.pypa.io/get-pip.py | python3 -
 fi
 
-if [[ ! -e ${SCRIPT_DIR}/.venv ]]; then
-  python3 -m venv ${SCRIPT_DIR}/.venv
-fi
-
-. ${SCRIPT_DIR}/.venv/bin/activate && trap deactivate EXIT
-
-python3 -m pip install -U pip
-python3 -m pip install \
-  setuptools \
-  wheel
-
-python3 -m pip install 'ansible==2.9.17'
-python3 -m pip install 'kolla-ansible==11.0.0'
+pip3 install setuptools wheel
+pip3 install ansible==2.9.17
+pip3 install kolla-ansible==11.0.0
 
 # Make ansible transform invalid characters in group
 # names supplied by inventory sources. If 'never' it

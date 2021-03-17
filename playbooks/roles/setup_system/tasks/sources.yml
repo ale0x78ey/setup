@@ -3,5 +3,6 @@
     repo: "{{ item.repo }}"
     accept_hostkey: True
     dest: "{{ item.location }}"
+    update: no
   with_items:
     - "{{ python_requirements_sources }}"
