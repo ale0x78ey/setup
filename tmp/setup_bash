@@ -1,7 +1,0 @@
-#!/bin/bash
-set -x
-
-if [[ "`uname -s`" == "Linux" ]]; then
-  sudo apt install locales
-  sudo localedef -i en_US -f UTF-8 en_US.UTF-8
-fi
