@@ -7,5 +7,5 @@
 "\e[1;3D": backward-word
 
 # Down/Up
-"\e[B":history-search-forward
-"\e[A":history-search-backward
+"\e[B": history-search-forward
+"\e[A": history-search-backward

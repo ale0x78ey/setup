@@ -54,6 +54,8 @@ if [[ "`uname -s`" == "Linux" ]]; then
       exit -4
     fi
   }
+
+  export PATH="$HOME/.local/bin:$PATH"
 fi
 
 ARGS=$(getopt -o "${SHORT_OPTIONS}" -l "${LONG_OPTIONS}" --name "$0" -- "$@")

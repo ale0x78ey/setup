@@ -6,6 +6,7 @@ system_requirements_debian:
   - ca-certificates
   - curl
   - gnupg-agent
+  - locales
   - software-properties-common
 
 python_requirements:

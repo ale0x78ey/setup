@@ -25,3 +25,8 @@
     dest: "{{ ansible_env.HOME }}/.ssh/config"
     mode: "644"
     force: no
+
+- name: setup_system | install EN locale
+  locale_gen:
+    name: "en_US.UTF-8"
+    state: present
