@@ -1,0 +1,8 @@
+- name: setup_docker_registry | install -U pip
+  pip:
+    name: pip
+    extra_args: "-U"
+
+- name: setup_docker_registry | install requirements [pip]
+  pip:
+    name: "{{ docker_requirements_pip }}"

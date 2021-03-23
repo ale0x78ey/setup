@@ -6,6 +6,9 @@ docker_requirements_debian:
   - docker-ce-cli
   - containerd.io
 
+docker_requirements_pip:
+  - docker-py
+
 docker_gpg_apt_key_url_debian: "https://download.docker.com/linux/ubuntu/gpg"
 
 docker_repo_debian: "deb https://download.docker.com/linux/ubuntu focal stable"
