@@ -7,7 +7,7 @@ docker_requirements_debian:
   - containerd.io
 
 docker_requirements_pip:
-  - docker-py
+  - docker
 
 docker_gpg_apt_key_url_debian: "https://download.docker.com/linux/ubuntu/gpg"
 
