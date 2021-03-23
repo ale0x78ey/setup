@@ -3,7 +3,7 @@
   when: ansible_os_family == "Debian"
 
 - import_tasks: packages_pip.yml
-  when: ansible_os_family == "Debian"
+  become: yes
 
 - import_tasks: configs_debian.yml
   become: yes

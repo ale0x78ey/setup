@@ -116,6 +116,12 @@ while [ "$#" -gt 0 ]; do
   esac
 done
 
+if [[ "`uname -s`" == "Darwin" ]]; then
+  if [[ ! "`which pip3`" ]]; then
+    curl https://bootstrap.pypa.io/get-pip.py | python3 -
+  fi
+fi
+
 if [[ "`uname -s`" == "Linux" ]]; then
   install build-essential \
           curl            \
