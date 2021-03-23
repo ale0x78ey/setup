@@ -128,6 +128,8 @@ if [[ "`uname -s`" == "Linux" ]]; then
           python3-dev     \
           python3-pip     \
           python3-venv
+
+  export PATH="$HOME/.local/bin:$PATH"
 fi
 
 if ! `python3 -m pip &> /dev/null`; then
