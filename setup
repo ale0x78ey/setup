@@ -116,12 +116,6 @@ while [ "$#" -gt 0 ]; do
   esac
 done
 
-if [[ "`uname -s`" == "Darwin" ]]; then
-  if [[ ! "`which pip3`" ]]; then
-    curl https://bootstrap.pypa.io/get-pip.py | python3 -
-  fi
-fi
-
 if [[ "`uname -s`" == "Linux" ]]; then
   install build-essential \
           curl            \
@@ -136,10 +130,14 @@ if [[ "`uname -s`" == "Linux" ]]; then
           python3-venv
 fi
 
-pip3 install -U certifi
-pip3 install setuptools wheel
-pip3 install ansible==2.9.17
-pip3 install kolla-ansible==11.0.0
+if ! `python3 -m pip &> /dev/null`; then
+  curl https://bootstrap.pypa.io/get-pip.py | python3 -
+fi
+
+python3 -m pip install -U certifi
+python3 -m pip install setuptools wheel
+python3 -m pip install ansible==2.9.17
+python3 -m pip install kolla-ansible==11.0.0
 
 # Make ansible transform invalid characters in group
 # names supplied by inventory sources. If 'never' it
