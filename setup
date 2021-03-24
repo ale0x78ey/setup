@@ -153,11 +153,10 @@ if [ "$SYSTEM" -o "$OPENSTACK" ]; then
     curl https://bootstrap.pypa.io/get-pip.py | python3 -
   fi
 
-  if [[ ! -e ${SCRIPT_DIR}/.venv ]]; then
+  if [[ -e ${SCRIPT_DIR}/.venv ]]; then
     python3 -m venv ${SCRIPT_DIR}/.venv
+    source ${SCRIPT_DIR}/.venv/bin/activate && trap deactivate EXIT
   fi
-
-  . ${SCRIPT_DIR}/.venv/bin/activate && trap deactivate EXIT
 
   python3 -m pip install -U certifi
   python3 -m pip install setuptools wheel
