@@ -91,6 +91,7 @@ if [[ "`uname -s`" == "Darwin" ]]; then
 fi
 
 if [[ "`uname -s`" == "Linux" ]]; then
+  build_setup
   install_git_repo https://github.com/universal-ctags/ctags.git
   install silversearcher-ag \
           yapf3
