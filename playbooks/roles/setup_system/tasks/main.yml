@@ -10,3 +10,7 @@
 - import_tasks: sources.yml
 
 - import_tasks: configs.yml
+
+- import_tasks: configs_debian.yml
+  become: yes
+  when: ansible_os_family == "Debian"

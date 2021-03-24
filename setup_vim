@@ -85,7 +85,7 @@ install curl   \
 
 if [[ "`uname -s`" == "Darwin" ]]; then
   brew tap universal-ctags/universal-ctags
-  brew install --with-jansson --HEAD universal-ctags
+  brew install --HEAD universal-ctags
   install the_silver_searche \
           yapf
 fi
@@ -96,19 +96,9 @@ if [[ "`uname -s`" == "Linux" ]]; then
           yapf3
 fi
 
-rm -rf ~/.vim && curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+rm -rf ~/.vim
+
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null && pwd)"
-
-TARGETS="\
-vimrc
-vim.conf
-"
-
-for i in $TARGETS
-do
-  install_ln ${SCRIPT_DIR}/$i ~/.$i
-done
 
 vim +PlugInstall +quitall

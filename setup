@@ -17,6 +17,7 @@ Options:
 Commands:
   system                 Setup system.
   openstack              Setup OpenStack.
+  vim                    Setup vim.
 
 EOF
 }
@@ -109,6 +110,11 @@ while [ "$#" -gt 0 ]; do
       shift
       ;;
 
+    (vim)
+      VIM=1
+      shift
+      ;;
+
     (*)
       usage >&2
       exit -3
@@ -132,24 +138,26 @@ if [[ "`uname -s`" == "Linux" ]]; then
   export PATH="$HOME/.local/bin:$PATH"
 fi
 
-if ! `python3 -m pip &> /dev/null`; then
-  curl https://bootstrap.pypa.io/get-pip.py | python3 -
+if [ "$SYSTEM" -o "$OPENSTACK" ]; then
+  # Make ansible transform invalid characters in group
+  # names supplied by inventory sources. If 'never' it
+  # will allow for the group name but warn about the
+  # issue. When 'ignore', it does the same as 'never',
+  # without issuing a warning. When 'always' it will
+  # replace any invalid characters with '_' and warn
+  # the user. When 'silently', it does the same as 'always',
+  # without issuing a warning.
+  export ANSIBLE_TRANSFORM_INVALID_GROUP_CHARS='ignore'
+
+  if ! `python3 -m pip &> /dev/null`; then
+    curl https://bootstrap.pypa.io/get-pip.py | python3 -
+  fi
+
+  python3 -m pip install -U certifi
+  python3 -m pip install setuptools wheel
+  python3 -m pip install ansible==2.9.17
+  python3 -m pip install kolla-ansible==11.0.0
 fi
-
-python3 -m pip install -U certifi
-python3 -m pip install setuptools wheel
-python3 -m pip install ansible==2.9.17
-python3 -m pip install kolla-ansible==11.0.0
-
-# Make ansible transform invalid characters in group
-# names supplied by inventory sources. If 'never' it
-# will allow for the group name but warn about the
-# issue. When 'ignore', it does the same as 'never',
-# without issuing a warning. When 'always' it will
-# replace any invalid characters with '_' and warn
-# the user. When 'silently', it does the same as 'always',
-# without issuing a warning.
-export ANSIBLE_TRANSFORM_INVALID_GROUP_CHARS='ignore'
 
 if [ "$SYSTEM" ]; then
   ansible-playbook -i "${INVENTORY}" \
@@ -168,4 +176,8 @@ Don't forget to reload configured hosts to apply network settings.
 To mount cinder-backup nfs:
 sudo mount /var/nfs/cinder-backup --fstab /etc/fstab.d/nfs.fstab
 EOF
+fi
+
+if [ "$VIM" ]; then
+  source ${SCRIPT_DIR}/setup_vim
 fi
