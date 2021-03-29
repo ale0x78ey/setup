@@ -1,6 +1,15 @@
-# base = {{ kolla_base_distro }}
-# tag = {{ openstack_tag }}
-# namespace = {{ docker_namespace }}
-# registry = {{ docker_registry }}
-# install_type = {{ kolla_install_type }}
-# openstack_release = {{ openstack_release }}
+# Possible values:
+# - binary
+# - source
+kolla_install_type: source
+
+# Possible values:
+# - centos
+# - debian
+# - ubuntu
+# - rhel
+kolla_base_distro: ubuntu
+
+kolla_docker_namespace: kolla
+
+kolla_docker_registry: "192.168.0.70:4000"

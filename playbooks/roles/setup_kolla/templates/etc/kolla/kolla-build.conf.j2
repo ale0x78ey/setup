@@ -18,13 +18,13 @@ base_arch = x86_64
 tag = {{ openstack_tag }}
 
 # The Docker namespace name.
-namespace = {{ docker_namespace }}
+namespace = {{ kolla_docker_namespace }}
 
 # Build a pre-defined set of images, see [profiles] section in config.
 profile = default
 
 # The docker registry host.
-registry = {{ docker_registry }}
+registry = {{ kolla_docker_registry }}
 
 # Base url to OpenStack tarballs.
 tarballs_base = https://tarballs.opendev.org

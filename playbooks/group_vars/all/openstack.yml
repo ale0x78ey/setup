@@ -1,3 +1,6 @@
+openstack_release: victoria
+openstack_tag: {{ openstack_release }}
+
 openstack_versions:
   victoria:
     kolla: ff3192af9e3e54d528235c616d393fc88aaef0db
