@@ -1,4 +1,5 @@
-# Brew macos.
+export PATH="$HOME/Projects/ceph-deploy:$PATH"
+
 export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/opt/curl/bin:$PATH"
 export PATH="/usr/local/opt/gnu-getopt/bin:$PATH"
@@ -8,82 +9,12 @@ export PATH="$HOME/.gem/ruby/3.0.0/bin:$PATH"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
+if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases; fi
 
-# Bind inputrc.
 if [[ "$(which bind)" ]]; then bind -f ~/.inputrc; fi
 
 # Make less more friendly for non-text files.
 if [ -x /usr/bin/lesspipe ]; then eval "$(SHELL=/bin/sh lesspipe)"; fi
-
-# Check the window size after each command and,
-# if necessary, update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
-if [[ "`uname -s`" == "Darwin" ]]; then
-    IP=`ifconfig -l | xargs -n1 ipconfig getifaddr | head -n1`
-else
-    IP=`hostname -I | tr " " "\n"  | head -n1`
-fi
-
-if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-  # We have color support.
-  # Assume it's compliant with Ecma-48 (ISO/IEC-6429).
-  # Lack of such support is extremely rare, and such
-  # a case would tend to support setf rather than setaf.
-  export PS1="\[\033[01;32m\]\u@$IP\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
-else
-  export PS1="\u@$IP:\w\$ "
-fi
-
-unset IP
-
-# Enable color support of ls
-# and also add handy aliases.
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && \
-    eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias dir='dir --color=auto'
-    alias vdir='vdir --color=auto'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
-#
-# Bash history.
-#
-
-HISTSIZE=1000
-HISTFILESIZE=2000
-
-# Don't put duplicate lines or
-# lines starting with space in the history.
-HISTCONTROL=ignoreboth
-
-# Append to the history file, don't overwrite it.
-shopt -s histappend
-
-#
-# Bash completion.
-#
-
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
-
-if [[ "$(which brew)" ]]; then
-  if [ -f $(brew --prefix)/etc/bash_completion ]; then
-  . $(brew --prefix)/etc/bash_completion
-  fi
-fi
 
 for CONFIG in $HOME/.bash_configs.d/*.sh; do
   if [ -r $CONFIG ] ; then . $CONFIG; fi

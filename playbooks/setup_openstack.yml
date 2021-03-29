@@ -3,6 +3,7 @@
   roles:
     - role: setup_network
       network_manager_type: "NetworkManager"
+    - role: setup_ceph
 
 - name: MyEnv | setup_openstack | setup_nfs
   hosts: nfs_servers

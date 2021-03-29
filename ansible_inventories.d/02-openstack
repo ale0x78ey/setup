@@ -12,7 +12,7 @@ dell1
 desktop1
 
 [storage]
-dell1
+desktop1
 
 [deployment]
 localhost ansible_connection=local become=true

@@ -9,48 +9,9 @@ system_requirements_debian:
   - locales
   - software-properties-common
 
-python_requirements:
-  - python3
+system_sources_path: "{{ ansible_env.HOME }}/Projects"
 
-  # To support remote debugging:
-  - rlwrap
-  - telnet
-
-  # Testing tools:
-  - tox
-
-python_requirements_debian:
-  - python3-apt
-  - python3-pip
-  - python3-venv
-
-  # Build dependencies.
-  - build-essential
-  - gcc
-  - libffi-dev
-  - libssl-dev
-  - python3-dev
-
-  # To build python from pyevn.
-  - libbz2-dev
-  - libreadline-dev
-  - libsqlite3-dev
-
-  # To support MySQL.
-  - libmysqlclient-dev
-
-python_requirements_pip:
-  - setuptools
-  - virtualenv
-  - wheel
-
-  # Remote debugging based on pdb.
-  - rpdb
-
-python_requirements_sources:
-  - name: pyenv
-    repo: https://github.com/pyenv/pyenv.git
-    location: "{{ ansible_env.HOME }}/.pyenv"
-
-ruby_requirements_darwin:
-  - rbenv
+system_requirements_sources:
+  - name: ceph-deploy
+    repo: https://github.com/ceph/ceph-deploy.git
+    location: "{{ system_sources_path }}/ceph-deploy"
