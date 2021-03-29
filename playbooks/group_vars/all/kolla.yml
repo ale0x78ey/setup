@@ -1,0 +1,6 @@
+# base = {{ kolla_base_distro }}
+# tag = {{ openstack_tag }}
+# namespace = {{ docker_namespace }}
+# registry = {{ docker_registry }}
+# install_type = {{ kolla_install_type }}
+# openstack_release = {{ openstack_release }}

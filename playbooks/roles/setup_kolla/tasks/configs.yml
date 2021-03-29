@@ -1,7 +1,41 @@
-- name: setup_kolla | install etc/kolla/*
+- name: setup_kolla | create /etc/kolla/config directory
+  file:
+    path: "/etc/kolla/config"
+    mode: "644"
+    state: directory
+    recurse: yes
+
+- name: setup_kolla | install etc/kolla/config
   copy:
-    src: "etc/kolla"
-    dest: "/etc/"
+    src: "etc/kolla/config/{{ item }}/"
+    dest: "/etc/kolla/config/{{ item }}"
+    mode: "644"
+  with_items:
+    - karbor
+
+- name: setup_kolla | install etc/kolla/config [ceph]
+  copy:
+    src: "etc/kolla/config/ceph_{{ item }}/"
+    dest: "/etc/kolla/config/{{ item }}"
+    mode: "644"
+  with_items:
+    - cinder
+    - glance
+    - nova
+
+- name: setup_kolla | install ceph.conf
+  template:
+    src: etc/ceph/ceph.conf.j2
+    dest: "/etc/kolla/config/{{ item }}/ceph.conf"
+  with_items:
+    - cinder
+    - glance
+    - nova
+
+- name: setup_kolla | install etc/kolla/globals.yml
+  copy:
+    src: "etc/kolla/globals.yml"
+    dest: "/etc/kolla/globals.yml"
     mode: "644"
 
 - name: setup_kolla | install etc/kolla/kolla-build.conf
