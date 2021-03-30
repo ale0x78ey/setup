@@ -1,7 +1,7 @@
 - name: setup_kolla | create /etc/kolla/config directory
   file:
     path: "/etc/kolla/config"
-    mode: "644"
+    mode: "755"
     state: directory
     recurse: yes
 
@@ -9,7 +9,7 @@
   copy:
     src: "etc/kolla/config/{{ item }}/"
     dest: "/etc/kolla/config/{{ item }}"
-    mode: "644"
+    mode: "755"
   with_items:
     - karbor
 
@@ -17,7 +17,7 @@
   copy:
     src: "etc/kolla/config/ceph_{{ item }}/"
     dest: "/etc/kolla/config/{{ item }}"
-    mode: "644"
+    mode: "755"
   with_items:
     - cinder
     - glance
@@ -33,10 +33,9 @@
     - nova
 
 - name: setup_kolla | install etc/kolla/globals.yml
-  copy:
-    src: "etc/kolla/globals.yml"
+  template:
+    src: etc/kolla/globals.yml.j2
     dest: "/etc/kolla/globals.yml"
-    mode: "644"
 
 - name: setup_kolla | install etc/kolla/kolla-build.conf
   template:

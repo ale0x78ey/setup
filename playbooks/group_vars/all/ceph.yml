@@ -2,7 +2,7 @@ ceph_requirements_debian:
   - ceph-common
   - python3-rbd
 
-ceph_fsid: "2e177e17-9db9-4bf0-b7b2-d837db697504"
+ceph_fsid: "87d68bc6-03d0-4cff-ab59-df1076dcb87b"
 
 ceph_mon_members: desktop1
-ceph_mon_host: "192.168.0.20"
+ceph_mon_host: "192.168.0.70"
