@@ -5,13 +5,13 @@ if [ "$IFACE" != {{ network_interfaces[inventory_hostname].gateway.name }} ]; th
 fi
 
 ip link add link {{ network_interfaces[inventory_hostname].gateway.name }} \
-            name {{ network_interface }} type macvlan mode bridge
+            name {{ kolla_network_interface }} type macvlan mode bridge
 
 ip link add link {{ network_interfaces[inventory_hostname].gateway.name }} \
-            name {{ neutron_external_interface }} type macvtap
+            name {{ kolla_neutron_external_interface }} type macvtap
 
-ip addr add {{ network_interfaces[inventory_hostname][network_interface].cidr }} \
-        dev {{ network_interface }}
+ip addr add {{ network_interfaces[inventory_hostname][kolla_network_interface].cidr }} \
+        dev {{ kolla_network_interface }}
 
-ip link set {{ network_interface }} up
-ip link set {{ neutron_external_interface }} up
+ip link set {{ kolla_network_interface }} up
+ip link set {{ kolla_neutron_external_interface }} up

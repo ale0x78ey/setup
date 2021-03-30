@@ -4,5 +4,5 @@ if [ "$IFACE" != {{ network_interfaces[inventory_hostname].gateway.name }} ]; th
   exit 0
 fi
 
-ip link delete dev {{ network_interface }}
-ip link delete dev {{ neutron_external_interface }}
+ip link delete dev {{ kolla_network_interface }}
+ip link delete dev {{ kolla_neutron_external_interface }}
