@@ -1,5 +1,5 @@
 openstack_release: victoria
-openstack_tag: {{ openstack_release }}
+openstack_tag: "{{ openstack_release }}"
 
 openstack_versions:
   victoria:
