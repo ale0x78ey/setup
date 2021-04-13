@@ -3,10 +3,11 @@ openstack_tag: "{{ openstack_release }}"
 
 openstack_versions:
   victoria:
+    cinder-base: e9013589c458e1bcfad8295924a2a69c6c9a236b
+    horizon-plugin-manila-ui: 775bc73c4574eec3ad2d5845ae2b5323e91a06b6
     kolla: ff3192af9e3e54d528235c616d393fc88aaef0db
     karbor-base: fcca3935af26a8b1b78eabfdd345840a3a2dd8c0
     manila-base: 1d187f3a2ac228bbaffca011689f925a8b9b7538
-    horizon-plugin-manila-ui: 775bc73c4574eec3ad2d5845ae2b5323e91a06b6
 
 openstack_sources_path: "{{ ansible_env.HOME }}/Projects"
 
@@ -18,6 +19,14 @@ openstack_kolla_source:
     location: "{{ openstack_sources_path }}/kolla"
 
 openstack_base_sources:
+  - name: cinder-base
+    repo: https://opendev.org/openstack/cinder.git
+    location: "{{ openstack_sources_path }}/cinder"
+
+  - name: horizon-plugin-manila-ui
+    repo: https://opendev.org/openstack/manila-ui.git
+    location: "{{ openstack_sources_path }}/manila-ui"
+
   - name: karbor-base
     repo: https://opendev.org/openstack/karbor.git
     location: "{{ openstack_sources_path }}/karbor"
@@ -25,7 +34,3 @@ openstack_base_sources:
   - name: manila-base
     repo: https://opendev.org/openstack/manila.git
     location: "{{ openstack_sources_path }}/manila"
-
-  - name: horizon-plugin-manila-ui
-    repo: https://opendev.org/openstack/manila-ui.git
-    location: "{{ openstack_sources_path }}/manila-ui"

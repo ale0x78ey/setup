@@ -21,4 +21,5 @@
   hosts: '{{ myenv_hosts | default("localhost") }}'
   roles:
     - setup_docker_registry
-    - setup_kolla
+    - role: setup_kolla
+      storage_backend_type: "ceph"

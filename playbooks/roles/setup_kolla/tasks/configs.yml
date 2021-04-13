@@ -5,23 +5,34 @@
     state: directory
     recurse: yes
 
-- name: setup_kolla | install etc/kolla/config
+- name: setup_kolla | install etc/kolla/config [common]
   copy:
-    src: "etc/kolla/config/{{ item }}/"
+    src: "etc/kolla/config/common/{{ item }}/"
+    dest: "/etc/kolla/config/{{ item }}"
+    mode: "755"
+  with_items:
+    - neutron
+
+- name: setup_kolla | install etc/kolla/config [lvm]
+  copy:
+    src: "etc/kolla/config/lvm/{{ item }}/"
     dest: "/etc/kolla/config/{{ item }}"
     mode: "755"
   with_items:
     - karbor
+  when: storage_backend_type == "lvm"
 
 - name: setup_kolla | install etc/kolla/config [ceph]
   copy:
-    src: "etc/kolla/config/ceph_{{ item }}/"
+    src: "etc/kolla/config/ceph/{{ item }}/"
     dest: "/etc/kolla/config/{{ item }}"
     mode: "755"
   with_items:
     - cinder
     - glance
+    - karbor
     - nova
+  when: storage_backend_type == "ceph"
 
 - name: setup_kolla | install ceph.conf
   template:
