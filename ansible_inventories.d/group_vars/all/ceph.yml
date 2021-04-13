@@ -4,5 +4,5 @@ ceph_requirements_debian:
 
 ceph_fsid: "87d68bc6-03d0-4cff-ab59-df1076dcb87b"
 
-ceph_mon_members: desktop1
+ceph_mon_initial_members: desktop1
 ceph_mon_host: "192.168.0.70"
