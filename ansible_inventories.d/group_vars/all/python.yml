@@ -36,6 +36,14 @@ python_requirements_pip:
   # Remote debugging based on pdb.
   - rpdb
 
+python_requirements_pip_jupyter:
+  - jupyterlab
+  - matplotlib
+  - notebook
+  - numpy
+  - pandas
+  - seaborn
+
 python_requirements_sources:
   - name: pyenv
     repo: https://github.com/pyenv/pyenv.git

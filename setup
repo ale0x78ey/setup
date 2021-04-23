@@ -2,7 +2,7 @@
 set -x
 
 SHORT_OPTIONS="hi:e:"
-LONG_OPTIONS="help,inventory:,extra-variables:"
+LONG_OPTIONS="help,inventory:,hosts:,extra-variables:"
 
 function usage() {
 cat<< EOF
@@ -11,7 +11,8 @@ Usage: $0 COMMANDS [options]
 Options:
   --help, -h             Display help text.
   --inventory, -i <path> Specify path to ansible inventory file or directory.
-  --extra-variables, -e [key=value {key=value} | JSON]
+  --hosts <hosts>        Specify target hosts.
+  --extra-variables, -e [key=value {key=value}]
                          Pass variables to the command line for ansible-playbook.
 
 Commands:
@@ -78,6 +79,11 @@ while [ "$#" -gt 0 ]; do
 
     (--inventory|-i)
       INVENTORY="$2"
+      shift 2
+      ;;
+
+    (--hosts)
+      HOSTS="$2"
       shift 2
       ;;
 
@@ -161,6 +167,14 @@ if [ "$SYSTEM" -o "$OPENSTACK" ]; then
   python3 -m pip install setuptools wheel
   python3 -m pip install ansible==2.9.17
   python3 -m pip install kolla-ansible==11.0.0
+fi
+
+if [ "$HOSTS" ]; then
+  if [ "$ANSIBLE_EXTRA_VARIABLES" ]; then
+    ANSIBLE_EXTRA_VARIABLES="myenv_hosts=${HOSTS} ${ANSIBLE_EXTRA_VARIABLES}"
+  else
+    ANSIBLE_EXTRA_VARIABLES="myenv_hosts=${HOSTS}"
+  fi
 fi
 
 if [ "$SYSTEM" ]; then

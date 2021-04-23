@@ -1,5 +1,5 @@
 - name: MyEnv | setup_openstack | setup_network
-  hosts: openstack_hosts
+  hosts: openstack_nodes
   roles:
     - role: setup_network
       network_manager_type: "NetworkManager"

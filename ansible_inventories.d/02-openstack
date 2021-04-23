@@ -15,7 +15,7 @@ desktop1
 desktop1
 
 [deployment]
-localhost ansible_connection=local become=true
+localhost
 
 [baremetal:children]
 control

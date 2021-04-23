@@ -11,12 +11,14 @@ openstack_versions:
 
 openstack_sources_path: "{{ ansible_env.HOME }}/Projects"
 
-openstack_requirements_sources: "{{ openstack_kolla_source + openstack_base_sources }}"
-
-openstack_kolla_source:
+openstack_requirements_sources:
   - name: kolla
-    repo: https://github.com/openstack/kolla
+    repo: https://opendev.org/openstack/kolla
     location: "{{ openstack_sources_path }}/kolla"
+
+  - name: diskimage-builder
+    repo: https://opendev.org/openstack/diskimage-builder
+    location: "{{ openstack_sources_path }}/diskimage-builder"
 
 openstack_base_sources:
   - name: cinder-base
