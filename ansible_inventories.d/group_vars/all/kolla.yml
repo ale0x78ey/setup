@@ -8,7 +8,7 @@ kolla_install_type: source
 # - debian
 # - ubuntu
 # - rhel
-kolla_base_distro: ubuntu
+kolla_base_distro: debian
 
 kolla_docker_namespace: kolla
 
