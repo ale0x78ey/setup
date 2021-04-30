@@ -1,0 +1,7 @@
+- name: setup_kolla | install etc/kolla/config [lvm]
+  copy:
+    src: "etc/kolla/config/lvm/{{ item }}/"
+    dest: "/etc/kolla/config/{{ item }}"
+    mode: "755"
+  with_items:
+    - karbor

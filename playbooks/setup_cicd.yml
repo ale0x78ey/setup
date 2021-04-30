@@ -1,0 +1,9 @@
+- name: MyEnv | setup_cicd
+  hosts: cicd_servers
+  roles:
+    - setup_docker_registry
+
+- name: MyEnv | setup_cicd
+  hosts: cicd_clients
+  roles:
+    - setup_docker_config

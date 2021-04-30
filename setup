@@ -19,6 +19,7 @@ Commands:
   system                 Setup system.
   openstack              Setup OpenStack.
   vim                    Setup vim.
+  cicd                   Setup CI/CD.
 
 EOF
 }
@@ -121,6 +122,11 @@ while [ "$#" -gt 0 ]; do
       shift
       ;;
 
+    (cicd)
+      CICD=1
+      shift
+      ;;
+
     (*)
       usage >&2
       exit -3
@@ -198,4 +204,10 @@ fi
 
 if [ "$VIM" ]; then
   source ${SCRIPT_DIR}/setup_vim
+fi
+
+if [ "$CICD" ]; then
+  ansible-playbook -i "${INVENTORY}" \
+                   -e "${ANSIBLE_EXTRA_VARIABLES}" \
+                   ${SCRIPT_DIR}/playbooks/setup_cicd.yml
 fi

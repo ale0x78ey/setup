@@ -1,5 +1,5 @@
 docker_insecure_registries:
-  - "{{ network_interfaces[ansible_hostname].gateway.addr }}:4000"
+  - "192.168.0.75:4000"
 
 docker_requirements_debian:
   - docker-ce
@@ -9,6 +9,7 @@ docker_requirements_debian:
 docker_requirements_pip:
   - docker
 
-docker_gpg_apt_key_url_debian: "https://download.docker.com/linux/ubuntu/gpg"
-
-docker_repo_debian: "deb https://download.docker.com/linux/ubuntu focal stable"
+docker_configs:
+  debian:
+    repo: "deb https://download.docker.com/linux/ubuntu focal stable"
+    gpg: https://download.docker.com/linux/ubuntu/gpg

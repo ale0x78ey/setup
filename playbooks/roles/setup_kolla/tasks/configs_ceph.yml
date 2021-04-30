@@ -1,0 +1,43 @@
+- name: setup_kolla | install etc/kolla/config [ceph]
+  copy:
+    src: "etc/kolla/config/ceph/{{ item }}/"
+    dest: "/etc/kolla/config/{{ item }}"
+    mode: "755"
+  with_items:
+    - cinder
+    - glance
+    - karbor
+    - nova
+
+- name: setup_kolla | install etc/kolla/globals.yml [ceph]
+  template:
+    src: etc/kolla/ceph/globals.yml.j2
+    dest: "/etc/kolla/globals.yml"
+
+- name: setup_kolla | install ceph.conf [ceph]
+  copy:
+    src: "/etc/ceph/ceph.conf"
+    dest: "/etc/kolla/config/{{ item }}/ceph.conf"
+  with_items:
+    - cinder
+    - glance
+    - nova
+
+- name: setup_kolla | install ceph.client.cinder.keyring [ceph]
+  copy:
+    src: "/etc/ceph/ceph.client.cinder.keyring"
+    dest: "/etc/kolla/config/{{ item }}/"
+  with_items:
+    - cinder/cinder-backup
+    - cinder/cinder-volume
+    - nova
+
+- name: setup_kolla | install ceph.client.cinder-backup.keyring [ceph]
+  copy:
+    src: "/etc/ceph/ceph.client.cinder-backup.keyring"
+    dest: "/etc/kolla/config/cinder/cinder-backup/"
+
+- name: setup_kolla | install ceph.client.glance.keyring [ceph]
+  copy:
+    src: "/etc/ceph/ceph.client.glance.keyring"
+    dest: "/etc/kolla/config/glance/"

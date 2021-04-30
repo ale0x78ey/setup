@@ -1,11 +1,11 @@
 - name: setup_docker_registry [debian] | add Docker GPG apt key
   apt_key:
-    url: "{{ docker_gpg_apt_key_url_debian }}"
+    url: "{{ docker_configs.debian.gpg }}"
     state: present
 
 - name: setup_docker_registry [debian] | add Docker repository
   apt_repository:
-    repo: "{{ docker_repo_debian }}"
+    repo: "{{ docker_configs.debian.repo }}"
     state: present
 
 - name: setup_docker_registry [debian] | update repositories cache

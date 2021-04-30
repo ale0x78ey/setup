@@ -1,4 +1,4 @@
-- name: setup_kolla | create /etc/kolla/config directory
+- name: setup_kolla | create /etc/kolla/config directory [common]
   file:
     path: "/etc/kolla/config"
     mode: "755"
@@ -13,42 +13,7 @@
   with_items:
     - neutron
 
-- name: setup_kolla | install etc/kolla/config [lvm]
-  copy:
-    src: "etc/kolla/config/lvm/{{ item }}/"
-    dest: "/etc/kolla/config/{{ item }}"
-    mode: "755"
-  with_items:
-    - karbor
-  when: storage_backend_type == "lvm"
-
-- name: setup_kolla | install etc/kolla/config [ceph]
-  copy:
-    src: "etc/kolla/config/ceph/{{ item }}/"
-    dest: "/etc/kolla/config/{{ item }}"
-    mode: "755"
-  with_items:
-    - cinder
-    - glance
-    - karbor
-    - nova
-  when: storage_backend_type == "ceph"
-
-- name: setup_kolla | install ceph.conf
-  template:
-    src: etc/ceph/ceph.conf.j2
-    dest: "/etc/kolla/config/{{ item }}/ceph.conf"
-  with_items:
-    - cinder
-    - glance
-    - nova
-
-- name: setup_kolla | install etc/kolla/globals.yml
-  template:
-    src: etc/kolla/globals.yml.j2
-    dest: "/etc/kolla/globals.yml"
-
-- name: setup_kolla | install etc/kolla/kolla-build.conf
+- name: setup_kolla | install etc/kolla/kolla-build.conf [common]
   template:
     src: etc/kolla/kolla-build.conf.j2
     dest: "/etc/kolla/kolla-build.conf"
