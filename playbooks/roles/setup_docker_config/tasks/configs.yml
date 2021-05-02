@@ -1,0 +1,10 @@
+- name: setup_docker_config | create /etc/docker directory
+  file:
+    path: "/etc/docker"
+    state: directory
+
+- name: setup_docker_config | install etc/docker/daemon.json
+  template:
+    src: etc/docker/daemon.json.j2
+    dest: "/etc/docker/daemon.json"
+

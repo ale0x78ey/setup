@@ -11,18 +11,12 @@ dell1
 desktop1
 
 [openstack_nodes]
-dell1
 desktop1
 
 [nfs_servers]
-dell1
 
 [nfs_clients]
-desktop1
 
 [vpn_servers]
-desktop1
 
 [vpn_clients]
-desktop1
-dell1
