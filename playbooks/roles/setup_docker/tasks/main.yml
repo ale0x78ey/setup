@@ -14,4 +14,4 @@
 
 - import_tasks: configs_registry.yml
   become: yes
-  when: setup_docker_registry|d("no") == "yes"
+  when: setup_docker_registries|d("no") == "yes"
