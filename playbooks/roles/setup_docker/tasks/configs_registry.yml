@@ -1,14 +1,9 @@
-- name: setup_docker_registry [debian] | restart docker
-  systemd:
-    name: docker
-    state: restarted
-
-- name: setup_docker_registry [debian] | pull registry image
+- name: setup_docker | pull registry image [registry]
   docker_image:
     name: "registry:2"
     source: pull
 
-- name: setup_docker_registry [debian] | create and run registry container
+- name: setup_docker | create and run registry container [registry]
   docker_container:
     name: registry
     image: registry:2

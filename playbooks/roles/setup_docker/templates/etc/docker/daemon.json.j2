@@ -4,9 +4,7 @@
     "max-size": "50m"
   },
 
-  {
-    "exec-opts": ["native.cgroupdriver=systemd"]
-  },
+  "exec-opts": ["native.cgroupdriver=systemd"],
 
   "insecure-registries": [
     {{ docker_insecure_registries|map('regex_replace','(.+)','\"\\1\"')|join(',\n    ') }}

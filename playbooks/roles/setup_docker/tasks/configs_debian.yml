@@ -1,0 +1,4 @@
+- name: setup_docker [debian] | restart docker
+  systemd:
+    name: docker
+    state: restarted

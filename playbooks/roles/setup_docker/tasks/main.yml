@@ -1,0 +1,17 @@
+- import_tasks: packages_debian.yml
+  become: yes
+  when: ansible_os_family == "Debian"
+
+- import_tasks: packages_pip.yml
+  become: yes
+
+- import_tasks: configs.yml
+  become: yes
+
+- import_tasks: configs_debian.yml
+  become: yes
+  when: ansible_os_family == "Debian"
+
+- import_tasks: configs_registry.yml
+  become: yes
+  when: setup_docker_registry == yes

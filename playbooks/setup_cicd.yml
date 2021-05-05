@@ -1,14 +1,15 @@
-- name: MyEnv | setup_cicd
-  hosts: cicd_servers
+- name: MyEnv | setup_cicd | setup_docker
+  hosts: cicd_k8s
   roles:
-    - setup_docker_registry
+    - setup_docker
 
-- name: MyEnv | setup_cicd
-  hosts: cicd_clients
+- name: MyEnv | setup_cicd | setup_docker
+  hosts: cicd_docker_registries
   roles:
-    - setup_docker_configs
+    - role: setup_docker
+      setup_docker_registry: yes
 
 - name: MyEnv | setup_cicd | setup_k8s
-  hosts: cicd_k8s_masters:cicd_k8s_nodes
+  hosts: cicd_k8s
   roles:
     - setup_k8s
