@@ -1,15 +1,15 @@
 - name: MyEnv | setup_cicd | setup_docker
-  hosts: cicd_k8s
+  hosts: k8s
   roles:
     - setup_docker
 
 - name: MyEnv | setup_cicd | setup_docker
-  hosts: cicd_docker_registries
+  hosts: docker_registries
   roles:
     - role: setup_docker
       setup_docker_registries: "yes"
 
 - name: MyEnv | setup_cicd | setup_k8s
-  hosts: cicd_k8s
+  hosts: k8s
   roles:
     - setup_k8s
