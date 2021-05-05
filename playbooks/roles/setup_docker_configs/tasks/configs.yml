@@ -1,13 +1,19 @@
-- name: setup_docker_configs | create /etc/docker directory
+- name: setup_docker_configs | create /etc/docker* directories
   file:
-    path: "/etc/docker"
+    path: "/etc/{{ item }}"
     state: directory
+  with_items:
+    - docker
+    - docker-compose
 
-- name: setup_docker_configs | install etc/docker/* configs
+- name: setup_docker_configs | install etc/docker/daemon.json
   template:
-    src: "etc/docker/{{ item }}.j2"
-    dest: "/etc/docker/{{ item }}"
+    src: etc/docker/daemon.json.j2
+    dest: "/etc/docker/daemon.json"
+
+- name: setup_docker_configs | install etc/docker-compose/*
+  template:
+    src: "etc/docker-compose/{{ item }}.j2"
+    dest: "/etc/docker-compose/{{ item }}"
   with_items:
     - cicd.yml
-    - daemon.json
-
