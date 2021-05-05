@@ -10,6 +10,6 @@
     state: started
     restart_policy: always
     ports:
-      - "4000:5000"
+      - "{{ docker_insecure_registries_port }}:5000"
     volumes:
       - registry:/var/lib/registry

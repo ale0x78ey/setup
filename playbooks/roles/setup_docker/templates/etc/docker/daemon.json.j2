@@ -7,6 +7,8 @@
   "exec-opts": ["native.cgroupdriver=systemd"],
 
   "insecure-registries": [
-    {{ docker_insecure_registries|map('regex_replace','(.+)','\"\\1\"')|join(',\n    ') }}
+    {{ docker_insecure_registries|
+       map('regex_replace','(.+)','\"\\1:%s\"'|format(docker_insecure_registries_port))|
+       join(',\n    ') }}
   ]
 }
