@@ -7,7 +7,7 @@
   hosts: cicd_docker_registries
   roles:
     - role: setup_docker
-      setup_docker_registry: yes
+      setup_docker_registry: "yes"
 
 - name: MyEnv | setup_cicd | setup_k8s
   hosts: cicd_k8s
