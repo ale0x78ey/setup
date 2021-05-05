@@ -7,3 +7,8 @@
   hosts: cicd_clients
   roles:
     - setup_docker_configs
+
+- name: MyEnv | setup_cicd | setup_k8s
+  hosts: cicd_k8s_masters:cicd_k8s_nodes
+  roles:
+    - setup_k8s

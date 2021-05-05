@@ -1,0 +1,9 @@
+k8s_requirements:
+  - kubeadm
+  - kubectl
+  - kubelet
+
+k8s_configs:
+  debian:
+    repo: "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+    gpg: https://packages.cloud.google.com/apt/doc/apt-key.gpg

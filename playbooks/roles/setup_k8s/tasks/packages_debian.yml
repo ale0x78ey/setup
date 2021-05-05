@@ -1,0 +1,17 @@
+- name: setup_k8s [debian] | add k8s GPG apt key
+  apt_key:
+    url: "{{ k8s_configs.debian.gpg }}"
+    state: present
+
+- name: setup_k8s [debian] | add k8s repository
+  apt_repository:
+    repo: "{{ k8s_configs.debian.repo }}"
+    state: present
+
+- name: setup_k8s [debian] | update repositories cache
+  apt: update_cache=yes
+  changed_when: False
+
+- name: setup_k8s [debian] | install requirements
+  package: name="{{ item }}"
+  with_items: "{{ k8s_requirements }}"

@@ -6,6 +6,12 @@ desktop1 ansible_host=192.168.0.70
 [cicd_servers]
 dell1
 
+[cicd_k8s_masters]
+desktop1
+
+[cicd_k8s_nodes]
+desktop1
+
 [cicd_clients]
 dell1
 desktop1
