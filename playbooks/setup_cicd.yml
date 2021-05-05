@@ -6,4 +6,4 @@
 - name: MyEnv | setup_cicd
   hosts: cicd_clients
   roles:
-    - setup_docker_config
+    - setup_docker_configs

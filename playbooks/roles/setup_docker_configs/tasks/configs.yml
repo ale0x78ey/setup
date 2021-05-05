@@ -1,0 +1,13 @@
+- name: setup_docker_configs | create /etc/docker directory
+  file:
+    path: "/etc/docker"
+    state: directory
+
+- name: setup_docker_configs | install etc/docker/* configs
+  template:
+    src: "etc/docker/{{ item }}.j2"
+    dest: "/etc/docker/{{ item }}"
+  with_items:
+    - cicd.yml
+    - daemon.json
+
