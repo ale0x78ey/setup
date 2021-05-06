@@ -14,5 +14,5 @@ kolla_docker_namespace: kolla
 
 kolla_docker_registry: "192.168.0.75:4000"
 
-kolla_network_interface: macvlan0
-kolla_neutron_external_interface: macvtap0
+kolla_network_interface: macvlan2
+kolla_neutron_external_interface: macvtap2

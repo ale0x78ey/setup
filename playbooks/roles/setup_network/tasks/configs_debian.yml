@@ -9,16 +9,7 @@
     - "if-up.d"
     - "if-down.d"
 
-- name: setup_network [debian] | install if-{up,down}.d/openstack_interfaces
+- name: setup_network [debian] | install /etc/netplan/99-myenv.yml
   template:
-    src: etc/network/{{ item }}/openstack_interfaces.j2
-    dest: "/etc/network/{{ item }}/openstack_interfaces"
-    mode: a+x
-  with_items:
-    - "if-up.d"
-    - "if-down.d"
-
-- name: setup_network [debian] | install /etc/netplan/99-openstack-config.yml
-  template:
-    src: etc/netplan/99-openstack-config.yaml.j2
-    dest: "/etc/netplan/99-openstack-config.yaml"
+    src: etc/netplan/99-myenv.yaml.j2
+    dest: "/etc/netplan/99-myenv.yaml"

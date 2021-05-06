@@ -1,7 +1,7 @@
 Host github.com
   IdentityFile ~/.ssh/id_rsa_github
 
-Host 192.168.1.*
+Host 192.168.*.*
   IdentityFile ~/.ssh/id_rsa
 
 Host 10.9.0.*

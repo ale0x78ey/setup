@@ -14,8 +14,8 @@ dell1
 desktop1
 
 [k8s:children]
-cicd_k8s_masters
-cicd_k8s_nodes
+k8s_masters
+k8s_nodes
 
 [openstack_nodes]
 desktop1

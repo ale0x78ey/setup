@@ -3,6 +3,8 @@ k8s_requirements:
   - kubectl
   - kubelet
 
+k8s_network_interface: macvlan3
+
 k8s_configs:
   debian:
     repo: "deb http://apt.kubernetes.io/ kubernetes-xenial main"
