@@ -1,24 +1,23 @@
 - name: MyEnv | setup_openstack | setup_network
-  hosts: openstack_nodes
+  hosts: openstack
   roles:
     - role: setup_network
-      network_manager_type: "NetworkManager"
-    - role: setup_ceph
+      setup_network_openstack: "yes"
 
-- name: MyEnv | setup_openstack | setup_nfs
-  hosts: nfs_servers
-  roles:
-    - role: setup_nfs
-      host_type: "server"
-
-- name: MyEnv | setup_openstack | setup_nfs
-  hosts: nfs_clients
-  roles:
-    - role: setup_nfs
-      host_type: "client"
-
-- name: MyEnv | setup_openstack | setup_kolla
-  hosts: '{{ myenv_hosts | default("localhost") }}'
-  roles:
-    - role: setup_kolla
-      storage_backend_type: "ceph"
+# - name: MyEnv | setup_openstack | setup_nfs
+#   hosts: nfs_servers
+#   roles:
+#     - role: setup_nfs
+#       host_type: "server"
+#
+# - name: MyEnv | setup_openstack | setup_nfs
+#   hosts: nfs_clients
+#   roles:
+#     - role: setup_nfs
+#       host_type: "client"
+#
+# - name: MyEnv | setup_openstack | setup_kolla
+#   hosts: '{{ myenv_hosts | default("localhost") }}'
+#   roles:
+#     - role: setup_kolla
+#       storage_backend_type: "ceph"

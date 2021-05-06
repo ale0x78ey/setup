@@ -1,8 +1,13 @@
 #!/bin/bash
 
-if [ "$IFACE" != {{ network_interfaces[inventory_hostname].gateway.name }} ]; then
+GATEWAY_NAME={{ network_interfaces[inventory_hostname].gateway.name }}
+VLAN_ID={{ network_interfaces[inventory_hostname][kolla_network_interface].vlan_id }}
+
+if [ "$IFACE" != "$GATEWAY_NAME" ]; then
   exit 0
 fi
 
 ip link delete dev {{ kolla_network_interface }}
+ip link delete dev ${GATEWAY_NAME}.${VLAN_ID}
+
 ip link delete dev {{ kolla_neutron_external_interface }}

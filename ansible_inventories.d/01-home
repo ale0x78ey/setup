@@ -17,7 +17,8 @@ desktop1
 k8s_masters
 k8s_nodes
 
-[openstack_nodes]
+[openstack]
+dell1
 desktop1
 
 [nfs_servers]
