@@ -1,11 +1,21 @@
 - name: setup_k8s [debian] | add k8s GPG apt key
   apt_key:
-    url: "{{ k8s_configs.debian.gpg }}"
+    url: "{{ k8s_configs.debian.k8s.key }}"
     state: present
 
 - name: setup_k8s [debian] | add k8s repository
   apt_repository:
-    repo: "{{ k8s_configs.debian.repo }}"
+    repo: "{{ k8s_configs.debian.k8s.repo }}"
+    state: present
+
+- name: setup_k8s [debian] | add Helm GPG apt key
+  apt_key:
+    url: "{{ k8s_configs.debian.helm.key }}"
+    state: present
+
+- name: setup_k8s [debian] | add Helm repository
+  apt_repository:
+    repo: "{{ k8s_configs.debian.helm.repo }}"
     state: present
 
 - name: setup_k8s [debian] | update repositories cache

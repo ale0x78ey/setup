@@ -150,7 +150,7 @@ if [[ "`uname -s`" == "Linux" ]]; then
   export PATH="$HOME/.local/bin:$PATH"
 fi
 
-if [ "$SYSTEM" -o "$OPENSTACK" ]; then
+if [ "$SYSTEM" -o "$OPENSTACK" -o "$CICD" ]; then
   # Make ansible transform invalid characters in group
   # names supplied by inventory sources. If 'never' it
   # will allow for the group name but warn about the
@@ -173,6 +173,8 @@ if [ "$SYSTEM" -o "$OPENSTACK" ]; then
   python3 -m pip install setuptools wheel
   python3 -m pip install ansible==2.9.17
   python3 -m pip install kolla-ansible==11.0.0
+
+  ansible-galaxy collection install community.kubernetes
 fi
 
 if [ "$HOSTS" ]; then

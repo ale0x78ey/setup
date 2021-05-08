@@ -12,6 +12,13 @@
     - tmux.conf
     - vimrc
 
+- name: setup_system | install $HOME/.*
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ ansible_env.HOME }}/.{{ item }}"
+  with_items:
+    - bash_configs.d/k8s.sh
+
 - name: setup_system | install etc/ansible/*
   copy:
     src: etc/ansible

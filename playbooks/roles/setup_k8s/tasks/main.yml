@@ -1,3 +1,7 @@
 - import_tasks: packages_debian.yml
   become: yes
   when: ansible_os_family == "Debian"
+
+- import_tasks: packages_pip.yml
+
+- import_tasks: packages_helm.yml

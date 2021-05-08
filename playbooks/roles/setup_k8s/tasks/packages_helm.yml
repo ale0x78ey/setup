@@ -1,0 +1,13 @@
+- name: setup_k8s | initialize Helm Chart Repositry [Helm]
+  community.kubernetes.helm_repository:
+    name: bitnami
+    repo_url: "https://charts.bitnami.com/bitnami"
+
+- name: setup_k8s | install Airflow [Helm]
+  community.kubernetes.helm:
+    update_repo_cache: yes
+    create_namespace: true
+    kubeconfig_path: "{{ k8s_kubeconfig_path }}"
+    name: airflow
+    namespace: airflow
+    chart_ref: bitnami/airflow
