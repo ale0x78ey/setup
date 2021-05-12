@@ -10,6 +10,8 @@ kolla_install_type: source
 # - rhel
 kolla_base_distro: debian
 
+kolla_base_tag: stable-20210408
+
 kolla_docker_namespace: kolla
 
 kolla_docker_registry: "192.168.0.75:4000"
