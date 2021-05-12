@@ -1,19 +1,19 @@
-# - name: MyEnv | setup_cicd | setup_docker
-#   hosts: k8s
-#   roles:
-#     - setup_docker
-#
-# - name: MyEnv | setup_cicd | setup_docker
-#   hosts: docker_registries
-#   roles:
-#     - role: setup_docker
-#       setup_docker_registries: "yes"
-#
-# - name: MyEnv | setup_cicd | setup_network
-#   hosts: k8s
-#   roles:
-#     - role: setup_network
-#       setup_network_k8s: "yes"
+- name: MyEnv | setup_cicd | setup_docker
+  hosts: k8s
+  roles:
+    - setup_docker
+
+- name: MyEnv | setup_cicd | setup_docker
+  hosts: docker_registries
+  roles:
+    - role: setup_docker
+      setup_docker_registries: "yes"
+
+- name: MyEnv | setup_cicd | setup_network
+  hosts: k8s
+  roles:
+    - role: setup_network
+      setup_network_k8s: "yes"
 
 - name: MyEnv | setup_cicd | setup_k8s
   hosts: k8s

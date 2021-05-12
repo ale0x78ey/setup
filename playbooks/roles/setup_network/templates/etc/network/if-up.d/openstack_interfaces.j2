@@ -1,19 +1,14 @@
 #!/bin/bash
 
 GATEWAY_NAME={{ network_interfaces[inventory_hostname].gateway.name }}
-VLAN_ID={{ network_interfaces[inventory_hostname][kolla_network_interface].vlan_id }}
 
 if [ "$IFACE" != "$GATEWAY_NAME" ]; then
   exit 0
 fi
 
 ip link add link ${GATEWAY_NAME} \
-            name ${GATEWAY_NAME}.${VLAN_ID} \
-            type vlan id ${VLAN_ID}
-
-ip link add link ${GATEWAY_NAME}.${VLAN_ID}    \
             name {{ kolla_network_interface }} \
-            type macvlan
+            type macvlan mode bridge
 
 ip addr add {{ network_interfaces[inventory_hostname][kolla_network_interface].cidr }} \
         dev {{ kolla_network_interface }}
@@ -22,6 +17,5 @@ ip link add link ${GATEWAY_NAME} \
             name {{ kolla_neutron_external_interface }} \
             type macvtap
 
-ip link set ${GATEWAY_NAME}.${VLAN_ID} up
 ip link set {{ kolla_network_interface }} up
 ip link set {{ kolla_neutron_external_interface }} up

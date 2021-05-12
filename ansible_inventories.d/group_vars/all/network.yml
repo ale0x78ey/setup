@@ -6,9 +6,8 @@ network_requirements_debian_nm:
 
 network_interfaces:
   desktop1:
-    macvlan2:
-      cidr: "192.168.2.20/24"
-      vlan_id: 2
+    macvlan0:
+      cidr: "192.168.0.20/24"
     macvlan3:
       cidr: "192.168.3.20/24"
       vlan_id: 3
@@ -18,9 +17,8 @@ network_interfaces:
       addr: "192.168.0.70"
 
   dell1:
-    macvlan2:
-      cidr: "192.168.2.21/24"
-      vlan_id: 2
+    macvlan0:
+      cidr: "192.168.0.21/24"
     macvlan3:
       cidr: "192.168.3.21/24"
       vlan_id: 3
