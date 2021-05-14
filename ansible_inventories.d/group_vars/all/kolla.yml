@@ -10,7 +10,11 @@ kolla_install_type: source
 # - rhel
 kolla_base_distro: debian
 
-kolla_base_tag: stable-20210408
+kolla_base_tags:
+  debian: stable-20210408
+  ubuntu: "20.04"
+
+kolla_base_tag: "{{ kolla_base_tags[kolla_base_distro] }}"
 
 kolla_docker_namespace: kolla
 

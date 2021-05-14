@@ -7,11 +7,12 @@
 
 - name: setup_kolla | install etc/kolla/config [common]
   copy:
-    src: "etc/kolla/config/common/{{ item }}/"
+    src: "etc/kolla/config/common/{{ item }}"
     dest: "/etc/kolla/config/{{ item }}"
     mode: "755"
   with_items:
-    - neutron
+    - karbor.conf
+    - neutron/
 
 - name: setup_kolla | install etc/kolla/kolla-build.conf [common]
   template:

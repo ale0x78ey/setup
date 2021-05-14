@@ -1,6 +1,10 @@
 openstack_release: victoria
 openstack_tag: "{{ openstack_release }}"
 
+openstack_requirements_debian:
+  - qemu
+  - qemu-kvm
+
 openstack_versions:
   victoria:
     cinder-base: e9013589c458e1bcfad8295924a2a69c6c9a236b
