@@ -1,0 +1,6 @@
+libvirt_requirements_debian:
+  - libosinfo-bin
+  - libvirt-daemon-system
+  - qemu
+  - qemu-kvm
+  - virtinst

@@ -16,7 +16,8 @@ Options:
                          Pass variables to the command line for ansible-playbook.
 
 Commands:
-  system                 Setup system.
+  system [default|libvirt]
+                         Setup system.
   openstack              Setup OpenStack.
   vim                    Setup vim.
   cicd                   Setup CI/CD.
@@ -69,7 +70,7 @@ fi
 eval set -- ${ARGS}
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null && pwd)"
-INVENTORY="${SCRIPT_DIR}/default/ansible_inventories.d"
+INVENTORY="${SCRIPT_DIR}/inventories.d/default"
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -109,7 +110,8 @@ while [ "$#" -gt 0 ]; do
   case "$1" in
     (system)
       SYSTEM=1
-      shift
+      SYSTEM_SUBCOMMAND="$2"
+      shift 2
       ;;
 
     (openstack)
@@ -150,30 +152,36 @@ if [[ "`uname -s`" == "Linux" ]]; then
   export PATH="$HOME/.local/bin:$PATH"
 fi
 
-if [ "$SYSTEM" -o "$OPENSTACK" -o "$CICD" ]; then
-  # Make ansible transform invalid characters in group
-  # names supplied by inventory sources. If 'never' it
-  # will allow for the group name but warn about the
-  # issue. When 'ignore', it does the same as 'never',
-  # without issuing a warning. When 'always' it will
-  # replace any invalid characters with '_' and warn
-  # the user. When 'silently', it does the same as 'always',
-  # without issuing a warning.
-  export ANSIBLE_TRANSFORM_INVALID_GROUP_CHARS='ignore'
+# Make ansible transform invalid characters in group
+# names supplied by inventory sources. If 'never' it
+# will allow for the group name but warn about the
+# issue. When 'ignore', it does the same as 'never',
+# without issuing a warning. When 'always' it will
+# replace any invalid characters with '_' and warn
+# the user. When 'silently', it does the same as 'always',
+# without issuing a warning.
+export ANSIBLE_TRANSFORM_INVALID_GROUP_CHARS='ignore'
 
-  if ! `python3 -m pip &> /dev/null`; then
-    curl https://bootstrap.pypa.io/get-pip.py | python3 -
+if ! `python3 -m pip &> /dev/null`; then
+  curl https://bootstrap.pypa.io/get-pip.py | python3 -
+fi
+
+if [[ -e ${SCRIPT_DIR}/.venv ]]; then
+  source ${SCRIPT_DIR}/.venv/bin/activate && trap deactivate EXIT
+fi
+
+python3 -m pip install -U certifi
+python3 -m pip install setuptools wheel
+python3 -m pip install ansible==2.9.17
+python3 -m pip install kolla-ansible==11.0.0
+
+if [ "$SYSTEM" ]; then
+  if [[ "$SYSTEM_SUBCOMMAND" == "libvirt" ]]; then
+    ansible-galaxy collection install community.libvirt
   fi
+fi
 
-  if [[ -e ${SCRIPT_DIR}/.venv ]]; then
-    source ${SCRIPT_DIR}/.venv/bin/activate && trap deactivate EXIT
-  fi
-
-  python3 -m pip install -U certifi
-  python3 -m pip install setuptools wheel
-  python3 -m pip install ansible==2.9.17
-  python3 -m pip install kolla-ansible==11.0.0
-
+if [ "$CICD" ]; then
   ansible-galaxy collection install community.kubernetes
 fi
 
@@ -186,9 +194,17 @@ if [ "$HOSTS" ]; then
 fi
 
 if [ "$SYSTEM" ]; then
-  ansible-playbook -i "${INVENTORY}" \
-                   -e "${ANSIBLE_EXTRA_VARIABLES}" \
-                   ${SCRIPT_DIR}/playbooks/setup_system.yml
+  if [[ "$SYSTEM_SUBCOMMAND" == "libvirt" ]]; then
+    ansible-playbook -i "${INVENTORY}" \
+                     -e "${ANSIBLE_EXTRA_VARIABLES}" \
+                     ${SCRIPT_DIR}/playbooks/setup_libvirt.yml
+  fi
+
+  if [[ "$SYSTEM_SUBCOMMAND" == "default" ]]; then
+    ansible-playbook -i "${INVENTORY}" \
+                     -e "${ANSIBLE_EXTRA_VARIABLES}" \
+                     ${SCRIPT_DIR}/playbooks/setup_system.yml
+  fi
 fi
 
 if [ "$OPENSTACK" ]; then

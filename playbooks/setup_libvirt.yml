@@ -1,0 +1,4 @@
+- name: MyEnv | setup_libvirt
+  hosts: '{{ myenv_hosts | default("localhost") }}'
+  roles:
+    - setup_libvirt
