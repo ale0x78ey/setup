@@ -4,3 +4,6 @@ libvirt_requirements_debian:
   - qemu
   - qemu-kvm
   - virtinst
+
+libvirt_requirements_pip:
+  - libvirt-python

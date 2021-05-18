@@ -1,0 +1,8 @@
+- name: setup_libvirt | install -U pip
+  pip:
+    name: pip
+    extra_args: "-U"
+
+- name: setup_libvirt | install requirements [pip]
+  pip:
+    name: "{{ libvirt_requirements_pip }}"
