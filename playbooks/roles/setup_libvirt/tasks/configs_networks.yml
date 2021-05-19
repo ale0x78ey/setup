@@ -4,3 +4,9 @@
     name: "{{ item.key }}"
     xml: '{{ lookup("template", "network.xml.j2") }}'
   with_dict: "{{ libvirt_networks_by_name }}"
+
+- name: setup_libvirt | start networks
+  community.libvirt.virt_net:
+    command: create
+    name: "{{ item.key }}"
+  with_dict: "{{ libvirt_networks_by_name }}"
