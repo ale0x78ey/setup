@@ -1,0 +1,2 @@
+ovs_networks:
+  - bridge: ovs-br-1

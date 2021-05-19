@@ -1,0 +1,15 @@
+libvirt_networks_by_name:
+  ovs-network-1:
+    name: "ovs-network-1"
+    uuid: "929a4bd3-d4cf-43ba-a61a-dc91eb33efda"
+    forward:
+      mode: bridge
+    bridge:
+      name: ovs-br-1
+    virtualport:
+      type: openvswitch
+
+libvirt_vms:
+  - name: "compute-1"
+    uuid: "a08ac791-ece9-47a0-a74f-d5f289115f81"
+    network: name="ovs-network-1"

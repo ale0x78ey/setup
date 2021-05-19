@@ -1,0 +1,12 @@
+- name: setup_ovs [debian] | enable IPv4 forwarding
+  sysctl: name=net.ipv4.ip_forward value=1
+
+- name: setup_ovs [debian] | enable IPv6 forwarding
+  sysctl: name=net.ipv6.conf.all.forwarding value=1
+
+- name: setup_ovs [debian] | create ovs bridges
+  openvswitch.openvswitch.openvswitch_bridge:
+    bridge: "{{ item.bridge }}"
+    state: present
+  with_items:
+    - "{{ ovs_networks }}"
