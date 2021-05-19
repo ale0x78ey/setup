@@ -1,12 +1,12 @@
 - name: setup_libvirt | define networks
   community.libvirt.virt_net:
     command: define
-    name: "{{ item.key }}"
-    xml: '{{ lookup("template", "network.xml.j2") }}'
-  with_dict: "{{ libvirt_networks_by_name }}"
+    name: "{{ item.name }}"
+    xml: '{{ lookup("template", item.template) }}'
+  with_items: "{{ libvirt_networks }}"
 
-- name: setup_libvirt | start networks
+- name: setup_libvirt | create networks
   community.libvirt.virt_net:
     command: create
-    name: "{{ item.key }}"
-  with_dict: "{{ libvirt_networks_by_name }}"
+    name: "{{ item.name }}"
+  with_items: "{{ libvirt_networks }}"

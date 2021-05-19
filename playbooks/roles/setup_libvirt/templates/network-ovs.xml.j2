@@ -1,0 +1,7 @@
+<network>
+  <name>{{ item.name }}</name>
+  <uuid>{{ item.uuid }}</uuid>
+  <forward mode="bridge"/>
+  <bridge name='{{ item.bridge.name }}'/>
+  <virtualport type="openvswitch"/>
+</network>
