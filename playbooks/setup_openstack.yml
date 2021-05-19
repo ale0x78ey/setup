@@ -1,4 +1,10 @@
-- name: MyEnv | setup_openstack
+- name: MyEnv | setup_openstack | setup_ovs
+  hosts: '{{ myenv_hosts | default("localhost") }}'
+  roles:
+    - role: setup_ovs
+      setup_networks: "yes"
+
+- name: MyEnv | setup_openstack | setup_libvirt
   hosts: '{{ myenv_hosts | default("localhost") }}'
   roles:
     - role: setup_libvirt

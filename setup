@@ -16,7 +16,7 @@ Options:
                          Pass variables to the command line for ansible-playbook.
 
 Commands:
-  system [default|libvirt]
+  system [default|ovs|libvirt]
                          Setup system.
   openstack [kolla|train|victoria]
                          Setup OpenStack.
@@ -178,6 +178,10 @@ python3 -m pip install ansible==2.9.17
 python3 -m pip install kolla-ansible==11.0.0
 
 if [ "$SYSTEM" ]; then
+  if [[ "$SYSTEM_SUBCOMMAND" == "ovs" ]]; then
+    ansible-galaxy collection install openvswitch.openvswitch
+  fi
+
   if [[ "$SYSTEM_SUBCOMMAND" == "libvirt" ]]; then
     ansible-galaxy collection install community.libvirt
   fi
@@ -196,6 +200,12 @@ if [ "$HOSTS" ]; then
 fi
 
 if [ "$SYSTEM" ]; then
+  if [[ "$SYSTEM_SUBCOMMAND" == "ovs" ]]; then
+    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/default}" \
+                     -e "${ANSIBLE_EXTRA_VARIABLES}" \
+                     ${SCRIPT_DIR}/playbooks/setup_ovs.yml
+  fi
+
   if [[ "$SYSTEM_SUBCOMMAND" == "libvirt" ]]; then
     ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/default}" \
                      -e "${ANSIBLE_EXTRA_VARIABLES}" \
