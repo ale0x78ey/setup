@@ -220,25 +220,16 @@ if [ "$SYSTEM" ]; then
 fi
 
 if [ "$OPENSTACK" ]; then
-  setup_openstack_project() {
-    if [ "$ANSIBLE_EXTRA_VARIABLES" ]; then
-      ANSIBLE_EXTRA_VARIABLES="myenv_openstack_project=$1 ${ANSIBLE_EXTRA_VARIABLES}"
-    else
-      ANSIBLE_EXTRA_VARIABLES="myenv_openstack_project=$1"
-    fi
-  }
+  if [[ "$OPENSTACK_SUBCOMMAND" == "victoria_libvirt" ]]; then
+    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/openstack_victoria_libvirt}" \
+                     -e "${ANSIBLE_EXTRA_VARIABLES}" \
+                     ${SCRIPT_DIR}/playbooks/setup_openstack_libvirt.yml
+  fi
 
   if [[ "$OPENSTACK_SUBCOMMAND" == "victoria" ]]; then
-    setup_openstack_project "victoria"
     ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/openstack_victoria}" \
                      -e "${ANSIBLE_EXTRA_VARIABLES}" \
                      ${SCRIPT_DIR}/playbooks/setup_openstack.yml
-  fi
-
-  if [[ "$OPENSTACK_SUBCOMMAND" == "kolla" ]]; then
-    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/openstack_kolla}" \
-                     -e "${ANSIBLE_EXTRA_VARIABLES}" \
-                     ${SCRIPT_DIR}/playbooks/setup_kolla.yml
 
     cat<< EOF
 Don't forget to reload configured hosts to apply network settings.

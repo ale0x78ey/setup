@@ -41,9 +41,9 @@ openstack_release = {{ kolla_openstack_release }}
 
 [profiles]
 
-default = chrony,cinder,cron,kolla-toolbox,fluentd,freezer,glance,haproxy,heat,horizon,iscsi,keepalived,keystone,mariadb,memcached,neutron,nova-,placement,openvswitch,rabbitmq,tgtd,karbor,manila
+default = chrony,cinder,cron,kolla-toolbox,fluentd,freezer,glance,haproxy,heat,horizon,iscsi,keepalived,keystone,mariadb,memcached,neutron,nova-,placement,openvswitch,rabbitmq,tgtd,karbor
 
-{% for s in openstack_base_sources %}
+{% for s in kolla_build_sources %}
 [{{s.name}}]
 type = local
 location = {{ s.location }}
