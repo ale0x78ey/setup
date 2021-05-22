@@ -1,3 +1,8 @@
+- name: MyEnv | setup_kolla | setup_docker
+  hosts: '{{ myenv_hosts | default("desktop1") }}'
+  roles:
+    - setup_docker
+
 - name: MyEnv | setup_kolla
   hosts: '{{ myenv_hosts | default("desktop1") }}'
   roles:
