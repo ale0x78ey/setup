@@ -15,7 +15,7 @@ base_tag = {{ kolla_base_tag }}
 base_arch = x86_64
 
 # The Docker tag.
-tag = {{ openstack_tag }}
+tag = {{ kolla_openstack_tag }}
 
 # The Docker namespace name.
 namespace = {{ kolla_docker_namespace }}
@@ -37,7 +37,7 @@ install_type = {{ kolla_install_type }}
 pull = true
 
 # OpenStack release for building kolla-toolbox.
-openstack_release = {{ openstack_release }}
+openstack_release = {{ kolla_openstack_release }}
 
 [profiles]
 

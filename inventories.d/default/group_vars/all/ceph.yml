@@ -1,3 +1,0 @@
-ceph_requirements_debian:
-  - ceph-common
-  - python3-rbd

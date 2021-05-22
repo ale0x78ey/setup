@@ -1,3 +1,6 @@
+kolla_openstack_release: victoria
+kolla_openstack_tag: "{{ kolla_openstack_release }}"
+
 # Possible values:
 # - binary
 # - source
