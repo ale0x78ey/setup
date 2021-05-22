@@ -9,9 +9,13 @@ system_requirements_debian:
   - locales
   - software-properties-common
 
-system_sources_path: "{{ ansible_env.HOME }}/Projects"
-
-system_requirements_sources:
-  - name: ceph-deploy
-    repo: https://github.com/ceph/ceph-deploy.git
-    location: "{{ system_sources_path }}/ceph-deploy"
+  # Build dependencies.
+  - autoconf
+  - automake
+  - autotools-dev
+  - binutils
+  - gcc
+  - g++
+  - make
+  - pkg-config
+  - sed

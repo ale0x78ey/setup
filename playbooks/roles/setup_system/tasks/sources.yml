@@ -1,8 +1,3 @@
-- name: setup_system | create system_sources_path
-  file:
-    path: "{{ openstack_sources_path }}"
-    state: directory
-
 - name: setup_system | git co sources
   git:
     repo: "{{ item.repo }}"
@@ -10,5 +5,4 @@
     dest: "{{ item.location }}"
     update: no
   with_items:
-    - "{{ system_requirements_sources }}"
     - "{{ python_requirements_sources }}"

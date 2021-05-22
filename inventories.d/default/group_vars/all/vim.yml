@@ -1,0 +1,5 @@
+vim_requirements_debian:
+  - silversearcher-ag
+
+vim_requirements_darwin:
+  - the_silver_searcher

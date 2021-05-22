@@ -9,3 +9,7 @@
 - name: setup_system [darwin] | install requirements [ruby]
   package: name="{{ item }}"
   with_items: "{{ ruby_requirements_darwin }}"
+
+- name: setup_system [darwin] | install requirements [vim]
+  package: name="{{ item }}"
+  with_items: "{{ vim_requirements_darwin }}"
