@@ -4,19 +4,6 @@
     - role: setup_network
       setup_network_openstack: "yes"
 
-# - name: MyEnv | setup_openstack | setup_nfs
-#   hosts: nfs_servers
-#   roles:
-#     - role: setup_nfs
-#       host_type: "server"
-#
-# - name: MyEnv | setup_openstack | setup_nfs
-#   hosts: nfs_clients
-#   roles:
-#     - role: setup_nfs
-#       host_type: "client"
-#
-
 - name: MyEnv | setup_kolla
   hosts: '{{ myenv_hosts | default("localhost") }}'
   roles:

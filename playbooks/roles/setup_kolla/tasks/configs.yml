@@ -1,20 +1,30 @@
-- name: setup_kolla | create /etc/kolla/config directory [common]
+- name: setup_kolla | create /etc/kolla/config/* directories [common]
   file:
-    path: "/etc/kolla/config"
+    path: "/etc/kolla/config/{{ item }}"
     mode: "755"
     state: directory
     recurse: yes
+  with_items:
+    - cinder/cinder-backup
+    - cinder/cinder-volume
+    - glance
+    - karbor/karbor-protection/providers.d
+    - neutron
+    - nova
 
-- name: setup_kolla | install etc/kolla/config [common]
+- name: setup_kolla | install etc/kolla/config/* [common]
   copy:
     src: "etc/kolla/config/common/{{ item }}"
     dest: "/etc/kolla/config/{{ item }}"
     mode: "755"
   with_items:
     - karbor.conf
-    - neutron/
+    - neutron/ml2_conf.ini
+    - neutron/openvswitch_agent.ini
 
-- name: setup_kolla | install etc/kolla/kolla-build.conf [common]
+- name: setup_kolla | install etc/kolla/* [common]
   template:
-    src: etc/kolla/kolla-build.conf.j2
-    dest: "/etc/kolla/kolla-build.conf"
+    src: "etc/kolla/common/{{ item }}.j2"
+    dest: "/etc/kolla/{{ item }}"
+  with_items:
+    - kolla-build.conf
