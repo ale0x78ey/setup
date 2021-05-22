@@ -1,8 +1,0 @@
-- name: setup_network [debian] | install if-{up,down}.d/openstack_interfaces [openstack]
-  template:
-    src: etc/network/{{ item }}/openstack_interfaces.j2
-    dest: "/etc/network/{{ item }}/openstack_interfaces"
-    mode: a+x
-  with_items:
-    - "if-up.d"
-    - "if-down.d"

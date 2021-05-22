@@ -1,3 +1,12 @@
+- name: setup_network [debian] | install requirements
+  package: name="{{ item }}"
+  with_items: "{{ network_requirements_debian }}"
+
+- name: setup_network [debian] | install requirements [NetworkManager]
+  package: name="{{ item }}"
+  with_items: "{{ network_requirements_debian_nm }}"
+  when: network_manager_type | d("NetworkManager") == "NetworkManager"
+
 - name: setup_kolla [debian] | install requirements [ceph]
   package: name="{{ item }}"
   with_items: "{{ ceph_requirements_debian }}"

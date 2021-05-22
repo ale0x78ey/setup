@@ -4,6 +4,11 @@
 
 - import_tasks: sources.yml
 
+- import_tasks: configs_debian_nm.yml
+  become: yes
+  when: ansible_os_family == "Debian" and
+        network_manager_type | d("NetworkManager") == "NetworkManager"
+
 - import_tasks: configs.yml
   become: yes
 

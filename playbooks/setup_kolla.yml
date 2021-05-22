@@ -1,11 +1,5 @@
-- name: MyEnv | setup_kolla | setup_network
-  hosts: openstack
-  roles:
-    - role: setup_network
-      setup_network_openstack: "yes"
-
 - name: MyEnv | setup_kolla
-  hosts: '{{ myenv_hosts | default("localhost") }}'
+  hosts: '{{ myenv_hosts | default("desktop1") }}'
   roles:
     - role: setup_kolla
       storage_backend_type: "ceph"
