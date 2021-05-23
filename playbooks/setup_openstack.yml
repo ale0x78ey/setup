@@ -1,11 +1,11 @@
 - name: MyEnv | setup_openstack | setup_docker
-  hosts: '{{ myenv_hosts | default("desktop1") }}'
+  hosts: '{{ myenv_hosts }}'
   roles:
     - role: setup_docker
       setup_docker_registries: "yes"
 
 - name: MyEnv | setup_openstack | setup_kolla
-  hosts: '{{ myenv_hosts | default("desktop1") }}'
+  hosts: '{{ myenv_hosts }}'
   roles:
     - role: setup_kolla
       storage_backend_type: "ceph"

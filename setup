@@ -16,10 +16,8 @@ Options:
                          Pass variables to the command line for ansible-playbook.
 
 Commands:
-  system [default|ovs|libvirt]
-                         Setup system.
-  openstack [kolla|train|victoria]
-                         Setup OpenStack.
+  system <project>       Setup system.
+  openstack <project>    Setup OpenStack.
   vim                    Setup vim.
   cicd                   Setup CI/CD.
 
@@ -201,19 +199,19 @@ fi
 
 if [ "$SYSTEM" ]; then
   if [[ "$SYSTEM_SUBCOMMAND" == "ovs" ]]; then
-    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/default}" \
+    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/setup_system}" \
                      -e "${ANSIBLE_EXTRA_VARIABLES}" \
                      ${SCRIPT_DIR}/playbooks/setup_ovs.yml
   fi
 
   if [[ "$SYSTEM_SUBCOMMAND" == "libvirt" ]]; then
-    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/default}" \
+    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/setup_system}" \
                      -e "${ANSIBLE_EXTRA_VARIABLES}" \
                      ${SCRIPT_DIR}/playbooks/setup_libvirt.yml
   fi
 
   if [[ "$SYSTEM_SUBCOMMAND" == "default" ]]; then
-    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/default}" \
+    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/setup_system}" \
                      -e "${ANSIBLE_EXTRA_VARIABLES}" \
                      ${SCRIPT_DIR}/playbooks/setup_system.yml
   fi
