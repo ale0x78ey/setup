@@ -211,7 +211,7 @@ if [ "$SYSTEM" ]; then
   fi
 
   if [[ "$SYSTEM_SUBCOMMAND" == "default" ]]; then
-    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/setup_system}" \
+    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/system}" \
                      -e "${ANSIBLE_EXTRA_VARIABLES}" \
                      ${SCRIPT_DIR}/playbooks/setup_system.yml
   fi
