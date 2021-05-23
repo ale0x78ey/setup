@@ -77,8 +77,7 @@ kolla_install_type: source
 kolla_base_distro: ubuntu
 
 kolla_base_tags:
-  debian: stable-20210408
-  ubuntu: "20.04"
+  ubuntu: "18.04"
 
 kolla_base_tag: "{{ kolla_base_tags[kolla_base_distro] }}"
 
