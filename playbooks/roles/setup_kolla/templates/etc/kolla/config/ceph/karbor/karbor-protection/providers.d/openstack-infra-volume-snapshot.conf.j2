@@ -9,9 +9,9 @@ bank=karbor-s3-bank-plugin
 enabled=True
 
 [s3_client]
-s3_endpoint=http://192.168.0.70:7480
-s3_access_key=Y2KMIUG9HPLSKLE8PAR8
-s3_secret_key=sUJBLAHaaiiVaqpmzmNnHd1OrC7hKtZxuIxOMqps
+s3_endpoint={{ s3_endpoint }}
+s3_access_key={{ s3_access_key }}
+s3_secret_key={{ s3_secret_key }}
 
 [s3_bank_plugin]
 lease_expire_window=600

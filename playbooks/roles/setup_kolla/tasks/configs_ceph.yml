@@ -7,9 +7,6 @@
     - cinder/cinder-backup.conf
     - cinder/cinder-volume.conf
     - glance/glance-api.conf
-    - karbor/karbor-protection/providers.d/noop.conf
-    - karbor/karbor-protection/providers.d/openstack-infra.conf
-    - karbor/karbor-protection/providers.d/openstack-infra-volume-snapshot.conf
     - nova/nova-compute.conf
 
 - name: setup_kolla | install etc/kolla/* [ceph]
@@ -17,6 +14,9 @@
     src: "etc/kolla/ceph/{{ item }}.j2"
     dest: "/etc/kolla/{{ item }}"
   with_items:
+    - config/karbor/karbor-protection/providers.d/noop.conf
+    - config/karbor/karbor-protection/providers.d/openstack-infra.conf
+    - config/karbor/karbor-protection/providers.d/openstack-infra-volume-snapshot.conf
     - globals.yml
 
 - name: setup_kolla | install etc/kolla/config/*/ceph.conf [ceph]
