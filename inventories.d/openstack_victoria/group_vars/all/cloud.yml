@@ -86,6 +86,31 @@ kolla_base_tags:
 
 kolla_base_tag: "{{ kolla_base_tags[kolla_base_distro] }}"
 
+kolla_profiles:
+  default:
+    - chrony
+    - cinder
+    - cron
+    - kolla-toolbox
+    - fluentd
+    - freezer
+    - glance
+    - haproxy
+    - heat
+    - horizon
+    - iscsi
+    - keepalived
+    - keystone
+    - mariadb
+    - memcached
+    - neutron
+    - nova-
+    - placement
+    - openvswitch
+    - rabbitmq
+    - tgtd
+    - karbor
+
 kolla_docker_namespace: kolla
 
 kolla_docker_registry: "{{ docker_insecure_registries[0] }}:{{ docker_insecure_registries_port }}"

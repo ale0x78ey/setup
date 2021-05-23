@@ -67,7 +67,7 @@ kolla_build_sources:
 # Possible values:
 # - binary
 # - source
-kolla_install_type: source
+kolla_install_type: binary
 
 # Possible values:
 # - centos
@@ -80,6 +80,30 @@ kolla_base_tags:
   ubuntu: "18.04"
 
 kolla_base_tag: "{{ kolla_base_tags[kolla_base_distro] }}"
+
+kolla_profiles:
+  default:
+    - chrony
+    - cinder
+    - cron
+    - kolla-toolbox
+    - fluentd
+    - freezer
+    - glance
+    - haproxy
+    - heat
+    - horizon
+    - iscsi
+    - keepalived
+    - keystone
+    - mariadb
+    - memcached
+    - neutron
+    - nova-
+    - placement
+    - openvswitch
+    - rabbitmq
+    - tgtd
 
 kolla_docker_namespace: kolla
 
