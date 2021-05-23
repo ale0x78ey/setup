@@ -236,6 +236,17 @@ Don't forget to reload configured hosts to apply network settings.
 EOF
 
   fi
+
+  if [[ "$OPENSTACK_SUBCOMMAND" == "train" ]]; then
+    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/openstack_train}" \
+                     -e "${ANSIBLE_EXTRA_VARIABLES}" \
+                     ${SCRIPT_DIR}/playbooks/setup_openstack.yml
+
+    cat<< EOF
+Don't forget to reload configured hosts to apply network settings.
+EOF
+
+  fi
 fi
 
 if [ "$VIM" ]; then
