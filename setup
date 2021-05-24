@@ -18,7 +18,7 @@ Options:
 Commands:
   system [default|k8s|libvirt|ovs]
   openstack <project>
-  vim
+  nlp
 
 EOF
 }
@@ -118,8 +118,8 @@ while [ "$#" -gt 0 ]; do
       shift 2
       ;;
 
-    (vim)
-      VIM=1
+    (nlp)
+      NLP=1
       shift
       ;;
 
@@ -229,6 +229,8 @@ EOF
   fi
 fi
 
-if [ "$VIM" ]; then
-  source ${SCRIPT_DIR}/setup_vim
+if [ "$NLP" ]; then
+    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/nlp}" \
+                     -e "${ANSIBLE_EXTRA_VARIABLES}" \
+                     ${SCRIPT_DIR}/playbooks/setup_nlp.yml
 fi
