@@ -7,8 +7,6 @@ k8s_requirements:
 k8s_requirements_pip:
   - PyYAML
 
-k8s_network_interface: macvlan3
-
 k8s_kubeconfig_path: "{{ ansible_env.HOME }}/.kube/config"
 
 k8s_configs:
