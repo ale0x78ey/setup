@@ -16,10 +16,9 @@ Options:
                          Pass variables to the command line for ansible-playbook.
 
 Commands:
-  system <project>       Setup system.
-  openstack <project>    Setup OpenStack.
-  vim                    Setup vim.
-  cicd                   Setup CI/CD.
+  system [default|k8s|libvirt|ovs]
+  openstack <project>
+  vim
 
 EOF
 }
@@ -124,11 +123,6 @@ while [ "$#" -gt 0 ]; do
       shift
       ;;
 
-    (cicd)
-      CICD=1
-      shift
-      ;;
-
     (*)
       usage >&2
       exit -3
@@ -176,17 +170,17 @@ python3 -m pip install ansible==2.9.17
 python3 -m pip install kolla-ansible==11.0.0
 
 if [ "$SYSTEM" ]; then
-  if [[ "$SYSTEM_SUBCOMMAND" == "ovs" ]]; then
-    ansible-galaxy collection install openvswitch.openvswitch
+  if [[ "$SYSTEM_SUBCOMMAND" == "k8s" ]]; then
+    ansible-galaxy collection install community.kubernetes
   fi
 
   if [[ "$SYSTEM_SUBCOMMAND" == "libvirt" ]]; then
     ansible-galaxy collection install community.libvirt
   fi
-fi
 
-if [ "$CICD" ]; then
-  ansible-galaxy collection install community.kubernetes
+  if [[ "$SYSTEM_SUBCOMMAND" == "ovs" ]]; then
+    ansible-galaxy collection install openvswitch.openvswitch
+  fi
 fi
 
 if [ "$HOSTS" ]; then
@@ -198,18 +192,6 @@ if [ "$HOSTS" ]; then
 fi
 
 if [ "$SYSTEM" ]; then
-  if [[ "$SYSTEM_SUBCOMMAND" == "ovs" ]]; then
-    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/setup_system}" \
-                     -e "${ANSIBLE_EXTRA_VARIABLES}" \
-                     ${SCRIPT_DIR}/playbooks/setup_ovs.yml
-  fi
-
-  if [[ "$SYSTEM_SUBCOMMAND" == "libvirt" ]]; then
-    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/setup_system}" \
-                     -e "${ANSIBLE_EXTRA_VARIABLES}" \
-                     ${SCRIPT_DIR}/playbooks/setup_libvirt.yml
-  fi
-
   if [[ "$SYSTEM_SUBCOMMAND" == "default" ]]; then
     ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/system}" \
                      -e "${ANSIBLE_EXTRA_VARIABLES}" \
@@ -249,10 +231,4 @@ fi
 
 if [ "$VIM" ]; then
   source ${SCRIPT_DIR}/setup_vim
-fi
-
-if [ "$CICD" ]; then
-  ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/default}" \
-                   -e "${ANSIBLE_EXTRA_VARIABLES}" \
-                   ${SCRIPT_DIR}/playbooks/setup_cicd.yml
 fi

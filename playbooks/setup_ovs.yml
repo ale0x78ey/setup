@@ -1,4 +1,0 @@
-- name: MyEnv | setup_ovs
-  hosts: '{{ myenv_hosts | default("localhost") }}'
-  roles:
-    - setup_ovs
