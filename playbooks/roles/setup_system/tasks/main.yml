@@ -5,7 +5,14 @@
 - import_tasks: packages_darwin.yml
   when: ansible_os_family == "Darwin"
 
+- import_tasks: packages_debian_vim.yml
+  when: ansible_os_family == "Debian" and
+        setup_vim | d("no") == "yes"
+
 - import_tasks: packages_pip.yml
+
+- import_tasks: packages_jupyter.yml
+  when: setup_jupyter | d("no") == "yes"
 
 - import_tasks: sources.yml
 
@@ -14,3 +21,6 @@
 - import_tasks: configs_debian.yml
   become: yes
   when: ansible_os_family == "Debian"
+
+- import_tasks: configs_vim.yml
+  when: setup_vim | d("no") == "yes"

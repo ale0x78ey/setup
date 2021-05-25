@@ -1,0 +1,3 @@
+- name: setup_system [debian] | install requirements [vim]
+  package: name="{{ item }}"
+  with_items: "{{ vim_requirements_debian }}"
