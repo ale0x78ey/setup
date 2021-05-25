@@ -1,4 +1,5 @@
 - name: MyEnv | setup_nlp
-  hosts: '{{ myenv_hosts | default("localhost") }}'
+  hosts: master1
   roles:
+    - setup_docker
     - setup_nlp

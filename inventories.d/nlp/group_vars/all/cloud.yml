@@ -1,0 +1,22 @@
+#################
+# Network options
+#################
+
+network_requirements_debian:
+  - iproute2
+
+network_interfaces:
+  master1:
+    gateway:
+      name: "eth0"
+      cidr: "10.129.0.17/24"
+      addr: "10.129.0.17"
+
+################
+# Docker options
+################
+
+docker_insecure_registries:
+  - "{{ network_interfaces[inventory_hostname].gateway.addr }}"
+
+docker_insecure_registries_port: "4000"
