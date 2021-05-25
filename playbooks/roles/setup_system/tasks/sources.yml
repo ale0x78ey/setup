@@ -1,8 +1,8 @@
-- name: setup_system | git co sources
+- name: setup_system | download sources
   git:
     repo: "{{ item.repo }}"
-    accept_hostkey: True
     dest: "{{ item.location }}"
+    accept_hostkey: True
     update: no
   with_items:
     - "{{ python_requirements_sources }}"

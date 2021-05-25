@@ -1,3 +1,6 @@
 - import_tasks: packages_debian.yml
   become: yes
   when: ansible_os_family == "Debian"
+
+- import_tasks: sources.yml
+  when: download_sources | d("no") == "yes"

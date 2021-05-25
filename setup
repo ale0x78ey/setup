@@ -18,7 +18,7 @@ Options:
 Commands:
   system [default|k8s|libvirt|ovs]
   openstack <project>
-  nlp
+  ml
 
 EOF
 }
@@ -118,8 +118,8 @@ while [ "$#" -gt 0 ]; do
       shift 2
       ;;
 
-    (nlp)
-      NLP=1
+    (ml)
+      ML=1
       shift
       ;;
 
@@ -229,8 +229,8 @@ EOF
   fi
 fi
 
-if [ "$NLP" ]; then
-    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/nlp}" \
+if [ "$ML" ]; then
+    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/ml}" \
                      -e "${ANSIBLE_EXTRA_VARIABLES}" \
-                     ${SCRIPT_DIR}/playbooks/setup_nlp.yml
+                     ${SCRIPT_DIR}/playbooks/setup_ml.yml
 fi

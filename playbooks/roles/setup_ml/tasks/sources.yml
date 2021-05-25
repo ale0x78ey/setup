@@ -1,0 +1,13 @@
+- name: setup_ml | create ml_projects_path
+  file:
+    path: "{{ ml_projects_path }}"
+    state: directory
+
+- name: setup_ml | download sources
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.location }}"
+    accept_hostkey: True
+    update: no
+  with_items:
+    - "{{ ml_sources }}"

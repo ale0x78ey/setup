@@ -20,3 +20,17 @@ docker_insecure_registries:
   - "{{ network_interfaces[inventory_hostname].gateway.addr }}"
 
 docker_insecure_registries_port: "4000"
+
+####################
+# PostgreSQL options
+####################
+
+############
+# ML options
+############
+
+ml_projects_path: "{{ ansible_env.HOME }}/Projects"
+
+ml_sources:
+    repo: https://github.com/yandexdataschool/nlp_course.git
+    location: "{{ ml_projects_path }}/nlp_course"

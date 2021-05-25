@@ -1,5 +1,5 @@
-- name: MyEnv | setup_nlp
+- name: MyEnv | setup_ml
   hosts: master1
   roles:
     - setup_docker
-    - setup_nlp
+    - setup_ml
