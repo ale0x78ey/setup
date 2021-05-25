@@ -1,17 +1,17 @@
 [control]
-dell1
+desktop1
 
 [network]
-dell1
+desktop1
 
 [compute]
-dell1
+desktop1
 
 [monitoring]
-dell1
+desktop1
 
 [storage]
-dell1
+desktop1
 
 [deployment]
 localhost
