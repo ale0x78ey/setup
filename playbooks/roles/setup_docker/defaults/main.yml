@@ -1,10 +1,11 @@
 docker_requirements_debian:
+  - containerd.io
   - docker-ce
   - docker-ce-cli
-  - containerd.io
 
 docker_requirements_pip:
   - docker
+  - docker-compose
 
 docker_configs:
   debian:
