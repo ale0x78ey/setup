@@ -1,12 +1,3 @@
-################
-# Docker options
-################
-
-docker_insecure_registries:
-  - "192.168.0.75"
-
-docker_insecure_registries_port: "4000"
-
 #################
 # Network options
 #################
@@ -33,6 +24,15 @@ network_interfaces:
       name: "enp1s0"
       cidr: "192.168.0.75/24"
       addr: "192.168.0.75"
+
+################
+# Docker options
+################
+
+docker_insecure_registries:
+  - "{{ network_interfaces[inventory_hostname].gateway.addr }}"
+
+docker_insecure_registries_port: "4000"
 
 ##############
 # Ceph options
