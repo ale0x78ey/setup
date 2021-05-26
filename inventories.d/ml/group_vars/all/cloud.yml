@@ -42,9 +42,20 @@ ml_requirements_pip:
   - numpy
   - pandas
   - seaborn
+  - scipy
   - sklearn
 
-  # A little word cloud generator in Python.
+  # Python extension for computing string edit
+  # distances and similarities.
+  - python-Levenshtein
+
+  # Gensim is a Python library for topic modelling,
+  # document indexing and similarity retrieval
+  # with large corpora.
+  # https://github.com/RaRe-Technologies/gensim
+  - gensim
+
+  # It is little word cloud generator in Python.
   # https://github.com/amueller/word_cloud
   - wordcloud
 
