@@ -1,11 +1,11 @@
 python_requirements:
   - python3
 
-  # To support remote debugging:
+  # To support remote debugging.
   - rlwrap
   - telnet
 
-  # Testing tools:
+  # Testing tools.
   - tox
 
 python_requirements_debian:
@@ -20,7 +20,7 @@ python_requirements_debian:
   - libssl-dev
   - python3-dev
 
-  # To build python from pyevn.
+  # To build python with pyevn.
   - libbz2-dev
   - liblzma-dev
   - libreadline-dev
@@ -36,19 +36,6 @@ python_requirements_pip:
 
   # Remote debugging based on pdb.
   - rpdb
-
-python_requirements_pip_jupyter:
-  - jupyterlab
-  - matplotlib
-  - notebook
-  - numpy
-  - pandas
-  - seaborn
-  - sklearn
-
-  # A little word cloud generator in Python.
-  # https://github.com/amueller/word_cloud
-  - wordcloud
 
 python_requirements_sources:
   - name: pyenv

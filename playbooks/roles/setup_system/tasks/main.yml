@@ -11,9 +11,6 @@
 
 - import_tasks: packages_pip.yml
 
-- import_tasks: packages_jupyter.yml
-  when: setup_jupyter | d("no") == "yes"
-
 - import_tasks: sources.yml
 
 - import_tasks: configs.yml

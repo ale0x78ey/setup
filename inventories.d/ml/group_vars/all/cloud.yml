@@ -35,6 +35,19 @@ docker_insecure_registries_port: "4000"
 # ML options
 ############
 
+ml_requirements_pip:
+  - jupyterlab
+  - matplotlib
+  - notebook
+  - numpy
+  - pandas
+  - seaborn
+  - sklearn
+
+  # A little word cloud generator in Python.
+  # https://github.com/amueller/word_cloud
+  - wordcloud
+
 ml_projects_path: "{{ ansible_env.HOME }}/Projects"
 
 ml_sources:

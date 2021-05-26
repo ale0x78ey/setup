@@ -1,0 +1,8 @@
+- name: setup_ml | install -U pip
+  pip:
+    name: pip
+    extra_args: "-U"
+
+- name: setup_ml | install requirements [pip]
+  pip:
+    name: "{{ ml_requirements_pip }}"

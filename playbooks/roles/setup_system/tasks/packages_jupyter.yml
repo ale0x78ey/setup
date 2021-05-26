@@ -1,3 +1,0 @@
-- name: setup_python | install requirements [pip, jupyter]
-  pip:
-    name: "{{ python_requirements_pip_jupyter }}"

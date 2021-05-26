@@ -2,5 +2,7 @@
   become: yes
   when: ansible_os_family == "Debian"
 
+- import_tasks: packages_pip.yml
+
 - import_tasks: sources.yml
   when: download_sources | d("no") == "yes"
