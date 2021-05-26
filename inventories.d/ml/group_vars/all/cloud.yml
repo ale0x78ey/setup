@@ -6,6 +6,12 @@ network_requirements_debian:
   - iproute2
 
 network_interfaces:
+  desktop1:
+    gateway:
+      name: "enp7s0"
+      cidr: "192.168.0.70/24"
+      addr: "192.168.0.70"
+
   master1:
     gateway:
       name: "eth0"
