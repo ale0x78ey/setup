@@ -1,6 +1,6 @@
-- name: setup_ml | create ml_projects_path
+- name: setup_ml | create ml_projects_dir
   file:
-    path: "{{ ml_projects_path }}"
+    path: "{{ ml_projects_dir }}"
     state: directory
 
 - name: setup_ml | download sources
@@ -10,4 +10,4 @@
     accept_hostkey: True
     update: no
   with_items:
-    - "{{ ml_sources }}"
+    - "{{ ml_projects_src }}"

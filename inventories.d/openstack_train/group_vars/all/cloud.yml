@@ -57,12 +57,12 @@ openstack_requirements_debian:
 kolla_openstack_release: train
 kolla_openstack_tag: "{{ kolla_openstack_release }}"
 
-kolla_projects_path: "{{ ansible_env.HOME }}/Projects/{{ kolla_openstack_release }}"
+kolla_projects_dir: "{{ ansible_env.HOME }}/Projects/{{ kolla_openstack_release }}"
 
-kolla_build_sources:
+kolla_projects_src:
   - name: karbor-base
     repo: https://opendev.org/openstack/karbor.git
-    location: "{{ kolla_projects_path }}/karbor"
+    location: "{{ kolla_projects_dir }}/karbor"
 
 # Possible values:
 # - binary

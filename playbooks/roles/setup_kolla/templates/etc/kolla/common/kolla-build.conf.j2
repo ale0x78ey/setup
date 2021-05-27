@@ -43,7 +43,7 @@ openstack_release = {{ kolla_openstack_release }}
 
 default = {{ kolla_profiles['default'] | join(',') }}
 
-{% for s in kolla_build_sources %}
+{% for s in kolla_projects_src %}
 [{{s.name}}]
 type = local
 location = {{ s.location }}
