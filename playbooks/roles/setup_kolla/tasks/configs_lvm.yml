@@ -1,9 +1,9 @@
-- name: setup_kolla | install etc/kolla/config/* [lvm]
+- name: setup_kolla | install etc/kolla/* [lvm]
   copy:
-    src: "etc/kolla/config/lvm/{{ item }}"
-    dest: "/etc/kolla/config/{{ item }}"
+    src: "lvm/etc/kolla/{{ item }}"
+    dest: "/etc/kolla/{{ item }}"
     mode: "755"
   with_items:
-    - karbor/karbor-protection/providers.d/noop.conf
-    - karbor/karbor-protection/providers.d/openstack-infra.conf
-    - karbor/karbor-protection/providers.d/openstack-infra-volume-snapshot.conf
+    - config/karbor/karbor-protection/providers.d/noop.conf
+    - config/karbor/karbor-protection/providers.d/openstack-infra.conf
+    - config/karbor/karbor-protection/providers.d/openstack-infra-volume-snapshot.conf

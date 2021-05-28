@@ -12,19 +12,19 @@
     - neutron
     - nova
 
-- name: setup_kolla | install etc/kolla/config/* [common]
+- name: setup_kolla | install etc/kolla/* [common]
   copy:
-    src: "etc/kolla/config/common/{{ item }}"
-    dest: "/etc/kolla/config/{{ item }}"
+    src: "common/etc/kolla/{{ item }}"
+    dest: "/etc/kolla/{{ item }}"
     mode: "755"
   with_items:
-    - karbor.conf
-    - neutron/ml2_conf.ini
-    - neutron/openvswitch_agent.ini
+    - config/karbor.conf
+    - config/neutron/ml2_conf.ini
+    - config/neutron/openvswitch_agent.ini
 
 - name: setup_kolla | install etc/kolla/* [common]
   template:
-    src: "etc/kolla/common/{{ item }}.j2"
+    src: "common/etc/kolla/{{ item }}.j2"
     dest: "/etc/kolla/{{ item }}"
   with_items:
     - kolla-build.conf

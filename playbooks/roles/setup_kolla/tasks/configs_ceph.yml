@@ -1,17 +1,17 @@
-- name: setup_kolla | install etc/kolla/config/* [ceph]
+- name: setup_kolla | install etc/kolla/* [ceph]
   copy:
-    src: "etc/kolla/config/ceph/{{ item }}"
-    dest: "/etc/kolla/config/{{ item }}"
+    src: "ceph/etc/kolla/{{ item }}"
+    dest: "/etc/kolla/{{ item }}"
     mode: "755"
   with_items:
-    - cinder/cinder-backup.conf
-    - cinder/cinder-volume.conf
-    - glance/glance-api.conf
-    - nova/nova-compute.conf
+    - config/cinder/cinder-backup.conf
+    - config/cinder/cinder-volume.conf
+    - config/glance/glance-api.conf
+    - config/nova/nova-compute.conf
 
 - name: setup_kolla | install etc/kolla/* [ceph]
   template:
-    src: "etc/kolla/ceph/{{ item }}.j2"
+    src: "ceph/etc/kolla/{{ item }}.j2"
     dest: "/etc/kolla/{{ item }}"
   with_items:
     - config/karbor/karbor-protection/providers.d/noop.conf
