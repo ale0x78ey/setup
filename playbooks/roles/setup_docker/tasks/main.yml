@@ -1,3 +1,7 @@
+- assert:
+    that: setup_docker_registries | d("no") == "no" or
+          setup_yandex_registries | d("no") == "no"
+
 - import_tasks: packages_debian.yml
   become: yes
   when: ansible_os_family == "Debian"
@@ -5,13 +9,6 @@
 - import_tasks: packages_pip.yml
   become: yes
 
-- import_tasks: configs.yml
-  become: yes
-
-- import_tasks: configs_debian.yml
-  become: yes
-  when: ansible_os_family == "Debian"
-
-- import_tasks: configs_registry.yml
+- import_tasks: configs_registries.yml
   become: yes
   when: setup_docker_registries | d("no") == "yes"

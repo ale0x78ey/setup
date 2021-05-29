@@ -1,3 +1,7 @@
+################
+# System options
+################
+
 system_requirements:
   - tmux
 
