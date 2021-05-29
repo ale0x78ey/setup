@@ -1,31 +1,14 @@
-#################
-# Network options
-#################
-
-network_requirements_debian:
-  - iproute2
-
-network_interfaces:
-  desktop1:
-    gateway:
-      name: "enp7s0"
-      cidr: "192.168.0.70/24"
-      addr: "192.168.0.70"
-
-  master1:
-    gateway:
-      name: "eth0"
-      cidr: "10.129.0.17/24"
-      addr: "10.129.0.17"
-
 ################
 # Docker options
 ################
 
-docker_insecure_registries:
-  - "{{ network_interfaces[inventory_hostname].gateway.addr }}"
+docker_image_prefix: "cr.yandex/crpfkr3l4bf2abli6nt1"
 
-docker_insecure_registries_port: "4000"
+###############
+# Nginx options
+###############
+
+ml_nginx_port: 80
 
 ####################
 # PostgreSQL options

@@ -1,0 +1,14 @@
+- name: setup_ml | create nginx/templates/*
+  file:
+    path: "{{ ml_projects_dir }}/nginx/templates"
+    mode: "755"
+    state: directory
+    recurse: yes
+
+- name: setup_ml | install ml configs
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ ml_projects_dir }}/{{ item }}"
+  with_items:
+    - docker-compose.yaml
+    - nginx/templates/default.conf.template

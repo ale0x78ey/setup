@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  nginx:
+    image: ${docker_image_prefix}nginx
+    ports:
+      - {{ ml_nginx_port }}:80
+    volumes:
+      - {{ ml_projects_dir }}/nginx/templates:/etc/nginx/templates:ro
