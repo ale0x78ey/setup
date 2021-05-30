@@ -1,14 +1,20 @@
-- name: setup_ml | create nginx/templates/*
+- name: setup_ml | create /etc/nginx/templates
   file:
-    path: "{{ ml_projects_dir }}/nginx/templates"
+    path: "/etc/nginx/templates"
     mode: "755"
     state: directory
     recurse: yes
+  become: yes
 
-- name: setup_ml | install ml configs
+- name: setup_ml | install /etc/*
   template:
-    src: "{{ item }}.j2"
-    dest: "{{ ml_projects_dir }}/{{ item }}"
+    src: "etc/{{ item }}.j2"
+    dest: "/etc/{{ item }}"
+  become: yes
   with_items:
-    - docker-compose.yaml
     - nginx/templates/default.conf.template
+
+- name: setup_ml | install docker-compose.yaml
+  template:
+    src: "docker-compose.yaml.j2"
+    dest: "{{ ml_projects_dir }}/docker-compose.yaml"

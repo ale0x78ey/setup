@@ -2,8 +2,42 @@ version: '3'
 
 services:
   nginx:
-    image: ${docker_image_prefix}nginx
+    image: {{docker_image_prefix }}nginx:{{ nginx_docker_tag }}
     ports:
-      - {{ ml_nginx_port }}:80
+      - {{ nginx_port }}:80
+    healthcheck:
+      test: [ "CMD", "curl", "--fail", "http://localhost:{{ nginx_port }}/" ]
+      interval: 5s
+      retries: 5
+    restart: unless-stopped
     volumes:
-      - {{ ml_projects_dir }}/nginx/templates:/etc/nginx/templates:ro
+      - /etc/nginx/templates:/etc/nginx/templates:ro
+
+  redis:
+    image: {{ docker_image_prefix }}redis:{{ redis_docker_tag }}
+    ports:
+      - {{ redis_port }}:6379
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      retries: 5
+    restart: unless-stopped
+
+  postgres:
+    image: {{ docker_image_prefix }}postgres:{{ postgres_docker_tag }}
+    ports:
+      - {{ postgres_port }}:5432
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "airflow" ]
+      interval: 5s
+      retries: 5
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB={{ postgres_db }}
+      - POSTGRES_USER={{ postgres_user }}
+      - POSTGRES_PASSWORD={{ postgres_password }}
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+
+volumes:
+  postgres-db-volume:
