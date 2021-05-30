@@ -1,7 +1,7 @@
 - name: setup_ml | create logs directory [airflow]
   file:
     path: "{{ airflow_logs_dir }}"
-    mode: "755"
+    mode: "777"
     state: directory
     recurse: yes
 
