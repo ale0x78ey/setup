@@ -1,0 +1,18 @@
+- name: setup_ml | create airflow logs directory
+  file:
+    path: "{{ airflow_logs_dir }}"
+    mode: "755"
+    state: directory
+    recurse: yes
+
+- stat: path="{{ airflow_dags_dir }}"
+  register: stat_airflow_dags_dir
+
+- assert:
+    that: stat_airflow_dags_dir.stat.isdir | default(False) == True
+
+- stat: path="{{ airflow_plugins_dir }}"
+  register: stat_airflow_plugins_dir
+
+- assert:
+    that: stat_airflow_plugins_dir.stat.isdir | default(False) == True

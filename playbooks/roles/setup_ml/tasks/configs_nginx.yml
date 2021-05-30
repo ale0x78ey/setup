@@ -4,7 +4,6 @@
     mode: "755"
     state: directory
     recurse: yes
-  become: yes
   with_items:
     - templates
 
@@ -12,6 +11,5 @@
   template:
     src: "etc/nginx/{{ item }}.j2"
     dest: "/etc/nginx/{{ item }}"
-  become: yes
   with_items:
     - templates/default.conf.template

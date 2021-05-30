@@ -1,3 +1,45 @@
+############
+# ML options
+############
+
+ml_requirements_pip:
+  - boto3
+
+  - jupyterlab
+  - matplotlib
+  - notebook
+  - numpy
+  - pandas
+  - seaborn
+  - scipy
+  - sklearn
+
+  # Python extension for computing string edit
+  # distances and similarities.
+  - python-Levenshtein
+
+  # Gensim is a Python library for topic modelling,
+  # document indexing and similarity retrieval
+  # with large corpora.
+  # https://github.com/RaRe-Technologies/gensim
+  - gensim
+
+  # It is little word cloud generator in Python.
+  # https://github.com/amueller/word_cloud
+  - wordcloud
+
+ml_projects_dir: "{{ ansible_env.HOME }}/Projects/ml"
+
+ml_projects_src:
+  - repo: https://github.com/yandexdataschool/nlp_course.git
+    location: "{{ ml_projects_dir }}/nlp_course"
+
+  - repo: https://github.com/lazyprogrammer/machine_learning_examples
+    location: "{{ ml_projects_dir }}/machine_learning_examples"
+
+  - repo: https://github.com/RaRe-Technologies/gensim
+    location: "{{ ml_projects_dir }}/gensim"
+
 ################
 # Docker options
 ################
@@ -40,44 +82,6 @@ airflow_flower_port: 5555
 airflow_init_user: airflow
 airflow_init_password: airflow
 
-############
-# ML options
-############
-
-ml_requirements_pip:
-  - boto3
-
-  - jupyterlab
-  - matplotlib
-  - notebook
-  - numpy
-  - pandas
-  - seaborn
-  - scipy
-  - sklearn
-
-  # Python extension for computing string edit
-  # distances and similarities.
-  - python-Levenshtein
-
-  # Gensim is a Python library for topic modelling,
-  # document indexing and similarity retrieval
-  # with large corpora.
-  # https://github.com/RaRe-Technologies/gensim
-  - gensim
-
-  # It is little word cloud generator in Python.
-  # https://github.com/amueller/word_cloud
-  - wordcloud
-
-ml_projects_dir: "{{ ansible_env.HOME }}/Projects/ml"
-
-ml_projects_src:
-  - repo: https://github.com/yandexdataschool/nlp_course.git
-    location: "{{ ml_projects_dir }}/nlp_course"
-
-  - repo: https://github.com/lazyprogrammer/machine_learning_examples
-    location: "{{ ml_projects_dir }}/machine_learning_examples"
-
-  - repo: https://github.com/RaRe-Technologies/gensim
-    location: "{{ ml_projects_dir }}/gensim"
+airflow_logs_dir: "/var/log/airflow"
+airflow_dags_dir: "{{ ml_projects_dir }}/mlexp/airflow/dags"
+airflow_plugins_dir: "{{ ml_projects_dir }}/mlexp/airflow/plugins"
