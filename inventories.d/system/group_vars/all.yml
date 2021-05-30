@@ -85,3 +85,20 @@ python_requirements_sources:
   - name: pyenv
     repo: https://github.com/pyenv/pyenv.git
     location: "{{ ansible_env.HOME }}/.pyenv"
+
+##############
+# Ruby options
+##############
+
+ruby_requirements_darwin:
+  - rbenv
+
+#############
+# Vim options
+#############
+
+vim_requirements_debian:
+  - silversearcher-ag
+
+vim_requirements_darwin:
+  - the_silver_searcher
