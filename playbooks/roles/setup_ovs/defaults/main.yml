@@ -1,3 +1,0 @@
-ovs_requirements_debian:
-  - openvswitch-common
-  - openvswitch-switch

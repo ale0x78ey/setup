@@ -1,5 +1,0 @@
-ovs_bridges:
-  - name: ovs-br-1
-    children:
-      - name: ovs-br-1.100
-        vlan: 100
