@@ -18,6 +18,7 @@
     dest: "{{ ansible_env.HOME }}/.{{ item }}"
     mode: "644"
   with_items:
+    - bash_configs.d/airflow.sh
     - bash_configs.d/bash.sh
     - bash_configs.d/brew.sh
     - bash_configs.d/ps1.sh

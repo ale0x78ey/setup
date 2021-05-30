@@ -17,7 +17,7 @@ x-airflow-common:
     - {{ airflow_dags_dir }}:/opt/airflow/dags
     - {{ airflow_logs_dir }}:/opt/airflow/logs
     - {{ airflow_plugins_dir }}:/opt/airflow/plugins
-  user: "${AIRFLOW_UID:-50000}:${AIRFLOW_GID:-50000}"
+  user: "${AIRFLOW_UID:-50000}:${AIRFLOW_GID:-0}"
   depends_on:
     redis:
       condition: service_healthy
