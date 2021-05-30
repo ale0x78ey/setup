@@ -9,7 +9,15 @@
   when: ansible_os_family == "Debian" and
         setup_vim | d("no") == "yes"
 
+- import_tasks: packages_debian_libvirt.yml
+  become: yes
+  when: ansible_os_family == "Debian" and
+        setup_libvirt | d("no") == "yes"
+
 - import_tasks: packages_pip.yml
+
+- import_tasks: packages_pip_libvirt.yml
+  when: setup_libvirt | d("no") == "yes"
 
 - import_tasks: sources.yml
 
@@ -21,3 +29,8 @@
 
 - import_tasks: configs_vim.yml
   when: setup_vim | d("no") == "yes"
+
+- import_tasks: configs_debian_libvirt.yml
+  become: yes
+  when: ansible_os_family == "Debian" and
+        setup_libvirt | d("no") == "yes"

@@ -1,0 +1,4 @@
+- name: setup_system [debian] | mask docker [libvirt]
+  systemd:
+    name: libvirtd
+    masked: yes

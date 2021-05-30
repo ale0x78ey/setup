@@ -6,4 +6,3 @@
   with_items:
     - bash_configs.d/vim.sh
     - vimrc
-

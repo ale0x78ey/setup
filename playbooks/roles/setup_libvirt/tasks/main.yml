@@ -1,9 +1,0 @@
-- import_tasks: packages_debian.yml
-  become: yes
-  when: ansible_os_family == "Debian"
-
-- import_tasks: packages_pip.yml
-
-- import_tasks: configs_networks.yml
-  become: yes
-  when: setup_networks | d("no") == "yes"

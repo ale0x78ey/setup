@@ -16,9 +16,9 @@ Options:
                          Pass variables to the command line for ansible-playbook.
 
 Commands:
-  system [default|k8s|libvirt|ovs]
   openstack <project>
   ml
+  system
 
 EOF
 }
@@ -106,12 +106,6 @@ done
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
-    (system)
-      SYSTEM=1
-      SYSTEM_SUBCOMMAND="$2"
-      shift 2
-      ;;
-
     (openstack)
       OPENSTACK=1
       OPENSTACK_SUBCOMMAND="$2"
@@ -120,6 +114,11 @@ while [ "$#" -gt 0 ]; do
 
     (ml)
       ML=1
+      shift
+      ;;
+
+    (system)
+      SYSTEM=1
       shift
       ;;
 
@@ -169,20 +168,6 @@ python3 -m pip install setuptools wheel
 python3 -m pip install ansible==2.9.17
 python3 -m pip install kolla-ansible==11.0.0
 
-if [ "$SYSTEM" ]; then
-  if [[ "$SYSTEM_SUBCOMMAND" == "k8s" ]]; then
-    ansible-galaxy collection install community.kubernetes
-  fi
-
-  if [[ "$SYSTEM_SUBCOMMAND" == "libvirt" ]]; then
-    ansible-galaxy collection install community.libvirt
-  fi
-
-  if [[ "$SYSTEM_SUBCOMMAND" == "ovs" ]]; then
-    ansible-galaxy collection install openvswitch.openvswitch
-  fi
-fi
-
 if [ "$HOSTS" ]; then
   if [ "$ANSIBLE_EXTRA_VARIABLES" ]; then
     ANSIBLE_EXTRA_VARIABLES="myenv_hosts=${HOSTS} ${ANSIBLE_EXTRA_VARIABLES}"
@@ -191,21 +176,7 @@ if [ "$HOSTS" ]; then
   fi
 fi
 
-if [ "$SYSTEM" ]; then
-  if [[ "$SYSTEM_SUBCOMMAND" == "default" ]]; then
-    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/system}" \
-                     -e "${ANSIBLE_EXTRA_VARIABLES}" \
-                     ${SCRIPT_DIR}/playbooks/setup_system.yml
-  fi
-fi
-
 if [ "$OPENSTACK" ]; then
-  if [[ "$OPENSTACK_SUBCOMMAND" == "victoria_libvirt" ]]; then
-    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/openstack_victoria_libvirt}" \
-                     -e "${ANSIBLE_EXTRA_VARIABLES}" \
-                     ${SCRIPT_DIR}/playbooks/setup_openstack_libvirt.yml
-  fi
-
   if [[ "$OPENSTACK_SUBCOMMAND" == "victoria" ]]; then
     ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/openstack_victoria}" \
                      -e "${ANSIBLE_EXTRA_VARIABLES}" \
@@ -230,7 +201,13 @@ EOF
 fi
 
 if [ "$ML" ]; then
-    ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/ml}" \
-                     -e "${ANSIBLE_EXTRA_VARIABLES}" \
-                     ${SCRIPT_DIR}/playbooks/setup_ml.yml
+  ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/ml}" \
+                   -e "${ANSIBLE_EXTRA_VARIABLES}" \
+                   ${SCRIPT_DIR}/playbooks/setup_ml.yml
+fi
+
+if [ "$SYSTEM" ]; then
+  ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/system}" \
+                   -e "${ANSIBLE_EXTRA_VARIABLES}" \
+                   ${SCRIPT_DIR}/playbooks/setup_system.yml
 fi
