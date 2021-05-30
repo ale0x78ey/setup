@@ -29,6 +29,17 @@ postgres_db: airflow
 postgres_user: airflow
 postgres_password: airflow
 
+#################
+# Airflow options
+#################
+
+airflow_docker_tag: 2.1.0
+airflow_webserver_port: 8080
+airflow_flower_port: 5555
+
+airflow_init_user: airflow
+airflow_init_password: airflow
+
 ############
 # ML options
 ############
