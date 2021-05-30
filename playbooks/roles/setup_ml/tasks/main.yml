@@ -1,6 +1,8 @@
-# - import_tasks: packages_pip.yml
+- import_tasks: packages_pip.yml
+
+- import_tasks: configs_nginx.yml
 
 - import_tasks: configs.yml
 
-# - import_tasks: sources.yml
-#   when: download_sources | d("no") == "yes"
+- import_tasks: sources.yml
+  when: download_sources | d("no") == "yes"
