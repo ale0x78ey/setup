@@ -19,6 +19,30 @@
     - config/karbor/karbor-protection/providers.d/openstack-infra-volume-snapshot.conf
     - globals.yml
 
+- stat: path="/etc/ceph/ceph.conf"
+  register: stat_ceph_config
+
+- assert:
+    that: stat_ceph_config.stat.isreg | d(False) == True
+
+- stat: path="/etc/ceph/ceph.client.glance.keyring"
+  register: stat_ceph_glance_keyring
+
+- assert:
+    that: stat_ceph_glance_keyring.stat.isreg | d(False) == True
+
+- stat: path="/etc/ceph/ceph.client.cinder.keyring"
+  register: stat_ceph_cinder_keyring
+
+- assert:
+    that: stat_ceph_cinder_keyring.stat.isreg | d(False) == True
+
+- stat: path="/etc/ceph/ceph.client.cinder-backup.keyring"
+  register: stat_ceph_cinder_backup_keyring
+
+- assert:
+    that: stat_ceph_cinder_backup_keyring.stat.isreg | d(False) == True
+
 - name: setup_kolla | install etc/kolla/config/*/ceph.conf [ceph]
   copy:
     src: "/etc/ceph/ceph.conf"

@@ -9,10 +9,10 @@
   register: stat_airflow_dags_dir
 
 - assert:
-    that: stat_airflow_dags_dir.stat.isdir | default(False) == True
+    that: stat_airflow_dags_dir.stat.isdir | d(False) == True
 
 - stat: path="{{ airflow_plugins_dir }}"
   register: stat_airflow_plugins_dir
 
 - assert:
-    that: stat_airflow_plugins_dir.stat.isdir | default(False) == True
+    that: stat_airflow_plugins_dir.stat.isdir | d(False) == True
