@@ -1,4 +1,4 @@
-- name: setup_ml | create airflow logs directory
+- name: setup_ml | create logs directory [airflow]
   file:
     path: "{{ airflow_logs_dir }}"
     mode: "755"

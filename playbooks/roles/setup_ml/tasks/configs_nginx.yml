@@ -1,4 +1,4 @@
-- name: setup_ml | create /etc/nginx/* directories
+- name: setup_ml | create /etc/nginx/* directories [nginx]
   file:
     path: "/etc/nginx/{{ item }}"
     mode: "755"
@@ -7,7 +7,7 @@
   with_items:
     - templates
 
-- name: setup_ml | install /etc/nginx/*
+- name: setup_ml | install /etc/nginx/* [nginx]
   template:
     src: "etc/nginx/{{ item }}.j2"
     dest: "/etc/nginx/{{ item }}"
