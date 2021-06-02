@@ -55,14 +55,14 @@ openstack_requirements_debian:
 ###############
 
 kolla_openstack_release: train
-kolla_openstack_tag: "{{ kolla_openstack_release }}"
+kolla_openstack_tag: "9.3.2"
 
 kolla_projects_dir: "{{ ansible_env.HOME }}/Projects/{{ kolla_openstack_release }}"
 
 kolla_projects_src:
-  - name: karbor-base
-    repo: https://opendev.org/openstack/karbor.git
-    location: "{{ kolla_projects_dir }}/karbor"
+  - name: cinder-base
+    repo: https://opendev.org/openstack/cinder.git
+    location: "{{ kolla_projects_dir }}/cinder"
 
 # Possible values:
 # - binary

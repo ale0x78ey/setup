@@ -57,11 +57,17 @@ docker_client_timeout: 120
 # TLS options
 #############
 
-kolla_enable_tls_external: "yes"
-kolla_enable_tls_internal: "yes"
+kolla_enable_tls_external: "no"
+kolla_enable_tls_internal: "no"
+kolla_enable_tls_backend:  "no"
 
-kolla_external_fqdn_cert: "{{ '{{ node_config }}' }}/certificates/haproxy.pem"
-kolla_internal_fqdn_cert: "{{ '{{ node_config }}' }}/certificates/haproxy-internal.pem"
+kolla_certificates_dir: "{{ '{{ node_config }}' }}/certificates"
+kolla_external_fqdn_cert: "{{ '{{ kolla_certificates_dir }}' }}/haproxy.pem"
+kolla_internal_fqdn_cert: "{{ '{{ kolla_certificates_dir }}' }}/haproxy-internal.pem"
+haproxy_backend_cacert_dir: "/etc/ssl/certs"
+haproxy_backend_cacert: ca-certificates.crt
+kolla_tls_backend_cert: "{{ '{{ kolla_certificates_dir }}' }}/backend-cert.pem"
+kolla_tls_backend_key: "{{ '{{ kolla_certificates_dir }}' }}/backend-key.pem"
 
 kolla_copy_ca_into_containers: "yes"
 openstack_cacert: /etc/ssl/certs/ca-certificates.crt
