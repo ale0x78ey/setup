@@ -4,15 +4,43 @@
 
 ml_requirements_pip:
   - boto3
-
   - jupyterlab
-  - matplotlib
   - notebook
   - numpy
   - pandas
-  - seaborn
   - scipy
   - sklearn
+
+  #############################
+  # Data visualization tools. #
+  #############################
+
+  - matplotlib
+  - seaborn
+
+  # To use plotly in JupyterLab, install the ipywidgets packages,
+  # nodjs>=12.0.0 and npm.
+  #
+  # https://github.com/nodesource/distributions/
+  # curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+  # sudo apt-get install -y nodejs
+  #
+  # https://plotly.com/python/getting-started/
+  # jupyter labextension install jupyterlab-plotly@4.14.3
+  # jupyter labextension install @jupyter-widgets/jupyterlab-manager plotlywidget@4.14.3
+  - plotly
+  - ipywidgets>=7.5
+
+  #######
+  # NLP #
+  #######
+
+  # spaCy is a free open-source library for Natural
+  # Language Processing in Python.
+  - spacy
+
+  # Natural Language Toolkit.
+  - nltk
 
   # Python extension for computing string edit
   # distances and similarities.
