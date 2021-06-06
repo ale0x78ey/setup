@@ -10,6 +10,7 @@ ml_requirements_pip:
   - pandas
   - scipy
   - sklearn
+  - xgboost
 
   #############################
   # Data visualization tools. #
@@ -17,6 +18,9 @@ ml_requirements_pip:
 
   - matplotlib
   - seaborn
+
+  # Palettable is a library of color palettes for Python.
+  - palettable
 
   # To use plotly in JupyterLab, install the ipywidgets packages,
   # nodjs>=12.0.0 and npm.
