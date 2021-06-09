@@ -13,12 +13,6 @@ enabled=True
 [cinder_backup_protection_plugin]
 backup_from_snapshot=True
 
-[freezer_protection_plugin]
-storage=s3
-endpoint={{ s3_endpoint }}
-access_key={{ s3_access_key }}
-secret_key={{ s3_secret_key }}
-
 [s3_client]
 s3_endpoint={{ s3_endpoint }}
 s3_access_key={{ s3_access_key }}
@@ -28,5 +22,5 @@ s3_secret_key={{ s3_secret_key }}
 lease_expire_window=600
 lease_renew_window=120
 lease_validity_window=100
-bank_s3_object_bucket=karbor
-bank_s3_lease_bucket=lease
+bank_s3_object_bucket=karbor-dc2bc656-bb2e-4438-9bd3-001fe904ac40
+bank_s3_lease_bucket=karbor-59512027-3ea8-40ce-9831-5894b19b8818
