@@ -17,12 +17,8 @@
   when: ansible_os_family == "Debian" and
         network_manager_type | d("NetworkManager") == "NetworkManager"
 
-- import_tasks: configs_common.yml
+- import_tasks: configs.yml
   become: yes
-
-- import_tasks: configs_lvm.yml
-  become: yes
-  when: storage_backend_type == "lvm"
 
 - import_tasks: configs_ceph.yml
   become: yes

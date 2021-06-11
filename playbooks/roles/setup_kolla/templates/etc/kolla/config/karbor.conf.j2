@@ -1,0 +1,30 @@
+[DEFAULT]
+time_format=crontab
+min_window_time=300
+max_window_time=600
+min_interval=1200
+
+[clients_keystone]
+cafile={{ '{{ openstack_cacert }}' }}
+
+[trustee]
+cafile={{ '{{ openstack_cacert }}' }}
+
+[keystone_authtoken]
+cafile={{ '{{ openstack_cacert }}' }}
+
+[cinder_client]
+cinder_ca_cert_file={{ '{{ openstack_cacert }}' }}
+cinder_catalog_info=volumev3:cinderv3:internalURL
+
+[glance_client]
+glance_ca_cert_file={{ '{{ openstack_cacert }}' }}
+glance_catalog_info=image:glance:internalURL
+
+[neutron_client]
+neutron_ca_cert_file={{ '{{ openstack_cacert }}' }}
+neutron_catalog_info=network:neutron:internalURL
+
+[nova_client]
+nova_ca_cert_file={{ '{{ openstack_cacert }}' }}
+nova_catalog_info=compute:nova:internalURL

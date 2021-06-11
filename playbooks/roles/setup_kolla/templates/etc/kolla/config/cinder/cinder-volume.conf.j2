@@ -1,6 +1,10 @@
 [DEFAULT]
-enabled_backends=rbd-1
 
+{% if storage_backend_type == 'ceph' %}
+enabled_backends=rbd-1
+{% endif %}
+
+{% if storage_backend_type == 'ceph' %}
 [rbd-1]
 rbd_ceph_conf=/etc/ceph/ceph.conf
 rbd_user=cinder
@@ -8,4 +12,5 @@ backend_host=rbd:volumes
 rbd_pool=volumes
 volume_backend_name=rbd-1
 volume_driver=cinder.volume.drivers.rbd.RBDDriver
-rbd_secret_uuid = {{ cinder_rbd_secret_uuid }}
+rbd_secret_uuid = {{ '{{ cinder_rbd_secret_uuid }}' }}
+{% endif %}

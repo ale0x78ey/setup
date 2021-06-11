@@ -1,0 +1,32 @@
+- name: setup_kolla | create /etc/kolla/* directories
+  file:
+    path: "/etc/kolla/{{ item }}"
+    mode: "755"
+    state: directory
+    recurse: yes
+  with_items:
+    - config/cinder/cinder-backup
+    - config/cinder/cinder-volume
+    - config/glance
+    - config/karbor/karbor-protection/providers.d
+    - config/neutron
+    - config/nova
+
+- name: setup_kolla | install etc/kolla/*
+  template:
+    src: "etc/kolla/{{ item }}.j2"
+    dest: "/etc/kolla/{{ item }}"
+    mode: "755"
+  with_items:
+    - config/cinder/cinder-backup.conf
+    - config/cinder/cinder-volume.conf
+    - config/glance/glance-api.conf
+    - config/karbor.conf
+    - config/karbor/karbor-protection/providers.d/noop.conf
+    - config/karbor/karbor-protection/providers.d/openstack-infra.conf
+    - config/karbor/karbor-protection/providers.d/openstack-infra-volume-snapshot.conf
+    - config/neutron/ml2_conf.ini
+    - config/neutron/openvswitch_agent.ini
+    - config/nova/nova-compute.conf
+    - globals.yml
+    - kolla-build.conf

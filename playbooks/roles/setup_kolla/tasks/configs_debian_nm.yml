@@ -11,14 +11,14 @@
 
 - name: setup_kolla [debian] | install /etc/* [NetworkManager]
   template:
-    src: "common/etc/{{ item }}.j2"
+    src: "etc/{{ item }}.j2"
     dest: "/etc/{{ item }}"
   with_items:
     - netplan/99-kolla.yaml
 
 - name: setup_kolla [debian] | install /etc/* [NetworkManager, a+x]
   template:
-    src: "common/etc/{{ item }}.j2"
+    src: "etc/{{ item }}.j2"
     dest: "/etc/{{ item }}"
     mode: a+x
   with_items:
