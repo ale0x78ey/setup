@@ -27,7 +27,7 @@ profile = default
 registry = {{ kolla_docker_registry }}
 
 # Base url to OpenStack tarballs.
-tarballs_base = https://tarballs.opendev.org
+tarballs_base = {{ kolla_tarballs_base }}
 
 # The method of the OpenStack install.
 # Possible values: binary, source, rdo, rhos.

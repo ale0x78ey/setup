@@ -54,10 +54,21 @@ openstack_requirements_debian:
 # Kolla options
 ###############
 
-kolla_openstack_release: victoria
-kolla_openstack_tag: "{{ kolla_openstack_release }}"
+kolla_openstack_release: "{{ myenv_openstack_release | d('victoria') }}"
 
-kolla_projects_dir: "{{ ansible_env.HOME }}/Projects/{{ kolla_openstack_release }}"
+_openstack_tag:
+  victoria: "victoria"
+  train: "9.3.2"
+
+kolla_openstack_tag: "{{ _openstack_tag[kolla_openstack_release] }}"
+
+_tarballs_base:
+  victoria: "https://tarballs.opendev.org"
+  train:  "https://tarballs.openstack.org"
+
+kolla_tarballs_base: "{{ _tarballs_base[kolla_openstack_release] }}"
+
+kolla_projects_dir: "{{ ansible_env.HOME }}/Projects"
 
 kolla_projects_src:
   - name: cinder-base
@@ -67,6 +78,10 @@ kolla_projects_src:
   - name: karbor-base
     repo: https://opendev.org/openstack/karbor.git
     location: "{{ kolla_projects_dir }}/karbor"
+
+  - name: nova-base
+    repo: https://opendev.org/openstack/nova.git
+    location: "{{ kolla_projects_dir }}/nova"
 
 # Possible values:
 # - binary
@@ -80,11 +95,14 @@ kolla_install_type: source
 # - rhel
 kolla_base_distro: ubuntu
 
-kolla_base_tags:
-  debian: stable-20210408
-  ubuntu: "20.04"
+_base_tag:
+  victoria:
+    debian: stable-20210408
+    ubuntu: "20.04"
+  train:
+    ubuntu: "18.04"
 
-kolla_base_tag: "{{ kolla_base_tags[kolla_base_distro] }}"
+kolla_base_tag: "{{ _base_tag[kolla_openstack_release][kolla_base_distro] }}"
 
 kolla_profiles:
   default:
@@ -109,7 +127,6 @@ kolla_profiles:
     - openvswitch
     - rabbitmq
     - tgtd
-    - karbor
 
 kolla_docker_namespace: kolla
 

@@ -6,6 +6,7 @@
   when: ansible_os_family == "Darwin"
 
 - import_tasks: packages_debian_vim.yml
+  become: yes
   when: ansible_os_family == "Debian" and
         setup_vim | d("no") == "yes"
 

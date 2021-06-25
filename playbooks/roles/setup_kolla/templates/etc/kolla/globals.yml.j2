@@ -61,26 +61,29 @@ docker_client_timeout: 120
 # TLS options
 #############
 
+{% if myenv_openstack_tls | d("no") == "yes" %}
+
+kolla_enable_tls_backend: "yes"
+
 # If there is only a single network configured in your topology (as opposed
 # to separate internal and external networks), TLS can only be enabled
 # using the internal network configuration variables.
 kolla_enable_tls_external: "no"
 kolla_enable_tls_internal: "yes"
 
-kolla_enable_tls_backend:  "yes"
+kolla_copy_ca_into_containers: "yes"
+{% endif %}
 
 kolla_certificates_dir: "{{ '{{ node_config }}' }}/certificates"
 
 kolla_external_fqdn_cert: "{{ '{{ kolla_certificates_dir }}' }}/haproxy.pem"
 kolla_internal_fqdn_cert: "{{ '{{ kolla_certificates_dir }}' }}/haproxy-internal.pem"
 
-haproxy_backend_cacert_dir: "/etc/ssl/certs"
-haproxy_backend_cacert: ca-certificates.crt
-
 kolla_tls_backend_cert: "{{ '{{ kolla_certificates_dir }}' }}/backend-cert.pem"
 kolla_tls_backend_key: "{{ '{{ kolla_certificates_dir }}' }}/backend-key.pem"
 
-kolla_copy_ca_into_containers: "yes"
+haproxy_backend_cacert_dir: "/etc/ssl/certs"
+haproxy_backend_cacert: ca-certificates.crt
 openstack_cacert: /etc/ssl/certs/ca-certificates.crt
 
 ##############################
