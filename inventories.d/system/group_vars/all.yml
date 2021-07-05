@@ -20,14 +20,16 @@ system_requirements:
   - tmux
 
 system_requirements_debian:
+  # Allow apt to use a repository over HTTPS.
   - apt-transport-https
   - ca-certificates
   - curl
-  - gnupg-agent
+  - gnupg2
   - locales
+  - lsb-release
   - software-properties-common
 
-  # Build dependencies.
+  # Build tools.
   - autoconf
   - automake
   - autotools-dev

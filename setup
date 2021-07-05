@@ -16,7 +16,6 @@ Options:
                          Pass variables to the command line for ansible-playbook.
 
 Commands:
-  openstack <project>
   ml
   system
 
@@ -49,7 +48,7 @@ fi
 
 if [[ "`uname -s`" == "Linux" ]]; then
   install() {
-    if [[ "`which apt-get`" ]]; then
+    if [[ "`command -v apt-get`" ]]; then
       sudo apt-get install -y $@
     else
       echo "Unsupported system!"
@@ -106,12 +105,6 @@ done
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
-    (openstack)
-      OPENSTACK=1
-      OPENSTACK_RELEASE="$2"
-      shift 2
-      ;;
-
     (ml)
       ML=1
       shift
@@ -145,16 +138,6 @@ if [[ "`uname -s`" == "Linux" ]]; then
   export PATH="$HOME/.local/bin:$PATH"
 fi
 
-# Make ansible transform invalid characters in group
-# names supplied by inventory sources. If 'never' it
-# will allow for the group name but warn about the
-# issue. When 'ignore', it does the same as 'never',
-# without issuing a warning. When 'always' it will
-# replace any invalid characters with '_' and warn
-# the user. When 'silently', it does the same as 'always',
-# without issuing a warning.
-export ANSIBLE_TRANSFORM_INVALID_GROUP_CHARS='ignore'
-
 if ! `python3 -m pip &> /dev/null`; then
   curl https://bootstrap.pypa.io/get-pip.py | python3 -
 fi
@@ -170,34 +153,13 @@ python3 -m pip install kolla-ansible==11.0.0
 
 function set_hosts() {
   if [ "$ANSIBLE_EXTRA_VARIABLES" ]; then
-    ANSIBLE_EXTRA_VARIABLES="myenv_hosts=${HOSTS} ${ANSIBLE_EXTRA_VARIABLES}"
+    ANSIBLE_EXTRA_VARIABLES="myenv_hosts=$1 ${ANSIBLE_EXTRA_VARIABLES}"
   else
-    ANSIBLE_EXTRA_VARIABLES="myenv_hosts=${HOSTS}"
+    ANSIBLE_EXTRA_VARIABLES="myenv_hosts=$1"
   fi
 }
 
-function set_openstack_release() {
-  if [ "$ANSIBLE_EXTRA_VARIABLES" ]; then
-    ANSIBLE_EXTRA_VARIABLES="myenv_openstack_release=$1 ${ANSIBLE_EXTRA_VARIABLES}"
-  else
-    ANSIBLE_EXTRA_VARIABLES="myenv_openstack_release=$1"
-  fi
-}
-
-if [ "$HOSTS" ]; then set_hosts "${HOSTS}"; fi
-
-if [ "$OPENSTACK" ]; then
-  set_openstack_release "${OPENSTACK_RELEASE}"
-
-  ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/openstack}" \
-                   -e "${ANSIBLE_EXTRA_VARIABLES}" \
-                   ${SCRIPT_DIR}/playbooks/setup_openstack.yml
-
-  cat<< EOF
-Don't forget to reload configured hosts to apply network settings.
-EOF
-
-fi
+set_hosts "${HOSTS:-`hostname`}"
 
 if [ "$ML" ]; then
   ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/ml}" \
@@ -208,5 +170,5 @@ fi
 if [ "$SYSTEM" ]; then
   ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/system}" \
                    -e "${ANSIBLE_EXTRA_VARIABLES}" \
-                   ${SCRIPT_DIR}/playbooks/setup_system.yml
+                   ${SCRIPT_DIR}/playbooks/system.yml
 fi
