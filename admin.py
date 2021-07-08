@@ -1,6 +1,5 @@
 import argparse
 from argparse import Namespace
-from functools import partial
 import logging
 import sys
 from typing import List
@@ -23,8 +22,8 @@ def main(args: List[str]) -> None:
 
     options = parser.parse_args(args)
     api_functions = {
-        'openstack': partial(my.openstack.main, options),
-        'system': partial(my.system.main, options),
+        'openstack': my.openstack.main,
+        'system': my.system.main,
     }
 
     init_logging(options)
@@ -32,8 +31,7 @@ def main(args: List[str]) -> None:
     api_func = api_functions.get(options.api, parser.print_help)
     if api_func is not parser.print_help:
         my.bootstrap.main(options)
-
-    api_func()
+    api_func(options)
 
 
 if __name__ == '__main__':
