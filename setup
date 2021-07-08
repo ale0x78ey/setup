@@ -17,7 +17,6 @@ Options:
 
 Commands:
   ml
-  system
 
 EOF
 }
@@ -110,11 +109,6 @@ while [ "$#" -gt 0 ]; do
       shift
       ;;
 
-    (system)
-      SYSTEM=1
-      shift
-      ;;
-
     (*)
       usage >&2
       exit -3
@@ -165,10 +159,4 @@ if [ "$ML" ]; then
   ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/ml}" \
                    -e "${ANSIBLE_EXTRA_VARIABLES}" \
                    ${SCRIPT_DIR}/playbooks/setup_ml.yml
-fi
-
-if [ "$SYSTEM" ]; then
-  ansible-playbook -i "${INVENTORY:-$INVENTORY_DIR/system}" \
-                   -e "${ANSIBLE_EXTRA_VARIABLES}" \
-                   ${SCRIPT_DIR}/playbooks/system.yml
 fi

@@ -64,7 +64,7 @@ def setup_openstack(options: Namespace) -> None:
     ansible_runner.run_command(
         executable_cmd='ansible-playbook',
         cmdline_args=[PLAYBOOK_PATH,
-                      '-i', INVENTORY_DIR,
+                      '-i', options.inventory,
                       '-e', '"{}"'.format(' '.join(extra_vars))],
         envvars=extra_envs,
         input_fd=sys.stdin, output_fd=sys.stdout, error_fd=sys.stderr)
