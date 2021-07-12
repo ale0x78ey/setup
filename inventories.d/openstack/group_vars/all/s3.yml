@@ -1,3 +1,4 @@
+# FIXME: Hide creds (it's jsut local temp creds).
 s3_endpoint: "http://192.168.0.70:7480"
 s3_access_key: "BAASXVDD19SPP5KVSF7C"
 s3_secret_key: "9TZxW3vnjibPn1kcSr4DoAjuvdBjQM4JecgUM7pl"
