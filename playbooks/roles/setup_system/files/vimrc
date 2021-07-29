@@ -284,6 +284,13 @@ function! SetMarkdownOptions()
     nnoremap <buffer> <S-TAB> :s/^#\( *\)\(.*\)/\2/g<CR>
 endfun
 
+function! SetGoOptions()
+    setlocal noexpandtab
+    setlocal tabstop=4
+    setlocal softtabstop=4
+    setlocal shiftwidth=4
+endfun
+
 augroup FileTypeOptions
     au!
     au BufNewFile,BufRead *.hpp,*.cpp,*.mm setlocal syntax=cpp
@@ -295,6 +302,7 @@ augroup FileTypeOptions
     au FileType markdown                   call SetMarkdownOptions()
     au FileType Makefile                   setlocal noexpandtab
     au FileType cpp                        setlocal keywordprg=cppman
+    au FileType go                         call SetGoOptions()
 augroup END
 
 " Supports russian.
