@@ -2,7 +2,7 @@ vms:
   - name: kolla-build
     hostname: deploy
     users:
-      - name: ubuntu
+      - name: "{{ ansible_env.USER }}"
         public_key: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
         groups:
           - sudo
@@ -10,7 +10,7 @@ vms:
   - name: kolla-ansible
     hostname: build
     users:
-      - name: ubuntu
+      - name: "{{ ansible_env.USER }}"
         public_key: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
         groups:
           - sudo
