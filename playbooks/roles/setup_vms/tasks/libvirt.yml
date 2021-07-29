@@ -1,0 +1,32 @@
+######################
+# Install requirements
+######################
+
+- name: setup_vms [debian] | install requirements
+  package: name="{{ item }}"
+  become: yes
+  with_items: "{{ libvirt_requirements_debian }}"
+  when: ansible_os_family == "Debian"
+
+- name: setup_vms | install -U pip [pip]
+  pip:
+    name: pip
+    extra_args: "-U"
+
+- name: setup_vms | install requirements [pip]
+  pip: name="{{ libvirt_requirements_pip }}"
+
+#########
+# Configs
+#########
+
+# For performance and security reasons, disable netfilter for bridges.
+# See <https://bugzilla.redhat.com/show_bug.cgi?id=512206#c0>
+- name: setup_vms [debian] | disable netfilter for bridges
+  sysctl: name="{{ item }}" value=0
+  become: yes
+  with_items:
+    - "net.bridge.bridge-nf-call-ip6tables"
+    - "net.bridge.bridge-nf-call-iptables"
+    - "net.bridge.bridge-nf-call-arptables"
+  when: ansible_os_family == "Debian"

@@ -1,0 +1,5 @@
+#cloud-config
+
+preserve_hostname: False
+hostname: {{ item[0].hostname }}
+fqdn: "{{ item[0].hostname }}.{{ ansible_facts['nodename'] }}"

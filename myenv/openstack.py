@@ -47,6 +47,7 @@ def setup_openstack(options: Namespace) -> None:
         f'myenv_openstack_release={options.openstack_release}',
         f'myenv_docker_registry_hostname={options.docker_registry_hostname}',
         f'myenv_kolla_deploy_hostname={options.kolla_deploy_hostname}',
+        'myenv_openstack_tls=no',
     ]
 
     extra_envs = {

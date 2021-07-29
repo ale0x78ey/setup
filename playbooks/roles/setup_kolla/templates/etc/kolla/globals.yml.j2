@@ -57,12 +57,15 @@ docker_namespace: "{{ kolla_docker_namespace }}"
 # Docker client timeout in seconds.
 docker_client_timeout: 120
 
+{% if myenv_openstack_tls | d("no") == "yes" %}
+
 #############
 # TLS options
 #############
 
-{% if myenv_openstack_tls | d("no") == "yes" %}
+kolla_certificates_dir: "{{ '{{ node_config }}' }}/certificates"
 
+# To enable TLS for the back-end communication [victoria].
 kolla_enable_tls_backend: "yes"
 
 # If there is only a single network configured in your topology (as opposed
@@ -71,20 +74,18 @@ kolla_enable_tls_backend: "yes"
 kolla_enable_tls_external: "no"
 kolla_enable_tls_internal: "yes"
 
+# To copy CA certificate files to the service containers.
 kolla_copy_ca_into_containers: "yes"
-{% endif %}
-
-kolla_certificates_dir: "{{ '{{ node_config }}' }}/certificates"
 
 kolla_external_fqdn_cert: "{{ '{{ kolla_certificates_dir }}' }}/haproxy.pem"
 kolla_internal_fqdn_cert: "{{ '{{ kolla_certificates_dir }}' }}/haproxy-internal.pem"
-
-kolla_tls_backend_cert: "{{ '{{ kolla_certificates_dir }}' }}/backend-cert.pem"
-kolla_tls_backend_key: "{{ '{{ kolla_certificates_dir }}' }}/backend-key.pem"
+kolla_external_fqdn_cacert: "{{ '{{ kolla_certificates_dir }}' }}/haproxy-ca.pem"
+kolla_internal_fqdn_cacert: "{{ '{{ kolla_certificates_dir }}' }}/haproxy-ca-internal.pem"
 
 haproxy_backend_cacert_dir: "/etc/ssl/certs"
 haproxy_backend_cacert: ca-certificates.crt
 openstack_cacert: /etc/ssl/certs/ca-certificates.crt
+{% endif %}
 
 ##############################
 # Neutron - Networking Options

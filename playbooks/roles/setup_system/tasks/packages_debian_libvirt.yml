@@ -1,3 +1,0 @@
-- name: setup_system [debian] | install requirements [libvirt]
-  package: name="{{ item }}"
-  with_items: "{{ libvirt_requirements_debian }}"

@@ -1,0 +1,6 @@
+vms:
+  - name: "kolla-build"
+    hostname: "deploy"
+
+  - name: "kolla-ansible"
+    hostname: "build"

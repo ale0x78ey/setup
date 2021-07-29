@@ -1,0 +1,12 @@
+libvirt_requirements_debian:
+  - libosinfo-bin
+  - libvirt-daemon-system
+  - python3-lxml
+  - qemu
+  - qemu-kvm
+  - virtinst
+
+libvirt_requirements_pip:
+  - boto3
+  - libvirt-python
+  - lxml
