@@ -32,6 +32,7 @@ def setup_system(options: Namespace) -> None:
 
     extra_vars = [
         'myenv_hosts={}'.format(':'.join(options.hosts)),
+        'setup_vim=yes',
     ]
 
     extra_envs = {
