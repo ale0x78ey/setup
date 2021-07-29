@@ -1,4 +1,6 @@
 - name: MyEnv | setup_system
   hosts: '{{ myenv_hosts | default("localhost") }}'
   roles:
-    - setup_system
+    - role: setup_system
+    - role: setup_vim
+      when: myenv_vim | d("no") == "yes"
