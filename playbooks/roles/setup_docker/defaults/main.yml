@@ -9,5 +9,5 @@ docker_requirements_pip:
 
 docker_configs:
   debian:
-    repo: "deb https://download.docker.com/linux/ubuntu bionic stable"
+    repo: "deb https://download.docker.com/linux/ubuntu focal stable"
     key: https://download.docker.com/linux/ubuntu/gpg
