@@ -1,6 +1,16 @@
 vms:
-  - name: "kolla-build"
-    hostname: "deploy"
+  - name: kolla-build
+    hostname: deploy
+    users:
+      - name: ubuntu
+        public_key: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
+        groups:
+          - sudo
 
-  - name: "kolla-ansible"
-    hostname: "build"
+  - name: kolla-ansible
+    hostname: build
+    users:
+      - name: ubuntu
+        public_key: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
+        groups:
+          - sudo

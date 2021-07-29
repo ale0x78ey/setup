@@ -1,4 +1,7 @@
+vms: {}
+
 libvirt_requirements_debian:
+  - genisoimage
   - libosinfo-bin
   - libvirt-daemon-system
   - python3-lxml
