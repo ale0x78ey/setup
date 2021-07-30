@@ -14,7 +14,8 @@
     extra_args: "-U"
 
 - name: setup_vms | install requirements [pip]
-  pip: name="{{ libvirt_requirements_pip }}"
+  pip:
+    name: "{{ libvirt_requirements_pip }}"
 
 #########
 # Configs
@@ -53,3 +54,18 @@
   with_nested:
     - "{{ vms }}"
     - [ "meta-data", "user-data" ]
+
+- name: setup_vms | download vm images from S3
+  amazon.aws.aws_s3:
+    bucket: "{{ s3_yandex.bucket }}"
+    object: "myenv/var/lib/libvirt/images/{{ item.name }}/{{ item.name }}.qcow2"
+    s3_url: "{{ s3_yandex.s3_url }}"
+    region: "{{ s3_yandex.region }}"
+    aws_access_key: "{{ s3_yandex.access_key }}"
+    aws_secret_key: "{{ s3_yandex.secret_key }}"
+    dest: "/var/lib/libvirt/images/{{ item.name }}/{{ item.name }}.qcow2"
+    mode: get
+    overwrite: never
+  ignore_errors: yes
+  become: yes
+  with_items: "{{ vms }}"

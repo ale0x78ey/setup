@@ -1,0 +1,30 @@
+vms:
+  - name: kolla-build
+    hostname: deploy
+    users:
+      - name: "{{ ansible_env.USER }}"
+        public_key: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
+        groups:
+          - sudo
+
+  - name: kolla-ansible
+    hostname: build
+    users:
+      - name: "{{ ansible_env.USER }}"
+        public_key: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
+        groups:
+          - sudo
+
+##################
+# Yandex.Cloud: S3
+##################
+
+aws_access_key: "{{ ansible_env.HOME }}/.aws/aws_access_key"
+aws_secret_key: "{{ ansible_env.HOME }}/.aws/aws_secret_key"
+
+s3_yandex:
+  access_key: "{{ lookup('file', aws_access_key) }}"
+  secret_key: "{{ lookup('file', aws_secret_key) }}"
+  bucket: "bf084dfb-eeb9-4b82-9a43-9e1b77e6fa10"
+  s3_url: "https://storage.yandexcloud.net"
+  region: "ru-central1"
