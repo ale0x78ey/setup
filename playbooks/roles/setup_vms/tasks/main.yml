@@ -32,10 +32,6 @@
     - "net.bridge.bridge-nf-call-arptables"
   when: ansible_os_family == "Debian"
 
-#####
-# VMs
-#####
-
 - name: setup_vms | create /var/lib/libvirt/images/* directories
   file:
     path: "/var/lib/libvirt/images/{{ item.name }}"
