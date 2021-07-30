@@ -1,8 +1,0 @@
-- name: setup_system | install $HOME/.* [vim]
-  copy:
-    src: "{{ item }}"
-    dest: "{{ ansible_env.HOME }}/.{{ item }}"
-    mode: "644"
-  with_items:
-    - bash_configs.d/vim.sh
-    - vimrc

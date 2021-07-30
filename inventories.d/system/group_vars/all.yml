@@ -17,6 +17,7 @@ ansible_python_interpreter: "/usr/bin/env python3"
 ################
 
 system_requirements:
+  - curl
   - tmux
 
 system_requirements_debian:
@@ -94,13 +95,3 @@ python_requirements_sources:
 
 ruby_requirements_darwin:
   - rbenv
-
-#############
-# Vim options
-#############
-
-vim_requirements_debian:
-  - silversearcher-ag
-
-vim_requirements_darwin:
-  - the_silver_searcher
