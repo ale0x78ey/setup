@@ -1,3 +1,0 @@
-- name: setup_network [debian] | install requirements [NetworkManager]
-  package: name="{{ item }}"
-  with_items: "{{ network_requirements_debian_nm }}"

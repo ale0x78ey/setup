@@ -1,7 +1,0 @@
-- name: setup_network [debian] | install requirements
-  package: name="{{ item }}"
-  with_items: "{{ network_requirements_debian }}"
-
-- name: setup_network [debian] | install requirements [openstack]
-  package: name="{{ item }}"
-  with_items: "{{ openstack_requirements_debian }}"

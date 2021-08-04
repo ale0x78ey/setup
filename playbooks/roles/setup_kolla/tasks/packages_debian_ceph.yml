@@ -1,3 +1,0 @@
-- name: setup_kolla [debian] | install requirements [ceph]
-  package: name="{{ item }}"
-  with_items: "{{ ceph_requirements_debian }}"

@@ -1,9 +1,0 @@
-[libvirt]
-
-{% if storage_backend_type == 'ceph' %}
-images_rbd_pool=vms
-images_type=rbd
-images_rbd_ceph_conf=/etc/ceph/ceph.conf
-rbd_user=cinder
-rbd_secret_uuid={{ '{{ cinder_rbd_secret_uuid }}' }}
-{% endif %}
