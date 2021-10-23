@@ -1,4 +1,0 @@
-- name: setup_ml | install docker-compose.yaml
-  template:
-    src: "docker-compose.yaml.j2"
-    dest: "{{ ml_projects_dir }}/docker-compose.yaml"

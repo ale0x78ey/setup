@@ -1,4 +1,0 @@
-- name: MyEnv | setup_ml
-  hosts: '{{ myenv_hosts }}'
-  roles:
-    - setup_ml

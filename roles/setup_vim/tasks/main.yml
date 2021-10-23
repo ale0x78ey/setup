@@ -1,0 +1,19 @@
+- name: setup_vim [debian] | install requirements
+  package: name="{{ item }}"
+  become: yes
+  with_items: "{{ vim_requirements_debian }}"
+  when: ansible_os_family == "Debian"
+
+- name: setup_vim [darwin] | install requirements
+  package: name="{{ item }}"
+  with_items: "{{ vim_requirements_darwin }}"
+  when: ansible_os_family == "Darwin"
+
+- name: setup_vim | install $HOME/.*
+  copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.{{ item }}"
+    mode: "644"
+  with_items:
+    - bash_configs.d/vim.sh
+    - vimrc

@@ -1,3 +1,3 @@
-# My environment
+# Setup system
 
-Just some ansible playbooks for local environment.
+It's just some ansible playbooks for local environment.

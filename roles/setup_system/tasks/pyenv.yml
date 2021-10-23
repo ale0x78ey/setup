@@ -1,0 +1,6 @@
+- name: setup_system | install pyenv
+  git:
+    repo: https://github.com/pyenv/pyenv.git
+    dest: "{{ ansible_env.HOME }}/.pyenv"
+    accept_hostkey: True
+    update: no

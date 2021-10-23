@@ -1,8 +1,0 @@
-- name: setup_system | install -U pip
-  pip:
-    name: pip
-    extra_args: "-U"
-
-- name: setup_system | install requirements [pip, python]
-  pip:
-    name: "{{ python_requirements_pip }}"

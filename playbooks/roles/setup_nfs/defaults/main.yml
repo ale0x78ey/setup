@@ -1,5 +1,0 @@
-nfs_client_requirements_debian:
-  - nfs-common
-
-nfs_server_requirements_debian:
-  - nfs-kernel-server

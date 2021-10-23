@@ -1,8 +1,0 @@
-- name: setup_system | download sources
-  git:
-    repo: "{{ item.repo }}"
-    dest: "{{ item.location }}"
-    accept_hostkey: True
-    update: no
-  with_items:
-    - "{{ python_requirements_sources }}"

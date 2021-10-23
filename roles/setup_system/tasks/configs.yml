@@ -1,0 +1,29 @@
+- name: setup_system | create ~/.* directories
+  file:
+    path: "{{ ansible_env.HOME }}/.{{ item }}"
+    mode: "744"
+    state: directory
+    recurse: yes
+  with_items:
+    - bash_configs.d
+
+- name: setup_system | install $HOME/.*
+  copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.{{ item }}"
+    mode: "644"
+  with_items:
+    - bash_configs.d/bash.sh
+    - bash_configs.d/python.sh
+    - bash_aliases
+    - bash_profile
+    - bashrc
+    - inputrc
+    - tmux.conf
+
+- name: setup_system | install EN locale
+  locale_gen:
+    name: "en_US.UTF-8"
+    state: present
+  become: yes
+  when: ansible_os_family == "Debian"

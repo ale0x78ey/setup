@@ -1,0 +1,7 @@
+alias emacs='emacs -nw'
+alias vim='vim -p'
+alias gti='git'
+
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'

@@ -4,6 +4,10 @@ set -x
 if [[ "`uname -s`" == "Darwin" ]]; then
   brew tap universal-ctags/universal-ctags
   brew install --HEAD universal-ctags
+  # Bat supports syntax highlighting for a large number
+  # of programming and markup languages.
+  # Fzf uses bat for preview windows.
+  brew install bat
 fi
 
 if [[ "`uname -s`" == "Linux" ]]; then

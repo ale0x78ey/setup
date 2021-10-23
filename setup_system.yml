@@ -1,0 +1,5 @@
+- name: MyEnv | setup_system
+  hosts: '{{ myenv_hosts | default("localhost") }}'
+  roles:
+    - setup_system
+    - setup_vim

@@ -1,6 +1,0 @@
-- name: MyEnv | openvpn
-  hosts: server1
-  roles:
-    - openvpn_set_servers
-    - role: openvpn_add_clients
-      openvpn_new_clients: "{{ openvpn_clients }}"
