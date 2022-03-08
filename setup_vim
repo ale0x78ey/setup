@@ -37,11 +37,12 @@ if [[ "`uname -s`" == "Linux" ]]; then
       find etc 2>/dev/null | sed "s/^/\//" > DEBIAN/conffiles
       ARCH=`dpkg --print-architecture`
       echo "\
-  Package: $2
-  Version: 0.0.1
-  Architecture: ${ARCH}
-  Maintainer: smb
-  Description: $3" > DEBIAN/control
+Package: $2
+Version: 0.0.1
+Architecture: ${ARCH}
+Maintainer: smb
+Description: $3
+" > DEBIAN/control
     fi
     popd
 
