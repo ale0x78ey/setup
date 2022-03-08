@@ -67,7 +67,7 @@ if [[ "`uname -s`" == "Linux" ]]; then
     package_build ${PACKAGE_ROOT_DIR} ${PROJECT_NAME} $1
     package_install ${PROJECT_NAME}
     popd
-    rm -rf $TEMP_DIR
+    # rm -rf $TEMP_DIR
   }
 
   sudo apt install -y \
