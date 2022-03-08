@@ -14,6 +14,7 @@
     mode: "644"
   with_items:
     - bash_configs.d/bash.sh
+    - bash_configs.d/kubernetes.sh
     - bash_configs.d/python.sh
     - bash_aliases
     - bash_profile
@@ -21,9 +22,5 @@
     - inputrc
     - tmux.conf
 
-- name: setup_system | install EN locale
-  locale_gen:
-    name: "en_US.UTF-8"
-    state: present
-  become: yes
+- import_tasks: configs_debian.yml
   when: ansible_os_family == "Debian"

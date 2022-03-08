@@ -14,8 +14,9 @@ system_requirements_debian:
   # Allow apt to use a repository over HTTPS.
   - apt-transport-https
   - ca-certificates
-  - curl
   - gnupg2
+
+  # System tools.
   - locales
   - lsb-release
   - software-properties-common
