@@ -12,3 +12,16 @@ pip install setuptools wheel ansible
 ansible-playbook -i hosts setup_system.yml
 ./setup_vim
 ```
+
+## Yandex
+
+```bash
+. venv/bin/activate
+pip install awscli
+aws configure
+> AWS Access Key ID [None]: <идентификатор ключа>
+> AWS Secret Access Key [None]: <ваш секретный ключ>
+> Default region name [None]: ru-central1
+> Default output format [None]: json
+ls -al ~/.aws/
+```

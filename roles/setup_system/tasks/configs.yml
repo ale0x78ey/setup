@@ -16,6 +16,7 @@
     - bash_configs.d/bash.sh
     - bash_configs.d/kubernetes.sh
     - bash_configs.d/python.sh
+    - bash_configs.d/yandex.sh
     - bash_aliases
     - bash_profile
     - bashrc
