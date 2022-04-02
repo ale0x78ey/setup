@@ -14,6 +14,7 @@
     mode: "644"
   with_items:
     - bash_configs.d/bash.sh
+    - bash_configs.d/go.sh
     - bash_configs.d/kubernetes.sh
     - bash_configs.d/python.sh
     - bash_configs.d/yandex.sh
