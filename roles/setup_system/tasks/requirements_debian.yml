@@ -16,3 +16,7 @@
 - name: setup_system [debian] | install requirements [python]
   package: name="{{ item }}"
   with_items: "{{ python_requirements + python_requirements_debian }}"
+
+- name: setup_system [debian] | install requirements [vim]
+  package: name="{{ item }}"
+  with_items: "{{ vim_requirements_debian }}"

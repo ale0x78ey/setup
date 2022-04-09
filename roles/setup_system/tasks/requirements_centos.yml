@@ -20,3 +20,7 @@
 - name: setup_system [centos] | install requirements [python]
   package: name="{{ item }}"
   with_items: "{{ python_requirements + python_requirements_centos }}"
+
+- name: setup_system [centos] | install requirements [vim]
+  package: name="{{ item }}"
+  with_items: "{{ vim_requirements_centos }}"
