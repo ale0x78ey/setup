@@ -2,21 +2,6 @@
 set -x
 
 if [[ "`uname -s`" == "Linux" ]]; then
-  # $1 - src dir
-  # $2 - install dir
-  build() {
-    pushd $1
-    for s in ./autogen.sh ./configure
-    do
-      if [[ -f $s ]]; then $s; fi
-    done
-
-    if [[ -f ./Makefile ]]; then
-      make
-    fi
-    popd
-  }
-
   # $1 - src directory
   # $2 - pkg name
   # $3 - pkg description
@@ -35,14 +20,28 @@ if [[ "`uname -s`" == "Linux" ]]; then
     PROJECT_NAME=`ls`
     cd ${PROJECT_NAME}
     PACKAGE_ROOT_DIR=`pwd`/${PROJECT_NAME}_$(date +%Y-%m-%d-%H-%M-%S)
-    build `pwd` ${PACKAGE_ROOT_DIR}
-    package_build ${PACKAGE_ROOT_DIR} ${PROJECT_NAME} $1
-    package_install ${PROJECT_NAME}
+
+    # Building
+    for s in ./autogen.sh ./configure
+    do
+      if [[ -f $s ]]; then $s; fi
+    done
+
+    if [[ -f ./Makefile ]]; then
+      make
+    fi
+
+    # Installation
+    if [[ -f ./Makefile ]]; then
+      make install
+    fi
+
     popd
     rm -rf $TEMP_DIR
   }
 
   install_git_repo https://github.com/universal-ctags/ctags.git
+  install_git_repo https://github.com/ggreer/the_silver_searcher.git
 fi
 
 
