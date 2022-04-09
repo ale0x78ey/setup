@@ -86,8 +86,4 @@ vim_requirements_darwin:
   - yapf
 
 vim_requirements_centos:
-  - flake8
-  - pylint
   - vim
-  - silversearcher-ag
-  - yapf3
