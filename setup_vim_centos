@@ -13,7 +13,6 @@ if [[ "`uname -s`" == "Linux" ]]; then
 
     if [[ -f ./Makefile ]]; then
       make
-      fakeroot make install DESTDIR=$2
     fi
     popd
   }
@@ -42,8 +41,6 @@ if [[ "`uname -s`" == "Linux" ]]; then
     popd
     rm -rf $TEMP_DIR
   }
-
-  sudo yum install -y fakeroot
 
   install_git_repo https://github.com/universal-ctags/ctags.git
 fi
