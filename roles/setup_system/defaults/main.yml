@@ -33,6 +33,10 @@ system_requirements_debian:
   - pkg-config
   - sed
 
+system_requirements_centos:
+  # System tools.
+  - redhat-lsb
+
 python_requirements:
   - python3
 

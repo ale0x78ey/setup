@@ -15,7 +15,7 @@
 
 - name: setup_system [centos] | install requirements [system]
   package: name="{{ item }}"
-  with_items: "{{ system_requirements }}"
+  with_items: "{{ system_requirements + system_requirements_centos }}"
 
 - name: setup_system [centos] | install requirements [python]
   package: name="{{ item }}"
