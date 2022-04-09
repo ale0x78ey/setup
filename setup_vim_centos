@@ -2,17 +2,6 @@
 set -x
 
 if [[ "`uname -s`" == "Linux" ]]; then
-  # $1 - src directory
-  # $2 - pkg name
-  # $3 - pkg description
-  package_build() {
-    :
-  }
-
-  package_install() {
-    :
-  }
-
   install_git_repo() {
     TEMP_DIR=`mktemp -d -t $(date +%Y-%m-%d-%H-%M-%S)-XXXXXXXX`
     pushd ${TEMP_DIR}
@@ -41,6 +30,8 @@ if [[ "`uname -s`" == "Linux" ]]; then
   }
 
   install_git_repo https://github.com/universal-ctags/ctags.git
+
+  sudo yum install -y pcre-devel xz-devel
   install_git_repo https://github.com/ggreer/the_silver_searcher.git
 fi
 
