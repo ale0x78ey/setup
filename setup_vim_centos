@@ -22,7 +22,7 @@ if [[ "`uname -s`" == "Linux" ]]; then
     PACKAGE_ROOT_DIR=`pwd`/${PROJECT_NAME}_$(date +%Y-%m-%d-%H-%M-%S)
 
     # Building
-    for s in ./autogen.sh ./configure
+    for s in ./autogen.sh ./configure ./build.sh
     do
       if [[ -f $s ]]; then $s; fi
     done
