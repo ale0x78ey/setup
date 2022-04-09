@@ -32,6 +32,18 @@ system_requirements_debian:
   - pkg-config
   - sed
 
+system_requirements_centos:
+  # Build tools.
+  - autoconf
+  - automake
+  - autotools-dev
+  - binutils
+  - gcc
+  - g++
+  - make
+  - pkg-config
+  - sed
+
 python_requirements:
   - python3
   - tox
@@ -44,6 +56,26 @@ python_requirements_debian:
   - python3-apt
   - python3-pip
   - python3-venv
+
+  # Build dependencies.
+  - build-essential
+  - gcc
+  - libffi-dev
+  - libssl-dev
+  - python3-dev
+
+  # To build python with pyevn.
+  - libbz2-dev
+  - liblzma-dev
+  - libreadline-dev
+  - libsqlite3-dev
+
+  # To support MySQL.
+  - libmysqlclient-dev
+
+python_requirements_centos:
+  - python3-pip
+  - python3-virtualvenv
 
   # Build dependencies.
   - build-essential

@@ -7,3 +7,11 @@
     name: '*'
     state: latest
     exclude: kernel*
+
+- name: setup_system [centos] | install requirements [system]
+  package: name="{{ item }}"
+  with_items: "{{ system_requirements + system_requirements_centos }}"
+
+- name: setup_system [centos] | install requirements [python]
+  package: name="{{ item }}"
+  with_items: "{{ python_requirements + python_requirements_centos }}"
