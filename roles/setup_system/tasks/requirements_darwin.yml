@@ -4,4 +4,4 @@
 
 - name: setup_system [darwin] | install requirements [python]
   package: name="{{ item }}"
-  with_items: "{{ python_requirements }}"
+  with_items: "{{ python_requirements + python_requirements_darwin }}"

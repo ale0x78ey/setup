@@ -8,9 +8,14 @@
     state: latest
     exclude: kernel*
 
+- name: setup_system [centos] | install the 'Development tools' package group
+  yum:
+    name: "@Development tools"
+    state: present
+
 - name: setup_system [centos] | install requirements [system]
   package: name="{{ item }}"
-  with_items: "{{ system_requirements + system_requirements_centos }}"
+  with_items: "{{ system_requirements }}"
 
 - name: setup_system [centos] | install requirements [python]
   package: name="{{ item }}"
