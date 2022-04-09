@@ -1,0 +1,9 @@
+- name: setup_system [centos] | update repositories cache [yum]
+  yum: update_cache=yes
+  changed_when: False
+
+- name: setup_system [centos] | upgrade out of date packages, excluding kernel [yum]
+  yum:
+    name: '*'
+    state: latest
+    exclude: kernel*

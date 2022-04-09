@@ -4,3 +4,7 @@
 
 - import_tasks: requirements_darwin.yml
   when: ansible_os_family == "Darwin"
+
+- import_tasks: requirements_centos.yml
+  become: yes
+  when: ansible_os_family == "CentOS"
