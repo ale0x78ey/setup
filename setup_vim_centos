@@ -33,7 +33,7 @@ if [[ "`uname -s`" == "Linux" ]]; then
 
     # Installation
     if [[ -f ./Makefile ]]; then
-      make install
+      sudo make install
     fi
 
     popd
