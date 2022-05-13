@@ -1,3 +1,5 @@
+export PATH="$HOME/local/vim/bin:$PATH"
+
 # Set up fzf shortcuts.
 export FZF_DEFAULT_OPTS='--bind "ctrl-j:preview-page-down,ctrl-k:preview-page-up" '
 
