@@ -6,7 +6,6 @@ It's just some ansible playbooks for local environment.
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/alexey/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
 brew install python3
 brew install vim
