@@ -2,6 +2,26 @@
 
 It's just some ansible playbooks for local environment.
 
+## MacOS
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/alexey/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
+brew install python3
+brew install vim
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+chsh -s /bin/bash
+
+python3 -m venv venv
+. venv/bin/activate
+pip install --upgrade pip
+pip install setuptools wheel ansible
+ansible-playbook -i hosts setup_system.yml
+./setup_vim_debian
+```
+
 ## Ubuntu
 
 ```bash
