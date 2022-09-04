@@ -21,11 +21,13 @@ call plug#begin('~/.vim/plugged')
     " get an overview of its structure.
     Plug 'preservim/tagbar'
 
-    " Comment stuff out.
     Plug 'tpope/vim-commentary'
-
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-pathogen'
+    "Plug 'tpope/vim-salve'
+    "Plug 'tpope/vim-projectionist'
+    "Plug 'tpope/vim-dispatch'
+    Plug 'tpope/vim-fireplace'
 
     " A collection of language packs for Vim.
     Plug 'sheerun/vim-polyglot'
