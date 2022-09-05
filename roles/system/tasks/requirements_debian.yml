@@ -1,22 +1,22 @@
-- name: setup_system [debian] | update repositories cache [apt]
+- name: system [debian] | update repositories cache [apt]
   apt: update_cache=yes
   changed_when: False
 
-- name: setup_system [debian] | upgrade out of date packages [apt]
+- name: system [debian] | upgrade out of date packages [apt]
   apt: upgrade=safe
 
-- name: setup_system [debian] | install requirements [ansible]
+- name: system [debian] | install requirements [ansible]
   package: name="{{ item }}"
   with_items: "{{ ansible_requirements_debian }}"
 
-- name: setup_system [debian] | install requirements [system]
+- name: system [debian] | install requirements [system]
   package: name="{{ item }}"
   with_items: "{{ system_requirements + system_requirements_debian }}"
 
-- name: setup_system [debian] | install requirements [python]
+- name: system [debian] | install requirements [python]
   package: name="{{ item }}"
   with_items: "{{ python_requirements + python_requirements_debian }}"
 
-- name: setup_system [debian] | install requirements [vim]
+- name: system [debian] | install requirements [vim]
   package: name="{{ item }}"
   with_items: "{{ vim_requirements_debian }}"

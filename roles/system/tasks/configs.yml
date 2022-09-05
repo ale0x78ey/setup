@@ -1,4 +1,4 @@
-- name: setup_system | create ~/.* directories
+- name: system | create ~/.* directories
   file:
     path: "{{ ansible_env.HOME }}/.{{ item }}"
     mode: "744"
@@ -7,7 +7,7 @@
   with_items:
     - bash_configs.d
 
-- name: setup_system | install $HOME/.*
+- name: system | install $HOME/.*
   copy:
     src: "{{ item }}"
     dest: "{{ ansible_env.HOME }}/.{{ item }}"

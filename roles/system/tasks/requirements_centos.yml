@@ -1,26 +1,26 @@
-- name: setup_system [centos] | update repositories cache [yum]
+- name: system [centos] | update repositories cache [yum]
   yum: update_cache=yes
   changed_when: False
 
-- name: setup_system [centos] | upgrade out of date packages, excluding kernel [yum]
+- name: system [centos] | upgrade out of date packages, excluding kernel [yum]
   yum:
     name: '*'
     state: latest
     exclude: kernel*
 
-- name: setup_system [centos] | install the 'Development tools' package group
+- name: system [centos] | install the 'Development tools' package group
   yum:
     name: "@Development tools"
     state: present
 
-- name: setup_system [centos] | install requirements [system]
+- name: system [centos] | install requirements [system]
   package: name="{{ item }}"
   with_items: "{{ system_requirements + system_requirements_centos }}"
 
-- name: setup_system [centos] | install requirements [python]
+- name: system [centos] | install requirements [python]
   package: name="{{ item }}"
   with_items: "{{ python_requirements + python_requirements_centos }}"
 
-- name: setup_system [centos] | install requirements [vim]
+- name: system [centos] | install requirements [vim]
   package: name="{{ item }}"
   with_items: "{{ vim_requirements_centos }}"

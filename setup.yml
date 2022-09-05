@@ -1,0 +1,5 @@
+- name: Setup | system
+  hosts: '{{ hosts | default("localhost") }}'
+  roles:
+    - role: system
+      when: setup_system | default(false) | bool

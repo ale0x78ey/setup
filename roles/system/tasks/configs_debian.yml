@@ -1,4 +1,4 @@
-- name: setup_system [debian] | install EN locale
+- name: system [debian] | install EN locale
   locale_gen:
     name: "en_US.UTF-8"
     state: present

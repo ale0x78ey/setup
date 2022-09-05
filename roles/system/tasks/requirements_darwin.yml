@@ -1,11 +1,11 @@
-- name: setup_system [darwin] | install requirements [system]
+- name: system [darwin] | install requirements [system]
   package: name="{{ item }}"
   with_items: "{{ system_requirements }}"
 
-- name: setup_system [darwin] | install requirements [python]
+- name: system [darwin] | install requirements [python]
   package: name="{{ item }}"
   with_items: "{{ python_requirements + python_requirements_darwin }}"
 
-- name: setup_system [darwin] | install requirements [vim]
+- name: system [darwin] | install requirements [vim]
   package: name="{{ item }}"
   with_items: "{{ vim_requirements_darwin }}"
