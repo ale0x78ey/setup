@@ -1,3 +1,4 @@
+# For my own build.
 export PATH="$HOME/local/vim/bin:$PATH"
 
 # Set up fzf shortcuts.

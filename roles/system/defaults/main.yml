@@ -73,20 +73,3 @@ python_requirements_darwin:
 python_requirements_centos:
   # Development.
   - python3-pip
-
-vim_requirements_debian:
-  - flake8
-  - pylint
-  - vim
-  - silversearcher-ag
-  - yapf3
-
-vim_requirements_darwin:
-  - flake8
-  - pylint
-  - vim
-  - the_silver_searcher
-  - yapf
-
-vim_requirements_centos:
-  - vim

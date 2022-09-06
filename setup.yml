@@ -3,3 +3,11 @@
   roles:
     - role: system
       when: setup_system | default(false) | bool
+    - role: vim
+      when: setup_system | default(false) | bool
+
+- name: Setup | vim
+  hosts: '{{ hosts | default("localhost") }}'
+  roles:
+    - role: vim
+      when: setup_vim | default(false) | bool

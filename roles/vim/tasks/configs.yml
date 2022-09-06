@@ -1,0 +1,17 @@
+- name: system | create ~/.* directories
+  file:
+    path: "{{ ansible_env.HOME }}/.{{ item }}"
+    mode: "744"
+    state: directory
+    recurse: yes
+  with_items:
+    - bash_configs.d
+
+- name: system | install $HOME/.*
+  copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.{{ item }}"
+    mode: "644"
+  with_items:
+    - bash_configs.d/vim.sh
+    - vimrc
