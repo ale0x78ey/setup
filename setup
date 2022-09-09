@@ -28,6 +28,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [ `uname` == "Darwin" ]; then
+  # homebrew
   # homebrew_tap
   ansible-galaxy collection install community.general
 fi
