@@ -1,10 +1,10 @@
-- import_tasks: requirements_debian.yml
+- import_tasks: debian.yml
   become: yes
   when: ansible_os_family == "Debian"
 
-- import_tasks: requirements_darwin.yml
+- import_tasks: darwin.yml
   when: ansible_os_family == "Darwin"
 
-- import_tasks: requirements_centos.yml
+- import_tasks: centos.yml
   become: yes
   when: ansible_os_family == "RedHat"

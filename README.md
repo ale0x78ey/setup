@@ -18,7 +18,6 @@ python3 -m venv venv
 pip install --upgrade pip
 pip install setuptools wheel ansible
 ansible-playbook -i hosts setup_system.yml
-./setup_vim_debian
 ```
 
 ## Ubuntu

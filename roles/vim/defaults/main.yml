@@ -12,5 +12,14 @@ vim_requirements_darwin:
   - the_silver_searcher
   - yapf
 
+  # brew tap universal-ctags/universal-ctags
+  # brew install universal-ctags
+  - universal-ctags
+
+  # Bat supports syntax highlighting for a large number
+  # of programming and markup languages.
+  # Fzf uses bat for preview windows.
+  - bat
+
 vim_requirements_centos:
   - vim

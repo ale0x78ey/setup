@@ -1,3 +1,0 @@
-- name: vim [darwin] | install requirements [vim]
-  package: name="{{ item }}"
-  with_items: "{{ vim_requirements_darwin }}"

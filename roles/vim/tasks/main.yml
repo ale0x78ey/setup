@@ -1,2 +1,2 @@
-- import_tasks: requirements.yml
+- import_tasks: requirements/main.yml
 - import_tasks: configs.yml

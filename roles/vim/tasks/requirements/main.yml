@@ -1,0 +1,26 @@
+- import_tasks: debian.yml
+  become: yes
+  when: ansible_os_family == "Debian"
+
+- import_tasks: darwin.yml
+  when: ansible_os_family == "Darwin"
+
+- import_tasks: centos.yml
+  become: yes
+  when: ansible_os_family == "RedHat"
+
+- name: vim | create .vim/autoload directory [vim]
+  file:
+    path: "{{ ansible_env.HOME }}/.vim/autoload"
+    mode: "744"
+    state: directory
+    recurse: yes
+
+- name: vim | download plug.vim
+  get_url:
+    url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    dest: "{{ ansible_env.HOME }}/.vim/autoload/plug.vim"
+    mode: '0644'
+
+- name: vim | install plugins [vim]
+  shell: vim +PlugInstall +quitall

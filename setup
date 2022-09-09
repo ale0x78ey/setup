@@ -27,6 +27,11 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+if [ `uname` == "Darwin" ]; then
+  # homebrew_tap
+  ansible-galaxy collection install community.general
+fi
+
 for i in ${POS_ARGS[@]}; do
   ANSIBLE_EXTRA_VARS+=("setup_${i}=1")
 done

@@ -1,0 +1,7 @@
+- name: vim [darwin] | tap a homebrew universal-ctags/universal-ctags repository [brew]
+  homebrew_tap:
+    name: universal-ctags/universal-ctags
+
+- name: vim [darwin] | install requirements [vim]
+  package: name="{{ item }}"
+  with_items: "{{ vim_requirements_darwin }}"
