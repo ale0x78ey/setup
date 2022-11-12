@@ -10,8 +10,8 @@ POS_ARGS=()
 
 while [[ $# -gt 0 ]]; do
   case $1 in
-    -h=*|--hosts=*)
-      ANSIBLE_EXTRA_VARS+=("hosts=${1#*=}")
+    -h=*|--host=*)
+      ANSIBLE_EXTRA_VARS+=("target_host=${1#*=}")
       shift
       ;;
 

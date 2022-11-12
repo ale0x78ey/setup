@@ -42,8 +42,6 @@ python_requirements:
 
 python_requirements_debian:
   - python3-apt
-
-  # Development.
   - python3-pip
   - python3-venv
   - tox
@@ -66,10 +64,8 @@ python_requirements_debian:
   - libmysqlclient-dev
 
 python_requirements_darwin:
-  # Development.
   - tox
   - rlwrap
 
 python_requirements_centos:
-  # Development.
   - python3-pip

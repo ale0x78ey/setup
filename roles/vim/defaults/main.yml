@@ -5,6 +5,10 @@ vim_requirements_debian:
   - silversearcher-ag
   - yapf3
 
+  # Universal-ctags build tag file indexes of
+  # source code definitions.
+  - universal-ctags
+
 vim_requirements_darwin:
   - flake8
   - pylint
@@ -14,6 +18,9 @@ vim_requirements_darwin:
 
   # brew tap universal-ctags/universal-ctags
   # brew install universal-ctags
+  #
+  # Universal-ctags build tag file indexes of
+  # source code definitions.
   - universal-ctags
 
   # Bat supports syntax highlighting for a large number
