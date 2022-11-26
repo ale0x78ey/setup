@@ -1,0 +1,22 @@
+#!/bin/bash
+
+GET_GHCUP_DIR=scripts/get-ghcup
+
+if [[ ! -f ${GET_GHCUP_DIR} ]]; then
+  curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org \
+    --output ${GET_GHCUP_DIR}
+fi
+
+if ! (type ghcup &> /dev/null); then
+  expect <<EOF
+  set timeout 600s
+  spawn sh "${GET_GHCUP_DIR}"
+
+  expect "Note that this script can be re-run at any given time" { send "\r" }
+  expect "Detected bash shell on your system" { send "P\r" }
+  expect "Do you want to install haskell-language-server" { send "Y\r" }
+  expect "If you want to keep stacks vanilla behavior, answer 'No'" { send "N\r" }
+  expect "Installation may take a while" { send "\r" }
+  expect eof
+EOF
+fi

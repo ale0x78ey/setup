@@ -15,9 +15,13 @@ export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
 # Include other configs.
-if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases; fi
-if type bind &> /dev/null; then bind -f ~/.inputrc; fi
+if [ -f ~/.bash_aliases ]; then
+  source $HOME/.bash_aliases;
+fi
+if type bind &> /dev/null; then
+  bind -f $HOME/.inputrc;
+  fi
 
-for config in $HOME/.bash_configs.d/*.sh; do
-  if [ -r $config ] ; then . $config; fi
+for config in $HOME/.bash_configs.d/*; do
+  if [ -r $config ] ; then source $config; fi
 done
