@@ -11,8 +11,11 @@ system_requirements:
   - telnet
   - git
   - expect
-  - rlwrap
   - python3
+
+  # rlwrap is a small utility that uses the GNU Readline library to
+  # allow the editing of keyboard input for any command.
+  - rlwrap
 
 system_requirements_debian:
   # Allow apt to use a repository over HTTPS.
@@ -35,11 +38,14 @@ system_requirements_debian:
   - sed
 
 #
-# Python requirements
-# {
+# Python requirements {
+#
   - python3-apt
   - python3-pip
   - python3-venv
+
+  # Tox is a generic virtual environment management
+  # and test command line tool for Python.
   - tox
 
   # Build dependencies.
@@ -60,9 +66,14 @@ system_requirements_debian:
 # }
 
 system_requirements_darwin:
+  # Tox is a generic virtual environment management
+  # and test command line tool for Python.
   - tox
 
 system_requirements_centos:
   - redhat-lsb
   - python3-pip
+
+  # Tox is a generic virtual environment management
+  # and test command line tool for Python.
   - python-tox
