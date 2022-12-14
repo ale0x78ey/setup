@@ -1,7 +1,0 @@
-- name: system [darwin] | install requirements [system]
-  package: name="{{ item }}"
-  with_items: "{{ system_requirements }}"
-
-- name: system [darwin] | install requirements [python]
-  package: name="{{ item }}"
-  with_items: "{{ python_requirements + python_requirements_darwin }}"

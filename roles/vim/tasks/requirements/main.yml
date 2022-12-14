@@ -1,15 +1,15 @@
-- import_tasks: debian.yml
+- import_tasks: os_debian.yml
   become: yes
   when: ansible_os_family == "Debian"
 
-- import_tasks: darwin.yml
+- import_tasks: os_darwin.yml
   when: ansible_os_family == "Darwin"
 
-- import_tasks: centos.yml
+- import_tasks: os_centos.yml
   become: yes
   when: ansible_os_family == "RedHat"
 
-- name: vim | create .vim/autoload directory [vim]
+- name: vim | create .vim/autoload directory
   file:
     path: "{{ ansible_env.HOME }}/.vim/autoload"
     mode: "744"
@@ -22,5 +22,5 @@
     dest: "{{ ansible_env.HOME }}/.vim/autoload/plug.vim"
     mode: '0644'
 
-- name: vim | install plugins [vim]
+- name: vim | install plugins
   shell: vim +PlugInstall +quitall

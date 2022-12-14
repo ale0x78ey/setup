@@ -27,5 +27,5 @@
     - inputrc
     - tmux.conf
 
-- import_tasks: debian.yml
+- import_tasks: os_debian.yml
   when: ansible_os_family == "Debian"

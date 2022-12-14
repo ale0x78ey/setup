@@ -1,0 +1,13 @@
+- name: system [darwin] | update homebrew
+  community.general.homebrew:
+    update_homebrew: yes
+  when: update_repo_cache | default(false) | bool
+
+- name: system [darwin] | upgrade out of date packages
+  community.general.homebrew:
+    upgrade_all: yes
+  when: upgrade_packages | default(false) | bool
+
+- name: system [darwin] | install requirements
+  package: name="{{ item }}"
+  with_items: "{{ system_requirements + system_requirements_darwin }}"

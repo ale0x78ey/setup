@@ -1,0 +1,12 @@
+- name: vim [debian] | update repositories cache
+  apt: update_cache=yes
+  changed_when: False
+  when: update_repo_cache | default(false) | bool
+
+- name: vim [debian] | upgrade out of date packages
+  apt: upgrade=safe
+  when: upgrade_packages | default(false) | bool
+
+- name: vim [debian] | install requirements
+  package: name="{{ item }}"
+  with_items: "{{ vim_requirements_debian }}"

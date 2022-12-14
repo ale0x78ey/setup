@@ -1,18 +1,20 @@
-- name: vim [centos] | update repositories cache [yum]
+- name: vim [centos] | update repositories cache
   yum: update_cache=yes
   changed_when: False
+  when: update_repo_cache | default(false) | bool
 
-- name: vim [centos] | upgrade out of date packages, excluding kernel [yum]
+- name: vim [centos] | upgrade out of date packages, excluding kernel
   yum:
     name: '*'
     state: latest
     exclude: kernel*
+  when: upgrade_packages | default(false) | bool
 
 - name: vim [centos] | install the 'Development tools' package group
   yum:
     name: "@Development tools"
     state: present
 
-- name: vim [centos] | install requirements [vim]
+- name: vim [centos] | install requirements
   package: name="{{ item }}"
   with_items: "{{ vim_requirements_centos }}"

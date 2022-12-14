@@ -10,14 +10,24 @@ POS_ARGS=()
 
 while [[ $# -gt 0 ]]; do
   case $1 in
+    -h|--help)
+      show_help
+      exit 0
+      ;;
+
     -h=*|--host=*)
       ANSIBLE_EXTRA_VARS+=("target_host=${1#*=}")
       shift
       ;;
 
-    -h|--help)
-      show_help
-      exit 0
+    -u|--upgrade)
+      ANSIBLE_EXTRA_VARS+=("update_repo_cache=1" "upgrade_packages=1")
+      shift
+      ;;
+
+    --update)
+      ANSIBLE_EXTRA_VARS+=("update_repo_cache=1")
+      shift
       ;;
 
     *)
