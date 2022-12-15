@@ -13,15 +13,15 @@
     dest: "{{ ansible_env.HOME }}/.{{ item }}"
     mode: "644"
   with_items:
+    - bash_configs.d/aliases
     - bash_configs.d/bash
+    - bash_configs.d/brew
     - bash_configs.d/ghcup
     - bash_configs.d/git
     - bash_configs.d/golang
-    - bash_configs.d/kubernetes
+    - bash_configs.d/ps1
     - bash_configs.d/python
-    - bash_configs.d/ruby
     - bash_configs.d/yandex
-    - bash_aliases
     - bash_profile
     - bashrc
     - inputrc

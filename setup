@@ -20,13 +20,13 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
 
-    -u|--upgrade)
-      ANSIBLE_EXTRA_VARS+=("update_repo_cache=1" "upgrade_packages=1")
+    -u|--update)
+      ANSIBLE_EXTRA_VARS+=("update_repo_cache=1")
       shift
       ;;
 
-    --update)
-      ANSIBLE_EXTRA_VARS+=("update_repo_cache=1")
+    --upgrade)
+      ANSIBLE_EXTRA_VARS+=("update_repo_cache=1" "upgrade_packages=1")
       shift
       ;;
 

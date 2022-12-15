@@ -1,5 +1,7 @@
 scribe_requirements_debian: &scribe_requirements_debian
   pkg-config: pkg-config
+  python3: python3
+  pip: python3-pip
 
   # Meson is a build system with multiplatform support
   # for Linux, macOS, Windows, GCC, Clang, Visual Studio
@@ -9,9 +11,6 @@ scribe_requirements_debian: &scribe_requirements_debian
   # Ninja is a small build system with a focus on speed.
   ninja: ninja-build
 
-  python3: python3
-  pip: python3-pip
-
   # GLib is a general-purpose, portable utility library,
   # which provides many useful data types, macros, type
   # conversions, string utilities, file utilities,
@@ -20,7 +19,7 @@ scribe_requirements_debian: &scribe_requirements_debian
 
 scribe_requirements_darwin:
   <<: *scribe_requirements_debian
-  ninja: ninja
   pip: python3 # Pip is part of the python formula.
+  ninja: ninja
   glib: glib
   gtk4: gtk4
