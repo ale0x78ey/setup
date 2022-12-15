@@ -8,5 +8,5 @@
   when: upgrade_packages | default(false) | bool
 
 - name: system [debian] | install requirements
-  package: name="{{ item }}"
-  with_items: "{{ system_requirements + system_requirements_debian }}"
+  package: name="{{ item.value }}"
+  with_dict: "{{ system_requirements_debian }}"

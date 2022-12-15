@@ -16,5 +16,5 @@
     state: present
 
 - name: system [centos] | install requirements
-  package: name="{{ item }}"
-  with_items: "{{ system_requirements + system_requirements_centos }}"
+  package: name="{{ item.value }}"
+  with_dict: "{{ system_requirements_centos }}"

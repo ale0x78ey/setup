@@ -47,4 +47,11 @@ for i in ${POS_ARGS[@]}; do
   ANSIBLE_EXTRA_VARS+=("setup_${i}=1")
 done
 
+
+# By default Ansible will issue a warning when
+# a duplicate dict key is encountered in YAML.
+# These warnings can be silenced by adjusting
+# this setting to False.
+export ANSIBLE_DUPLICATE_YAML_DICT_KEY=ignore
+
 ansible-playbook -i hosts ${ANSIBLE_EXTRA_VARS[@]/#/--extra-vars\ } setup.yml
