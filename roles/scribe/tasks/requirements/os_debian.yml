@@ -1,0 +1,12 @@
+- name: scribe [debian] | update repositories cache
+  apt: update_cache=yes
+  changed_when: False
+  when: update_repo_cache | default(false) | bool
+
+- name: scribe [debian] | upgrade out of date packages
+  apt: upgrade=safe
+  when: upgrade_packages | default(false) | bool
+
+- name: scribe [debian] | install requirements
+  package: name="{{ item.value }}"
+  with_dict: "{{ scribe_requirements_debian }}"

@@ -1,0 +1,13 @@
+- name: scribe [darwin] | update homebrew
+  community.general.homebrew:
+    update_homebrew: yes
+  when: update_repo_cache | default(false) | bool
+
+- name: scribe [darwin] | upgrade out of date packages
+  community.general.homebrew:
+    upgrade_all: yes
+  when: upgrade_packages | default(false) | bool
+
+- name: scribe [darwin] | install requirements
+  package: name="{{ item.value }}"
+  with_dict: "{{ scribe_requirements_darwin }}"

@@ -11,3 +11,9 @@
   roles:
     - role: vim
       when: setup_vim | default(false) | bool
+
+- name: Setup | scribe
+  hosts: '{{ target_host | default("localhost") }}'
+  roles:
+    - role: scribe
+      when: setup_scribe | default(false) | bool
