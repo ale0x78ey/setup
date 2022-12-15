@@ -1,11 +1,9 @@
 scribe_requirements_debian: &scribe_requirements_debian
-  # Pkg-config is used to retrieve information
-  # about installed libraries in the system.
   pkg-config: pkg-config
 
-  # Meson is an open source build system with
-  # multiplatform support for Linux, macOS,
-  # Windows, GCC, Clang, Visual Studio and others.
+  # Meson is a build system with multiplatform support
+  # for Linux, macOS, Windows, GCC, Clang, Visual Studio
+  # and others.
   meson: meson
 
   # Ninja is a small build system with a focus on speed.
@@ -16,7 +14,8 @@ scribe_requirements_debian: &scribe_requirements_debian
 
   # GLib is a general-purpose, portable utility library,
   # which provides many useful data types, macros, type
-  # conversions, string utilities, file utilities, a mainloop abstraction, and so on.
+  # conversions, string utilities, file utilities,
+  # a mainloop abstraction, and so on.
   glib: libglib2.0-dev
 
 scribe_requirements_darwin:

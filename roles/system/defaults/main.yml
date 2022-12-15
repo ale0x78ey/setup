@@ -3,23 +3,10 @@ system_requirements_debian: &system_requirements_debian
   tmux: tmux
   telnet: telnet
   expect: expect
-
-  # lsb_release command provides certain
-  # LSB (Linux Standard Base) and distribution-specific
-  # information.
   lsb-release: lsb-release
-
-  # rlwrap is a small utility that uses the
-  # GNU Readline library to allow the editing
-  # of keyboard input for any command.
   rlwrap: rlwrap
-
   git: git
-
-  # Tox is a generic virtual environment management
-  # and test command line tool for Python.
   tox: tox
-
   python3: python3
   pip: python3-pip
 
