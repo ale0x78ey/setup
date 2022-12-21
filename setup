@@ -8,6 +8,9 @@ function show_help {
 ANSIBLE_EXTRA_VARS=()
 POS_ARGS=()
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+SETUP_FILE="${SCRIPT_DIR}/setup.yml"
+
 while [[ $# -gt 0 ]]; do
   case $1 in
     -h|--help)
@@ -27,6 +30,11 @@ while [[ $# -gt 0 ]]; do
 
     --upgrade)
       ANSIBLE_EXTRA_VARS+=("update_repo_cache=1" "upgrade_packages=1")
+      shift
+      ;;
+
+    -s=*|--setup=*)
+      SETUP_FILE="${1#*=}"
       shift
       ;;
 
@@ -54,4 +62,7 @@ done
 # this setting to False.
 export ANSIBLE_DUPLICATE_YAML_DICT_KEY=ignore
 
-ansible-playbook -i hosts ${ANSIBLE_EXTRA_VARS[@]/#/--extra-vars\ } setup.yml
+ansible-playbook \
+  -i "${SCRIPT_DIR}/hosts" \
+  ${ANSIBLE_EXTRA_VARS[@]/#/--extra-vars\ } \
+  "${SETUP_FILE}"

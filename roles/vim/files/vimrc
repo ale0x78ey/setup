@@ -293,9 +293,17 @@ function! SetupGolang()
     setlocal shiftwidth=4
 endfun
 
+function! SetupC()
+    setlocal expandtab
+    setlocal tabstop=4
+    setlocal softtabstop=4
+    setlocal shiftwidth=4
+endfun
+
 augroup FileTypeOptions
     au!
     au BufNewFile,BufRead *.hpp,*.cpp,*.mm setlocal syntax=cpp
+    au BufNewFile,BufRead *.c              call SetupC()
     au BufNewFile,BufRead *.h              setlocal syntax=objcpp
     au BufNewFile,BufRead *.hs             setlocal syntax=haskell
     au BufNewFile,BufRead *.scm,*.ss       setlocal syntax=lisp
