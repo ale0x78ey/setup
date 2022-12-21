@@ -1,32 +1,23 @@
-vim_requirements_debian:
-  - flake8
-  - pylint
-  - vim
-  - silversearcher-ag
-  - yapf3
+vim_requirements_debian: &vim_requirements_debian
+  flake8: flake8
+  pylint: pylint
+  vim: vim
+  silversearcher-ag: silversearcher-ag
+  yapf: yapf3
 
   # Universal-ctags build tag file indexes of
   # source code definitions.
-  - universal-ctags
-
-vim_requirements_darwin:
-  - flake8
-  - pylint
-  - vim
-  - the_silver_searcher
-  - yapf
-
-  # brew tap universal-ctags/universal-ctags
-  # brew install universal-ctags
-  #
-  # Universal-ctags build tag file indexes of
-  # source code definitions.
-  - universal-ctags
+  universal-ctags: universal-ctags
 
   # Bat supports syntax highlighting for a large number
   # of programming and markup languages.
   # Fzf uses bat for preview windows.
-  - bat
+  bat: bat
+
+vim_requirements_darwin:
+  <<: *vim_requirements_debian
+  silversearcher-ag: the_silver_searcher
+  yapf: yapf
 
 vim_requirements_centos:
-  - vim
+  - vim: vim

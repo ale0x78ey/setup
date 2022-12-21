@@ -16,5 +16,5 @@
     state: present
 
 - name: vim [centos] | install requirements
-  package: name="{{ item }}"
-  with_items: "{{ vim_requirements_centos }}"
+  package: name="{{ item.value }}"
+  with_dict: "{{ vim_requirements_centos }}"

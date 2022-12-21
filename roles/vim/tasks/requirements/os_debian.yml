@@ -8,5 +8,5 @@
   when: upgrade_packages | default(false) | bool
 
 - name: vim [debian] | install requirements
-  package: name="{{ item }}"
-  with_items: "{{ vim_requirements_debian }}"
+  package: name="{{ item.value }}"
+  with_dict: "{{ vim_requirements_debian }}"
