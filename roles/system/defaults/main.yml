@@ -4,6 +4,7 @@ system_requirements_debian: &system_requirements_debian
   telnet: telnet
   expect: expect
   lsb-release: lsb-release
+  locales: locales
   rlwrap: rlwrap
   git: git
   tox: tox
@@ -13,12 +14,14 @@ system_requirements_debian: &system_requirements_debian
 system_requirements_darwin:
   <<: *system_requirements_debian
   lsb-release: []
+  locales: []
   pip: python3 # Pip is part of the python formula.
 
 
 system_requirements_centos:
   <<: *system_requirements_debian
   lsb-release: redhat-lsb
+  locales: []
   tox: python-tox
 
 # ansible_requirements_debian:
@@ -33,8 +36,6 @@ system_requirements_centos:
 #   - apt-transport-https
 #   - ca-certificates
 #   - gnupg2
-#
-#   - locales
 #   - software-properties-common
 #
 #   - autoconf
