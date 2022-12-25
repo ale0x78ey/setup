@@ -5,6 +5,7 @@ system_requirements_debian: &system_requirements_debian
   expect: expect
   lsb-release: lsb-release
   locales: locales
+  ping: iputils-ping
   rlwrap: rlwrap
   git: git
   tox: tox
@@ -15,6 +16,7 @@ system_requirements_darwin:
   <<: *system_requirements_debian
   lsb-release: []
   locales: []
+  ping: []
   pip: python3 # Pip is part of the python formula.
 
 
@@ -22,6 +24,7 @@ system_requirements_centos:
   <<: *system_requirements_debian
   lsb-release: redhat-lsb
   locales: []
+  ping: []
   tox: python-tox
 
 # ansible_requirements_debian:
