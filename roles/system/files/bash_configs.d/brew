@@ -1,7 +1,13 @@
-eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null)"
-
-if [[ "$(which brew)" ]]; then
+if type brew &> /dev/null; then
   if [ -f $(brew --prefix)/etc/bash_completion ]; then
-  . $(brew --prefix)/etc/bash_completion
+    . $(brew --prefix)/etc/bash_completion
+  fi
+
+  if [ -d $(brew --prefix)/etc/bash_completion.d ]; then
+    for config in $(brew --prefix)/etc/bash_completion.d/*; do
+      if [ -r $config ] ; then
+        . $config &> /dev/null
+      fi
+    done
   fi
 fi

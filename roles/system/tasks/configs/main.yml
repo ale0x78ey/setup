@@ -15,6 +15,7 @@
   with_items:
     - bash_configs.d/aliases
     - bash_configs.d/bash
+    - bash_configs.d/bison
     - bash_configs.d/brew
     - bash_configs.d/ghcup
     - bash_configs.d/git
