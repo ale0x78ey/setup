@@ -18,6 +18,7 @@ system_requirements_darwin:
   locales: []
   ping: []
   pip: python3 # Pip is part of the python formula.
+  graphviz: graphviz
 
 
 system_requirements_centos:
