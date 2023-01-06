@@ -22,6 +22,7 @@
     - bash_configs.d/golang
     - bash_configs.d/ps1
     - bash_configs.d/python
+    - bash_configs.d/rust
     - bash_configs.d/yandex
     - bash_profile
     - bashrc
